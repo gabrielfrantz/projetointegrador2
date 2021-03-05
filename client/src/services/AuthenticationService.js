@@ -1,0 +1,16 @@
+import Api from '@/services/Api'
+
+export default {
+  register (credentials) {
+    return Api().post('register', credentials)
+  },
+  login (credentials) {
+    return Api().post('login', credentials)
+  },
+  show (userId) {
+    return Api().get(`user/${userId}`)
+  },
+  put (user) {
+    return Api().put(`user/${user.id}`, user)
+  }
+}
