@@ -83,15 +83,12 @@ module.exports = {
   },
   async login(req, res) {
     try {
-      console.log('1')
       const { email, password } = req.body
-      console.log('2')
       const user = await User.findOne({
         where: {
           email: email
         }
       })
-      console.log('3')
       console.log(user.toJSON())
       if (!user) {
         return res.status(403).send({
