@@ -5,6 +5,7 @@ import Register from '@/components/Register'
 import Login from '@/components/Login'
 import Curso from '@/components/Curso'
 import Perfil from '@/components/Perfil'
+import CriarCurso from '@/components/CriarCurso'
 Vue.use(Router)
 
 export default new Router({
@@ -28,6 +29,11 @@ export default new Router({
       path: '/cursos',
       name: 'cursos',
       component: Curso
+    },
+    {
+      path: '/criar/curso',
+      name: 'criar-curso',
+      component: CriarCurso
     },
     {
       path: '/perfil',

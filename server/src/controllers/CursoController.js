@@ -16,6 +16,7 @@ module.exports = {
   },
   async post (req, res) {
     try {
+      console.log(req.body)
       const curso = await Curso.create(req.body)
       res.send(curso)
     } catch (err) {

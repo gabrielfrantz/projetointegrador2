@@ -5,6 +5,7 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn v-if="$store.state.isUserLoggedIn" @click="navigateTo({name: 'cursos'})">Cursos</v-btn>
+    <v-btn v-if="$store.state.isUserLoggedIn" @click="navigateTo({name: 'perfil'})">Perfil</v-btn>
     <v-btn v-if="!$store.state.isUserLoggedIn" @click="navigateTo({name: 'register'})">Registrar-se</v-btn>
     <v-btn v-if="!$store.state.isUserLoggedIn" @click="navigateTo({name: 'login'})">Entrar</v-btn>
     <v-btn v-if="$store.state.isUserLoggedIn" @click="logout()">Sair</v-btn>

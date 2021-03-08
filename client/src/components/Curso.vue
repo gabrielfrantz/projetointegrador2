@@ -1,7 +1,10 @@
 <template>
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
-      <panel title="Eventos">
+      <panel title="Cursos">
+          <v-btn slot="newButton" class="cyan accent-2" fab ligth small absolute right middle @click="navigateTo({name: 'criar-curso'})">
+            <v-icon>add</v-icon>
+          </v-btn>
           <v-row>
             <v-col cols="12" sm="4" md="3">
               Nome
@@ -16,7 +19,7 @@
           <div v-for="curso in cursos" :key="curso.id">
               <v-row>
                 <v-col cols="12" sm="4" md="3">
-                    {{curso.nom_evento}}
+                    {{curso.nom_curso}}
                 </v-col>
                 <v-col cols="6" sm="2">
                     {{curso.des_curso}}
@@ -40,7 +43,7 @@ export default {
   },
   data () {
     return {
-      eventos: null
+      cursos: null
     }
   },
   async mounted () {

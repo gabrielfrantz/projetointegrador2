@@ -10,7 +10,7 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Bem-vindo ao Sistema de Eventos, ' + (this.$store.state.user.nom_pessoa || 'por favor, complete seu cadastro na aba perfil!')
+      msg: 'Bem-vindo ao Educare, ' + (this.$store.state.user.nom_pessoa || 'por favor, complete seu cadastro na aba perfil!')
     }
   }
 }

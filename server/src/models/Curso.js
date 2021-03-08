@@ -1,8 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-  const Evento = sequelize.define('Evento', {
+  const Curso = sequelize.define('Curso', {
     nom_curso: {
-      type: DataTypes.STRING,
-      unique: true
+      type: DataTypes.STRING
     },
     des_curso: {
       type: DataTypes.STRING
@@ -11,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     ind_visivel: {
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING
     }
   })
 
@@ -27,5 +26,5 @@ module.exports = (sequelize, DataTypes) => {
   }*/
 
 
-  return Evento
+  return Curso
 }
