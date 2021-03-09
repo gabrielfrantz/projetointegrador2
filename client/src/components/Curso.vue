@@ -27,6 +27,14 @@
                 <v-col cols="6" sm="2">
                     {{curso.des_carga_horaria}}
                 </v-col>
+                <v-col cols="6" sm="1" md="4" >
+                  <v-btn class="green accent-2" fab ligth small right middle @click="navigateTo({name: 'editar-curso', params: {cursoId: curso.id}})">
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                  <v-btn class="red accent-1" fab ligth small right middle @click="deletecurso({cursoId: curso.id})">
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                </v-col>
               </v-row>
           </div>
       </panel>
@@ -53,6 +61,15 @@ export default {
   methods: {
     navigateTo (route) {
       this.$router.push(route)
+    },
+    async deletecurso (cursoId) {
+      try {
+        confirm('Are you sure you want to delete this item?') && await CursosService.delete(cursoId.cursoId)
+        this.cursos = (await CursosService.index()).data
+        // this.$router.push({ name: 'banks' })
+      } catch (error) {
+        this.error = error.response.data.error
+      }
     }
   }
 }
