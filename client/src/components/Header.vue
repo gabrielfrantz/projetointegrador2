@@ -4,7 +4,7 @@
       <span class="home" @click="navigateTo({name: 'root'})">Educare</span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn v-if="$store.state.isUserLoggedIn" @click="navigateTo({name: 'cursos'})">Cursos</v-btn>
+    <v-btn v-if="$store.state.isUserLoggedInAdm" @click="navigateTo({name: 'cursos'})">Cursos</v-btn>
     <v-btn v-if="$store.state.isUserLoggedIn" @click="navigateTo({name: 'perfil'})">Perfil</v-btn>
     <v-btn v-if="!$store.state.isUserLoggedIn" @click="navigateTo({name: 'register'})">Registrar-se</v-btn>
     <v-btn v-if="!$store.state.isUserLoggedIn" @click="navigateTo({name: 'login'})">Entrar</v-btn>
@@ -22,6 +22,7 @@ export default {
       this.$store.dispatch('setToken', null)
       this.$store.dispatch('setUser', null)
       this.$store.dispatch('setIsUserLoggedIn', false)
+      this.$store.dispatch('setIsUserLoggedInAdm', false)
       this.$router.push('root')
     }
   }

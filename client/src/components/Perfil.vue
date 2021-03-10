@@ -4,7 +4,6 @@
       <panel title="Perfil">
         <v-text-field label="Nome:*" v-model="nom_pessoa" required :rules="[required]"></v-text-field>
         <v-text-field label="CPF:*" v-model="num_cpf" required :rules="[required]"></v-text-field>
-
         <div class="danger-alert" v-if="error">{{error}}</div>
         <v-btn class="green accent-2" @click="save" dark>Salvar</v-btn>
         <v-btn class="red accent-2" @click="navigateTo({name: 'root'})" dark>Cancelar</v-btn>

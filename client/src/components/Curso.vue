@@ -15,6 +15,9 @@
             <v-col cols="6" sm="2">
               Carga Horária
             </v-col>
+            <v-col cols="6" sm="1">
+              Visível
+            </v-col>
           </v-row>
           <div v-for="curso in cursos" :key="curso.id">
               <v-row>
@@ -26,6 +29,9 @@
                 </v-col>
                 <v-col cols="6" sm="2">
                     {{curso.des_carga_horaria}}
+                </v-col>
+                <v-col cols="6" sm="1">
+                    {{curso.ind_visivel}}
                 </v-col>
                 <v-col cols="6" sm="1" md="4" >
                   <v-btn class="green accent-2" fab ligth small right middle @click="navigateTo({name: 'editar-curso', params: {cursoId: curso.id}})">

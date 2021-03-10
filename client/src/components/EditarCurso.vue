@@ -5,7 +5,7 @@
         <v-text-field label="Nome*" v-model="nom_curso" required :rules="[required]"></v-text-field>
         <v-text-field label="Descrição*" v-model="des_curso" required :rules="[required]"></v-text-field>
         <v-text-field label="Carga Horária*" v-model="des_carga_horaria" required :rules="[required]"></v-text-field>
-
+        <div id="selector"><div class="checkbox"><label><input type="checkbox" v-model="ind_visivel">Visível</label></div></div>
         <div class="danger-alert" v-if="error">{{error}}</div>
         <v-btn class="cyan" @click="save" dark>Save</v-btn>
         <v-btn class="cyan" @click="navigateTo({name: 'cursos'})" dark>Cancel</v-btn>
@@ -24,6 +24,7 @@ export default {
       nom_curso: null,
       des_curso: null,
       des_carga_horaria: null,
+      ind_visivel: null,
       error: null,
       required: (value) => !!value || 'Required.'
     }
@@ -34,6 +35,11 @@ export default {
     this.nom_curso = this.curso.nom_curso
     this.des_curso = this.curso.des_curso
     this.des_carga_horaria = this.curso.des_carga_horaria
+    var visivel = true
+    if (this.curso.ind_visivel === 'N') {
+      visivel = false
+    }
+    this.ind_visivel = visivel
   },
   components: {
     Panel
@@ -44,11 +50,16 @@ export default {
     },
     async save () {
       this.error = null
+      var visivel = 'N'
+      if (this.ind_visivel) {
+        visivel = 'S'
+      }
       const curso = {
         id: this.$store.state.route.params.cursoId,
         nom_curso: this.nom_curso,
         des_curso: this.des_curso,
-        des_carga_horaria: this.des_carga_horaria
+        des_carga_horaria: this.des_carga_horaria,
+        ind_visivel: visivel
       }
       const areAllFieldsFilledIn = Object
         .keys(curso)

@@ -12,8 +12,18 @@ function jwtSignUser(user) {
 module.exports = {
   async register(req, res) {
     try {
-      console.log('register')
       const user = await User.create(req.body)
+      if (user.id === 1) {
+        await User.update(
+          { 
+            ind_admin: 'S'
+          }, 
+          {
+            where: {
+              id: user.id
+          }
+        })
+      }
       const userJson = user.toJSON()
       res.send({
         user: userJson,
@@ -41,7 +51,8 @@ module.exports = {
       const user = await User.update(
         { 
           nom_pessoa: req.body.nom_pessoa,
-          num_cpf: req.body.num_cpf
+          num_cpf: req.body.num_cpf,
+          ind_admin: req.body.ind_admin
         }, 
         {
           where: {

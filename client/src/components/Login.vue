@@ -49,6 +49,9 @@ export default {
         this.$store.dispatch('setUser', response.data.user)
         if (response.data.token) {
           this.$store.dispatch('setIsUserLoggedIn', true)
+          if (response.data.user.ind_admin === 'S') {
+            this.$store.dispatch('setIsUserLoggedInAdm', true)
+          }
         } else {
           this.$store.dispatch('setIsUserLoggedIn', false)
         }
