@@ -5,7 +5,7 @@
         <v-text-field label="Nome*" v-model="nom_curso" required :rules="[required]"></v-text-field>
         <v-text-field label="Descrição*" v-model="des_curso" required :rules="[required]"></v-text-field>
         <v-text-field label="Carga Horária*" v-model="des_carga_horaria" required :rules="[required]"></v-text-field>
-        <div id="selector"><div class="checkbox"><label><input type="checkbox" v-model="ind_visivel">Visível</label></div></div>
+        <div id="selector"><div class="checkbox"><v-checkbox v-model="ind_visivel" label="Visível"></v-checkbox></div></div>
         <div class="danger-alert" v-if="error">{{error}}</div>
         <v-btn class="cyan" @click="create" dark>Save</v-btn>
         <v-btn class="cyan" @click="navigateTo({name: 'cursos'})" dark>Cancel</v-btn>
