@@ -7,6 +7,10 @@ import Curso from '@/components/Curso'
 import Perfil from '@/components/Perfil'
 import CriarCurso from '@/components/CriarCurso'
 import EditarCurso from '@/components/EditarCurso'
+import CriarModulo from '@/components/CriarModulo'
+import EditarModulo from '@/components/EditarModulo'
+import CriarAula from '@/components/CriarAula'
+import EditarAula from '@/components/EditarAula'
 Vue.use(Router)
 
 export default new Router({
@@ -40,6 +44,26 @@ export default new Router({
       path: '/editar/curso',
       name: 'editar-curso',
       component: EditarCurso
+    },
+    {
+      path: '/criar/modulo',
+      name: 'criar-modulo',
+      component: CriarModulo
+    },
+    {
+      path: '/editar/modulo',
+      name: 'editar-modulo',
+      component: EditarModulo
+    },
+    {
+      path: '/criar/aula',
+      name: 'criar-aula',
+      component: CriarAula
+    },
+    {
+      path: '/editar/aula',
+      name: 'editar-aula',
+      component: EditarAula
     },
     {
       path: '/perfil',

@@ -31,7 +31,7 @@ module.exports = {
       })
     } catch (err) {
       res.status(400).send({
-        error: 'This email account is already in use.'
+        error: 'A conta de e-mail já está em uso!'
       })
     }
   },
@@ -42,7 +42,7 @@ module.exports = {
       res.send(user)
     } catch (err) {
       res.status(400).send({
-        error: 'This email account is already in use.'
+        error: 'A conta de e-mail já está em uso!'
       })
     }
   },

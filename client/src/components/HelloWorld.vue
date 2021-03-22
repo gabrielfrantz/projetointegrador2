@@ -1,10 +1,16 @@
 <template>
-  <div class="center">
-    <h1>{{ msg }}</h1>
-  </div>
+  <v-layout ml-16 mr-16 mt-8>
+    <v-flex>
+      <h1>{{ msg }}</h1>
+      <br>
+      <panel title="Cursos">
+      </panel>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
+import Panel from '@/components/Panel'
 
 export default {
   name: 'HelloWorld',
@@ -12,6 +18,9 @@ export default {
     return {
       msg: 'Bem-vindo ao Educare, ' + (this.$store.state.user.nom_pessoa || 'por favor, complete seu cadastro na aba perfil!')
     }
+  },
+  components: {
+    Panel
   }
 }
 </script>

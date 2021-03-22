@@ -7,8 +7,45 @@
         <v-text-field label="Carga Horária*" v-model="des_carga_horaria" required :rules="[required]"></v-text-field>
         <div id="selector"><div class="checkbox"><v-checkbox v-model="ind_visivel" label="Visível"></v-checkbox></div></div>
         <div class="danger-alert" v-if="error">{{error}}</div>
-        <v-btn class="cyan" @click="save" dark>Save</v-btn>
-        <v-btn class="cyan" @click="navigateTo({name: 'cursos'})" dark>Cancel</v-btn>
+        <v-btn class="cyan" @click="save" dark>Salvar</v-btn>
+        <v-btn class="cyan" @click="navigateTo({name: 'cursos'})" dark>Cancelar</v-btn>
+      </panel>
+      <panel title="Modulos">
+          <v-btn slot="newButton" class="cyan accent-2" fab ligth small absolute right middle @click="navigateTo({name: 'criar-modulo', params: {cursoId: cursoId}})">
+            <v-icon>add</v-icon>
+          </v-btn>
+          <v-row>
+            <v-col cols="12" sm="4" md="3">
+              Nome
+            </v-col>
+            <v-col cols="6" sm="2">
+              Ordem
+            </v-col>
+            <v-col cols="6" sm="1">
+              Visível
+            </v-col>
+          </v-row>
+          <div v-for="modulo in modulos" :key="modulo.id">
+              <v-row>
+                <v-col cols="12" sm="4" md="3">
+                    {{modulo.nom_modulo}}
+                </v-col>
+                <v-col cols="6" sm="2">
+                    {{modulo.seq_ordem}}
+                </v-col>
+                <v-col cols="6" sm="1">
+                    {{modulo.ind_visivel}}
+                </v-col>
+                <v-col cols="6" sm="1" md="4" >
+                  <v-btn class="green accent-2" fab ligth small right middle @click="navigateTo({name: 'editar-modulo', params: {moduloId: modulo.id, cursoId: cursoId}})">
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                  <v-btn class="red accent-1" fab ligth small right middle @click="deletemodulo({moduloId: modulo.id})">
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+          </div>
       </panel>
     </v-flex>
   </v-layout>
@@ -17,10 +54,13 @@
 <script>
 import Panel from '@/components/Panel'
 import CursosService from '@/services/CursosService'
+import ModulosService from '@/services/ModulosService'
 export default {
   data () {
     return {
       curso: {},
+      modulos: {},
+      cursoId: null,
       nom_curso: null,
       des_curso: null,
       des_carga_horaria: null,
@@ -32,6 +72,8 @@ export default {
   async mounted () {
     const cursoId = this.$store.state.route.params.cursoId
     this.curso = (await CursosService.show(cursoId)).data
+    this.modulos = (await ModulosService.index(cursoId)).data
+    this.cursoId = this.curso.id
     this.nom_curso = this.curso.nom_curso
     this.des_curso = this.curso.des_curso
     this.des_carga_horaria = this.curso.des_carga_horaria
@@ -73,6 +115,15 @@ export default {
         this.$router.push({ name: 'cursos' })
       } catch (err) {
         console.log(err)
+      }
+    },
+    async deletemodulo (moduloId) {
+      try {
+        confirm('Are you sure you want to delete this item?') && await ModulosService.delete(moduloId.moduloId)
+        this.modulos = (await ModulosService.index(this.cursoId)).data
+        // this.$router.push({ name: 'banks' })
+      } catch (error) {
+        this.error = error.response.data.error
       }
     }
   }

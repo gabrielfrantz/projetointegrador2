@@ -1,14 +1,13 @@
 <template>
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
-      <panel title="Novo curso">
-        <v-text-field label="Nome*" v-model="nom_curso" required :rules="[required]"></v-text-field>
-        <v-text-field label="Descrição*" v-model="des_curso" required :rules="[required]"></v-text-field>
-        <v-text-field label="Carga Horária*" v-model="des_carga_horaria" required :rules="[required]"></v-text-field>
+      <panel title="Novo modulo">
+        <v-text-field label="Nome*" v-model="nom_modulo" required :rules="[required]"></v-text-field>
+        <v-text-field label="Ordem*" v-model="seq_ordem" required :rules="[required]"></v-text-field>
         <div id="selector"><div class="checkbox"><v-checkbox v-model="ind_visivel" label="Visível"></v-checkbox></div></div>
         <div class="danger-alert" v-if="error">{{error}}</div>
         <v-btn class="cyan" @click="create" dark>Salvar</v-btn>
-        <v-btn class="cyan" @click="navigateTo({name: 'cursos'})" dark>Cancelar</v-btn>
+        <v-btn class="cyan" @click="navigateTo({name: 'editar-curso', params: {cursoId: cursoId}})" dark>Cancelar</v-btn>
       </panel>
     </v-flex>
   </v-layout>
@@ -16,17 +15,20 @@
 
 <script>
 import Panel from '@/components/Panel'
-import CursosService from '@/services/CursosService'
+import ModulosService from '@/services/ModulosService'
 export default {
   data () {
     return {
-      nom_curso: null,
-      des_curso: null,
-      des_carga_horaria: null,
+      cursoId: null,
+      nom_modulo: null,
+      seq_ordem: null,
       ind_visivel: null,
       error: null,
       required: (value) => !!value || 'Required.'
     }
+  },
+  async mounted () {
+    this.cursoId = this.$store.state.route.params.cursoId
   },
   methods: {
     async create () {
@@ -35,22 +37,22 @@ export default {
       if (this.ind_visivel) {
         visivel = 'S'
       }
-      const curso = {
-        nom_curso: this.nom_curso,
-        des_curso: this.des_curso,
-        des_carga_horaria: this.des_carga_horaria,
+      const modulo = {
+        nom_modulo: this.nom_modulo,
+        seq_ordem: this.seq_ordem,
+        id_curso: this.cursoId,
         ind_visivel: visivel
       }
       const areAllFieldsFilledIn = Object
-        .keys(curso)
-        .every(key => !!curso[key])
+        .keys(modulo)
+        .every(key => !!modulo[key])
       if (!areAllFieldsFilledIn) {
         this.error = 'Informe todos os campos obrigatórios'
         return
       }
       try {
-        await CursosService.post(curso)
-        this.$router.push({ name: 'cursos' })
+        await ModulosService.post(modulo)
+        this.$router.push({name: 'editar-curso', params: {cursoId: this.cursoId}})
       } catch (err) {
         console.log(err)
       }

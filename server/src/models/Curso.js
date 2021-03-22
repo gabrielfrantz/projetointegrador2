@@ -14,16 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   })
 
-/*  Evento.associate = models => {
-    Evento.belongsTo(models.User, {
-      foreignKey: {
-        allowNull: false
-      }
-    })
-    Evento.hasMany(models.Inscricao, {
+  Curso.associate = models => {
+    Curso.hasMany(models.Modulo, {
       onDelete: "cascade"
     })
-  }*/
+  }
 
 
   return Curso

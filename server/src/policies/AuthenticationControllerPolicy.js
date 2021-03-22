@@ -15,22 +15,22 @@ module.exports = {
             switch (error.details[0].context.key) {
                 case 'email':
                     res.status(400).send({
-                        error: 'You must provide a valid email address'
+                        error: 'Você deve informar um endereço de e-mail válido!'
                     })
                     break
                 case 'password':
                     res.status(400).send({
-                        error: `The password provided failed to match the following rules: 
+                        error: `A senha informada deve seguir as regras abaixo:
                         <br>
-                        1. It must contain ONLY the following characters: lower case, upper case and numerics.
+                        1. Deve conter letras e/ou números
                         <br>
-                        2. It must be at least 8 characters in length and not greater than 32 characters in length.
+                        2. Deve possuir pelo menos 8 caracteres e não mais do que 32.
                         `
                     })
                     break
                 default:
                     res.status(400).send({
-                        error: 'Invalid registration information'
+                        error: 'Dados para registrar-se são inválidos!'
                     })
             }
         } else {
