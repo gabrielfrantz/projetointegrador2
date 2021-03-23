@@ -14,6 +14,20 @@ module.exports = {
       })
     }
   },
+  async view (req, res) {
+    try {
+      const cursos = await Curso.findAll({
+        where: {
+          ind_visivel: 'S'
+        }
+      })
+      res.send(cursos)
+    } catch (err) {
+      res.status(500).send({
+        error: 'Ocorreu um erro ao buscar a lista de eventos'
+      })
+    }
+  },
   async post (req, res) {
     try {
       console.log(req.body)

@@ -4,6 +4,9 @@ export default {
   index (moduloId) {
     return Api().get(`aulas/${moduloId}`)
   },
+  view (moduloId) {
+    return Api().get(`aulasView/${moduloId}`)
+  },
   post (aula) {
     return Api().post('aula', aula)
   },

@@ -45,7 +45,7 @@ export default {
     Panel
   },
   async mounted () {
-    this.cursos = (await CursosService.index()).data
+    this.cursos = (await CursosService.view()).data
   },
   methods: {
     navigateTo (route) {

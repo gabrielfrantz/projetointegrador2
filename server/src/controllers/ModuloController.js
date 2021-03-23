@@ -1,14 +1,34 @@
 const { Modulo } = require('../models')
+const { Aula } = require('../models')
 
 
 module.exports = {
   async index (req, res) {
     try {
-      console.log(req.params.cursoId)
       const modulos = await Modulo.findAll({
         where: {
           id_curso: req.params.cursoId
         }
+      })
+      res.send(modulos)
+    } catch (err) {
+      res.status(500).send({
+        error: 'Ocorreu um erro ao buscar a lista de modulos'
+      })
+    }
+  },
+  async view (req, res) {
+    try {
+      Modulo.hasMany(Aula, { foreignKey: 'id_modulo' })
+      const modulos = await Modulo.findAll({
+        where: { id_curso: req.params.cursoId, ind_visivel: 'S' },
+        include: [{
+          model: Aula, 
+          required: false,
+          where: { 
+            ind_visivel: 'S' 
+          }
+        }]
       })
       res.send(modulos)
     } catch (err) {

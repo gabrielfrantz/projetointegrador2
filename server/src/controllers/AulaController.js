@@ -16,6 +16,21 @@ module.exports = {
       })
     }
   },
+  async view (req, res) {
+    try {
+      const aulas = await Aula.findAll({
+        where: {
+          id_modulo: req.params.moduloId,
+          ind_visivel: 'S'
+        }
+      })
+      res.send(aulas)
+    } catch (err) {
+      res.status(500).send({
+        error: 'Ocorreu um erro ao buscar a lista de aulas'
+      })
+    }
+  },
   async post (req, res) {
     try {
       console.log(req.body)

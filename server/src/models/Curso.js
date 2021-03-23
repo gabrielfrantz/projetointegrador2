@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
     des_carga_horaria: {
       type: DataTypes.STRING
     },
+    src_banner: {
+      type: DataTypes.STRING
+    },
     ind_visivel: {
       type: DataTypes.STRING
     }

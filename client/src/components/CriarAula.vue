@@ -8,8 +8,8 @@
         <v-text-field label="Ordem*" v-model="seq_ordem" required :rules="[required]"></v-text-field>
         <div id="selector"><div class="checkbox"><v-checkbox v-model="ind_visivel" label="Visível"></v-checkbox></div></div>
         <div class="danger-alert" v-if="error">{{error}}</div>
-        <v-btn class="cyan" @click="create" dark>Salvar</v-btn>
-        <v-btn class="cyan" @click="navigateTo({name: 'editar-modulo', params: {cursoId: cursoId, moduloId: moduloId}})" dark>Cancelar</v-btn>
+        <v-btn class="green accent-3" @click="create" dark>Salvar</v-btn>
+        <v-btn class="red" @click="navigateTo({name: 'editar-modulo', params: {cursoId: cursoId, moduloId: moduloId}})" dark>Cancelar</v-btn>
       </panel>
     </v-flex>
   </v-layout>

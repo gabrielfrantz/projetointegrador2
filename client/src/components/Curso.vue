@@ -2,7 +2,7 @@
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
       <panel title="Cursos">
-          <v-btn slot="newButton" class="cyan accent-2" fab ligth small absolute right middle @click="navigateTo({name: 'criar-curso'})">
+          <v-btn slot="newButton" class="blue darken-2" fab ligth small absolute right middle @click="navigateTo({name: 'criar-curso'})">
             <v-icon>add</v-icon>
           </v-btn>
           <v-row>

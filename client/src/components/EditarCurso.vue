@@ -3,15 +3,16 @@
     <v-flex>
       <panel title="Editar Curso">
         <v-text-field label="Nome*" v-model="nom_curso" required :rules="[required]"></v-text-field>
-        <v-text-field label="Descrição*" v-model="des_curso" required :rules="[required]"></v-text-field>
+        <v-textarea label="Descrição*" v-model="des_curso" required :rules="[required]"></v-textarea>
         <v-text-field label="Carga Horária*" v-model="des_carga_horaria" required :rules="[required]"></v-text-field>
+        <v-text-field label="Banner*" v-model="src_banner" required :rules="[required]"></v-text-field>
         <div id="selector"><div class="checkbox"><v-checkbox v-model="ind_visivel" label="Visível"></v-checkbox></div></div>
         <div class="danger-alert" v-if="error">{{error}}</div>
-        <v-btn class="cyan" @click="save" dark>Salvar</v-btn>
-        <v-btn class="cyan" @click="navigateTo({name: 'cursos'})" dark>Cancelar</v-btn>
+        <v-btn class="green accent-3" @click="save" dark>Salvar</v-btn>
+        <v-btn class="red" @click="navigateTo({name: 'cursos'})" dark>Cancelar</v-btn>
       </panel>
       <panel title="Modulos">
-          <v-btn slot="newButton" class="cyan accent-2" fab ligth small absolute right middle @click="navigateTo({name: 'criar-modulo', params: {cursoId: cursoId}})">
+          <v-btn slot="newButton" class="blue darken-2" fab ligth small absolute right middle @click="navigateTo({name: 'criar-modulo', params: {cursoId: cursoId}})">
             <v-icon>add</v-icon>
           </v-btn>
           <v-row>
@@ -64,6 +65,7 @@ export default {
       nom_curso: null,
       des_curso: null,
       des_carga_horaria: null,
+      src_banner: null,
       ind_visivel: null,
       error: null,
       required: (value) => !!value || 'Required.'
@@ -77,6 +79,7 @@ export default {
     this.nom_curso = this.curso.nom_curso
     this.des_curso = this.curso.des_curso
     this.des_carga_horaria = this.curso.des_carga_horaria
+    this.src_banner = this.curso.src_banner
     var visivel = true
     if (this.curso.ind_visivel === 'N') {
       visivel = false
@@ -101,6 +104,7 @@ export default {
         nom_curso: this.nom_curso,
         des_curso: this.des_curso,
         des_carga_horaria: this.des_carga_horaria,
+        src_banner: this.src_banner,
         ind_visivel: visivel
       }
       const areAllFieldsFilledIn = Object

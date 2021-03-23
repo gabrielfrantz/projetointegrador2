@@ -2,7 +2,10 @@ import Api from '@/services/Api'
 
 export default {
   index () {
-    return Api().get('curso')
+    return Api().get('cursos')
+  },
+  view () {
+    return Api().get('cursosView')
   },
   post (curso) {
     return Api().post('curso', curso)

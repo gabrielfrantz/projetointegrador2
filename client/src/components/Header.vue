@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar fixed dark class="cyan">
+  <v-toolbar fixed dark class="gray">
     <v-toolbar-title>
       <span class="home" @click="navigateTo({name: 'root'})">Educare</span>
     </v-toolbar-title>

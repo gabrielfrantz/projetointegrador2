@@ -6,11 +6,11 @@
         <v-text-field label="Ordem*" v-model="seq_ordem" required :rules="[required]"></v-text-field>
         <div id="selector"><div class="checkbox"><v-checkbox v-model="ind_visivel" label="Visível"></v-checkbox></div></div>
         <div class="danger-alert" v-if="error">{{error}}</div>
-        <v-btn class="cyan" @click="create" dark>Salvar</v-btn>
-        <v-btn class="cyan" @click="navigateTo({name: 'editar-curso', params: {cursoId: cursoId}})" dark>Cancelar</v-btn>
+        <v-btn class="green accent-3" @click="create" dark>Salvar</v-btn>
+        <v-btn class="red" @click="navigateTo({name: 'editar-curso', params: {cursoId: cursoId}})" dark>Cancelar</v-btn>
       </panel>
       <panel title="Aulas">
-          <v-btn slot="newButton" class="cyan accent-2" fab ligth small absolute right middle @click="navigateTo({name: 'criar-aula', params: {moduloId: moduloId, cursoId: cursoId}})">
+          <v-btn slot="newButton" class="blue darken-2" fab ligth small absolute right middle @click="navigateTo({name: 'criar-aula', params: {moduloId: moduloId, cursoId: cursoId}})">
             <v-icon>add</v-icon>
           </v-btn>
           <v-row>
