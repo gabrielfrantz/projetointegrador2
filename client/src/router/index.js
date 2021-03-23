@@ -7,6 +7,7 @@ import Curso from '@/components/Curso'
 import Perfil from '@/components/Perfil'
 import CriarCurso from '@/components/CriarCurso'
 import EditarCurso from '@/components/EditarCurso'
+import ViewCurso from '@/components/ViewCurso'
 import CriarModulo from '@/components/CriarModulo'
 import EditarModulo from '@/components/EditarModulo'
 import CriarAula from '@/components/CriarAula'
@@ -44,6 +45,11 @@ export default new Router({
       path: '/editar/curso',
       name: 'editar-curso',
       component: EditarCurso
+    },
+    {
+      path: '/view/curso',
+      name: 'view-curso',
+      component: ViewCurso
     },
     {
       path: '/criar/modulo',

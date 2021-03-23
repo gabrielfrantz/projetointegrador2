@@ -39,6 +39,9 @@ export default {
     }
   },
   methods: {
+    navigateTo (route) {
+      this.$router.push(route)
+    },
     async login () {
       try {
         const response = await AuthenticationService.login({
@@ -55,7 +58,7 @@ export default {
         } else {
           this.$store.dispatch('setIsUserLoggedIn', false)
         }
-        this.$router.push('root')
+        this.navigateTo({name: 'root'})
       } catch (error) {
         this.error = error.response.data.error
       }
