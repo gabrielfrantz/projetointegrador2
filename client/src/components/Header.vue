@@ -18,11 +18,11 @@
         <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
       </template>
       <v-list class="responsiveMenu">
-      <v-list-item v-if="$store.state.isUserLoggedIn"><v-btn text   @click="navigateTo({name: 'cursos'})">Gerenciar</v-btn></v-list-item>
-      <v-list-item v-if="$store.state.isUserLoggedIn"><v-btn text   @click="navigateTo({name: 'perfil'})">Perfil</v-btn></v-list-item>
-      <v-list-item v-if="!$store.state.isUserLoggedIn"><v-btn text  @click="navigateTo({name: 'register'})">Registrar-se</v-btn></v-list-item>
-      <v-list-item v-if="!$store.state.isUserLoggedIn"><v-btn text  @click="navigateTo({name: 'login'})">Entrar</v-btn></v-list-item>
-      <v-list-item v-if="$store.state.isUserLoggedIn"><v-btn text   @click="logout()">Sair</v-btn></v-list-item>
+      <v-list-item v-if="$store.state.isUserLoggedIn"><v-btn text @click="navigateTo({name: 'cursos'})">Gerenciar</v-btn></v-list-item>
+      <v-list-item v-if="$store.state.isUserLoggedIn"><v-btn text @click="navigateTo({name: 'perfil'})">Perfil</v-btn></v-list-item>
+      <v-list-item v-if="!$store.state.isUserLoggedIn"><v-btn text @click="navigateTo({name: 'register'})">Registrar-se</v-btn></v-list-item>
+      <v-list-item v-if="!$store.state.isUserLoggedIn"><v-btn text @click="navigateTo({name: 'login'})">Entrar</v-btn></v-list-item>
+      <v-list-item v-if="$store.state.isUserLoggedIn"><v-btn text @click="logout()">Sair</v-btn></v-list-item>
       </v-list>
     </v-menu>
   </div>

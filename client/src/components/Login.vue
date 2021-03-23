@@ -1,22 +1,22 @@
 <template>
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
-      <panel title="Login">
+      <panel title="Entrar">
         <br />
         <v-text-field required
-          label="E-mail"
+          label="Email"
           v-model="email">
         </v-text-field>
         <br />
         <v-text-field required
-          label="Password"
+          label="Senha"
           type="password"
           v-model="password">
         </v-text-field>
         <br />
         <div class="error" v-html="error" />
         <br />
-        <v-btn class="gray" @click="login" dark>Login</v-btn>
+        <v-btn class="gray" @click="login" dark>Entrar</v-btn>
       </panel>
     </v-flex>
   </v-layout>

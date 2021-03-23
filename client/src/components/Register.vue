@@ -1,16 +1,16 @@
 <template>
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
-      <panel title="Register">
+      <panel title="Registrar-se">
         <form name="fincontrol-form" autocomplete="off">
           <br />
-          <v-text-field label="E-mail" v-model="email" required></v-text-field>
+          <v-text-field label="Email" v-model="email" required></v-text-field>
           <br />
-          <v-text-field label="Password" type="password" v-model="password" required></v-text-field>
+          <v-text-field label="Senha" type="password" v-model="password" required></v-text-field>
           <br />
           <div class="error" v-html="error" />
           <br />
-          <v-btn class="gray" dark @click="register">Register</v-btn>
+          <v-btn class="gray" dark @click="register">Registrar</v-btn>
         </form>
       </panel>
     </v-flex>
