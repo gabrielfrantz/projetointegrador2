@@ -45,6 +45,7 @@ module.exports = {
   async put (req, res) {
     try {
       const aula = await Aula.update(req.body, {
+        individualHooks: true,
         where: {
           id: req.params.aulaId
         }

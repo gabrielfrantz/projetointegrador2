@@ -1,22 +1,25 @@
 <template>
   <v-layout ml-16 mr-16 mt-8>
+    <v-flex>
+      <h1>Bem vindo, Visitante!</h1>
+      <h2>Registre-se ou acesse sua conta para ter acesso ao conteúdo do site.</h2>
+      <br>
+    </v-flex>
   </v-layout>
 </template>
 
 <script>
+import Panel from '@/components/Panel'
 
 export default {
-  name: 'HelloWorld',
   data () {
     return {
     }
   },
+  components: {
+    Panel
+  },
   async mounted () {
-    if (this.$store.state.isUserLoggedIn) {
-      this.navigateTo({name: 'home-aluno'})
-    } else {
-      this.navigateTo({name: 'home-visitante'})
-    }
   },
   methods: {
     navigateTo (route) {

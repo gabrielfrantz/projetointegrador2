@@ -12,6 +12,9 @@ import CriarModulo from '@/components/CriarModulo'
 import EditarModulo from '@/components/EditarModulo'
 import CriarAula from '@/components/CriarAula'
 import EditarAula from '@/components/EditarAula'
+import ViewAula from '@/components/ViewAula'
+import HomeAluno from '@/components/HomeAluno'
+import HomeVisitante from '@/components/HomeVisitante'
 Vue.use(Router)
 
 export default new Router({
@@ -20,6 +23,16 @@ export default new Router({
       path: '/',
       name: 'root',
       component: HelloWorld
+    },
+    {
+      path: '/home/aluno',
+      name: 'home-aluno',
+      component: HomeAluno
+    },
+    {
+      path: '/home/visitante',
+      name: 'home-visitante',
+      component: HomeVisitante
     },
     {
       path: '/register',
@@ -70,6 +83,11 @@ export default new Router({
       path: '/editar/aula',
       name: 'editar-aula',
       component: EditarAula
+    },
+    {
+      path: '/view/aula',
+      name: 'view-aula',
+      component: ViewAula
     },
     {
       path: '/perfil',

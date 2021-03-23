@@ -16,7 +16,7 @@
                 <v-row class="fill-height overflow-auto">
                   <v-col class="py-2" :cols="(12/itemsPerRow)" cs12 sm6 md4 lg3 v-for="aula in modulo.Aulas" :key="aula.id" >
                     <v-card class="card fill-height" tile outlined>
-                      <v-img class="white--text align-end" :aspect-ratio="16/9" height="200px" src="https://i.imgur.com/ui3uCKL.jpg">
+                      <v-img class="white--text align-end" :aspect-ratio="16/9" height="200px" :src="aula.src_thumbnail">
                       </v-img>
                       <v-card-title primary-title>
                         <div>
@@ -24,7 +24,7 @@
                         </div>
                       </v-card-title>
                       <v-card-actions>
-                        <v-btn color="deep-purple" text dark @click="navigateTo({name: 'view-curso', params: {aulaId: aula.id}})">
+                        <v-btn color="deep-purple" text dark @click="navigateTo({name: 'view-aula', params: {aulaId: aula.id}})">
                           Abrir aula
                         </v-btn>
                       </v-card-actions>
