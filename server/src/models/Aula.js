@@ -1,14 +1,20 @@
 function getThumbnail(aula, options) {
   console.log(aula.src_video)
-  src_thumbnail = aula.src_video
-  if (src_thumbnail.includes('https://www.youtube.com/watch?v=')) {
-    src_thumbnail = src_thumbnail.replace('https://www.youtube.com/watch?v=', 'https://img.youtube.com/vi/')
-    src_thumbnail = src_thumbnail + '/0.jpg'
-    aula.src_thumbnail = src_thumbnail
+  video_id = aula.src_video
+  if (video_id.includes('https://www.youtube.com/watch?v=')) {
+    video_id = video_id.replace('https://www.youtube.com/watch?v=', '')
   }
+  if (video_id.includes('https://youtu.be/')) {
+    video_id = video_id.replace('https://youtu.be/', '')
+  }
+  src_thumbnail = 'https://img.youtube.com/vi/' + video_id + '/0.jpg'
+  aula.video_id = video_id
+  aula.src_thumbnail = src_thumbnail
+  console.log(video_id)
   console.log(src_thumbnail)
 
-  aula.setDataValue('src_thumbnail', src_thumbnail)  
+  aula.setDataValue('video_id', video_id)  
+  aula.setDataValue('src_thumbnail', src_thumbnail)    
 
   return;
 }
@@ -22,6 +28,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     src_video: {
+      type: DataTypes.STRING
+    },
+    video_id: {
       type: DataTypes.STRING
     },
     src_thumbnail: {
