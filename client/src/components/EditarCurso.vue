@@ -85,6 +85,21 @@ export default {
       visivel = false
     }
     this.ind_visivel = visivel
+    if (localStorage.nom_curso) {
+      this.nom_curso = localStorage.nom_curso
+    }
+    if (localStorage.des_curso) {
+      this.des_curso = localStorage.des_curso
+    }
+    if (localStorage.des_carga_horaria) {
+      this.des_carga_horaria = localStorage.des_carga_horaria
+    }
+    if (localStorage.src_banner) {
+      this.src_banner = localStorage.src_banner
+    }
+    if (localStorage.ind_visivel) {
+      this.ind_visivel = JSON.parse(localStorage.getItem('ind_visivel'))
+    }
   },
   components: {
     Panel
@@ -92,6 +107,7 @@ export default {
   methods: {
     navigateTo (route) {
       this.$router.push(route)
+      localStorage.clear()
     },
     async save () {
       this.error = null
@@ -128,6 +144,30 @@ export default {
         // this.$router.push({ name: 'banks' })
       } catch (error) {
         this.error = error.response.data.error
+      }
+    }
+  },
+  watch: {
+    nom_curso (newName) {
+      localStorage.nom_curso = newName
+    },
+    des_curso (newDescricao) {
+      localStorage.des_curso = newDescricao
+    },
+    des_carga_horaria (newCargaHoraria) {
+      localStorage.des_carga_horaria = newCargaHoraria
+    },
+    src_banner (newBanner) {
+      localStorage.src_banner = newBanner
+    },
+    ind_visivel (newIndVisivel) {
+      var validacao = newIndVisivel.toString()
+      if (validacao === 'true') {
+        validacao = true
+        localStorage.setItem('ind_visivel', JSON.stringify(validacao))
+      } else {
+        validacao = false
+        localStorage.setItem('ind_visivel', JSON.stringify(validacao))
       }
     }
   }
