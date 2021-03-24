@@ -72,9 +72,15 @@ export default {
     }
   },
   async mounted () {
-    const cursoId = this.$store.state.route.params.cursoId
-    this.curso = (await CursosService.show(cursoId)).data
-    this.modulos = (await ModulosService.index(cursoId)).data
+    if (this.$store.state.route.params.cursoId) {
+      this.cursoId = this.$store.state.route.params.cursoId
+    } else if (localStorage.cursoId) {
+      this.cursoId = localStorage.cursoId
+    } else {
+      this.navigateTo({name: 'root'})
+    }
+    this.curso = (await CursosService.show(this.cursoId)).data
+    this.modulos = (await ModulosService.index(this.cursoId)).data
     this.cursoId = this.curso.id
     this.nom_curso = this.curso.nom_curso
     this.des_curso = this.curso.des_curso
@@ -85,21 +91,6 @@ export default {
       visivel = false
     }
     this.ind_visivel = visivel
-    if (localStorage.nom_curso) {
-      this.nom_curso = localStorage.nom_curso
-    }
-    if (localStorage.des_curso) {
-      this.des_curso = localStorage.des_curso
-    }
-    if (localStorage.des_carga_horaria) {
-      this.des_carga_horaria = localStorage.des_carga_horaria
-    }
-    if (localStorage.src_banner) {
-      this.src_banner = localStorage.src_banner
-    }
-    if (localStorage.ind_visivel) {
-      this.ind_visivel = JSON.parse(localStorage.getItem('ind_visivel'))
-    }
   },
   components: {
     Panel
@@ -148,27 +139,8 @@ export default {
     }
   },
   watch: {
-    nom_curso (newName) {
-      localStorage.nom_curso = newName
-    },
-    des_curso (newDescricao) {
-      localStorage.des_curso = newDescricao
-    },
-    des_carga_horaria (newCargaHoraria) {
-      localStorage.des_carga_horaria = newCargaHoraria
-    },
-    src_banner (newBanner) {
-      localStorage.src_banner = newBanner
-    },
-    ind_visivel (newIndVisivel) {
-      var validacao = newIndVisivel.toString()
-      if (validacao === 'true') {
-        validacao = true
-        localStorage.setItem('ind_visivel', JSON.stringify(validacao))
-      } else {
-        validacao = false
-        localStorage.setItem('ind_visivel', JSON.stringify(validacao))
-      }
+    cursoId (cursoId) {
+      localStorage.cursoId = cursoId
     }
   }
 }
