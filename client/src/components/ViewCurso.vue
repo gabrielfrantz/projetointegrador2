@@ -1,8 +1,7 @@
 <template>
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
-      <panel title="Curso">
-        <v-text-field label="Nome*" v-model="nom_curso" readonly></v-text-field>
+      <panel :title="nom_curso">
         <v-textarea label="Descrição*" v-model="des_curso" readonly></v-textarea>
         <v-text-field label="Carga Horária*" v-model="des_carga_horaria" readonly></v-text-field>
       </panel>
@@ -59,9 +58,15 @@ export default {
     }
   },
   async mounted () {
-    const cursoId = this.$store.state.route.params.cursoId
-    this.curso = (await CursosService.show(cursoId)).data
-    this.modulos = (await ModulosService.view(cursoId)).data
+    if (this.$store.state.route.params.cursoId) {
+      this.cursoId = this.$store.state.route.params.cursoId
+    } else if (localStorage.cursoId) {
+      this.cursoId = localStorage.cursoId
+    } else {
+      this.navigateTo({name: 'root'})
+    }
+    this.curso = (await CursosService.show(this.cursoId)).data
+    this.modulos = (await ModulosService.view(this.cursoId)).data
     this.cursoId = this.curso.id
     this.nom_curso = this.curso.nom_curso
     this.des_curso = this.curso.des_curso
@@ -114,6 +119,11 @@ export default {
     },
     ipp () {
       return Math.ceil(this.rowsPerPage * this.itemsPerRow)
+    }
+  },
+  watch: {
+    cursoId (cursoId) {
+      localStorage.cursoId = cursoId
     }
   }
 }

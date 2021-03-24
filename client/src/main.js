@@ -10,13 +10,14 @@ import { sync } from 'vuex-router-sync'
 import store from '@/store/store'
 import moment from 'moment'
 import VueSimpleAlert from 'vue-simple-alert'
-
+import Embed from 'v-video-embed'
 // import colors from 'vuetify/lib/util/colors'
 
 Vue.config.productionTip = false
 
 Vue.use(Vuetify)
 Vue.use(VueSimpleAlert)
+Vue.use(Embed)
 
 Vue.filter('formatDate', function (value) {
   if (value) {

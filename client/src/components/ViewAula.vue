@@ -2,6 +2,9 @@
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
       <panel title="Aula">
+        <v-responsive :aspect-ratio="16/9">
+          <video-embed ref="youtube" allowfullscreen :src="aula.src_video"></video-embed>
+        </v-responsive>
       </panel>
     </v-flex>
   </v-layout>
@@ -20,8 +23,14 @@ export default {
     }
   },
   async mounted () {
-    const aulaId = this.$store.state.route.params.aulaId
-    this.aula = (await AulasService.show(aulaId)).data
+    if (this.$store.state.route.params.aulaId) {
+      this.aulaId = this.$store.state.route.params.aulaId
+    } else if (localStorage.aulaId) {
+      this.aulaId = localStorage.aulaId
+    } else {
+      this.navigateTo({name: 'root'})
+    }
+    this.aula = (await AulasService.show(this.aulaId)).data
   },
   components: {
     Panel
@@ -29,6 +38,11 @@ export default {
   methods: {
     navigateTo (route) {
       this.$router.push(route)
+    }
+  },
+  watch: {
+    aulaId (aulaId) {
+      localStorage.aulaId = aulaId
     }
   }
 }
