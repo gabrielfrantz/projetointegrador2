@@ -1,5 +1,5 @@
 const { Curso } = require('../models')
-
+const LogController = require('../controllers/LogController')
 
 module.exports = {
   async index (req, res) {
@@ -16,14 +16,14 @@ module.exports = {
   },
   async view (req, res) {
     try {
-      console.log(req)
       const cursos = await Curso.findAll({
         where: {
-          ind_visivel: 'S'
+          ind_visvel: 'S'
         }
       })
       res.send(cursos)
     } catch (err) {
+      LogController.post(req.headers.userid, '/viewCurso', req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao buscar a lista de eventos'
       })
