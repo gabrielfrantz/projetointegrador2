@@ -37,6 +37,7 @@ export default {
   data () {
     return {
       cursos: null,
+      userId: this.$store.state.user.id,
       msg: 'Bem-vindo ao Educare, ' + (this.$store.state.user.nom_pessoa || 'por favor, complete seu cadastro na aba perfil!')
     }
   },
@@ -44,7 +45,7 @@ export default {
     Panel
   },
   async mounted () {
-    this.cursos = (await CursosService.view()).data
+    this.cursos = (await CursosService.view(this.userId)).data
   },
   methods: {
     navigateTo (route) {

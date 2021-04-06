@@ -4,8 +4,8 @@ export default {
   index () {
     return Api().get('cursos')
   },
-  view () {
-    return Api().get('cursosView')
+  view (userId) {
+    return Api(userId).get('cursosView')
   },
   post (curso) {
     return Api().post('curso', curso)

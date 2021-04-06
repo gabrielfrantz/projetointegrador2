@@ -1,7 +1,12 @@
 import axios from 'axios'
 
-export default () => {
+export default (userId) => {
   return axios.create({
-    baseURL: 'http://177.44.248.25:3391/'
+    baseURL: 'http://localhost:8080/',
+    headers: {
+      common: {
+        userId: userId
+      }
+    }
   })
 }

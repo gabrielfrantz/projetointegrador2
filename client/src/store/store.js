@@ -8,6 +8,7 @@ export default new Vuex.Store({
   strict: true,
   plugins: [createPersistedState()],
   state: {
+    userId: null,
     token: null,
     user: null,
     isUserLoggedIn: false,
@@ -19,6 +20,11 @@ export default new Vuex.Store({
     },
     setUser (state, user) {
       state.user = user
+      if (user) {
+        state.userId = user.id
+      } else {
+        state.userId = null
+      }
     },
     setIsUserLoggedIn (state, isUserLoggedIn) {
       state.isUserLoggedIn = isUserLoggedIn

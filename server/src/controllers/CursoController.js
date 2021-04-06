@@ -16,6 +16,7 @@ module.exports = {
   },
   async view (req, res) {
     try {
+      console.log(req)
       const cursos = await Curso.findAll({
         where: {
           ind_visivel: 'S'

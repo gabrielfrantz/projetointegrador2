@@ -8,7 +8,11 @@ const config = require('./config/config')
 const app = express()
 app.use(morgan('combined'))
 app.use(bodyParse.json())
-app.use(cors())
+app.use(cors({
+  origin: '*',
+  allowedHeaders: ['Content-Type', 'Accept', 'X-Requested-With', 'Method', 'Authorization', 'userId'],
+  optionsSuccessStatus: 200,
+}));
 
 require('./routes')(app)
 
