@@ -61,6 +61,7 @@ export default {
     return {
       curso: {},
       modulos: {},
+      userId: null,
       cursoId: null,
       nom_curso: null,
       des_curso: null,
@@ -72,6 +73,7 @@ export default {
     }
   },
   async mounted () {
+    this.userId = this.$store.state.userId
     if (this.$store.state.route.params.cursoId) {
       this.cursoId = this.$store.state.route.params.cursoId
     } else if (localStorage.cursoId) {
@@ -79,8 +81,8 @@ export default {
     } else {
       this.navigateTo({name: 'root'})
     }
-    this.curso = (await CursosService.show(this.cursoId)).data
-    this.modulos = (await ModulosService.index(this.cursoId)).data
+    this.curso = (await CursosService.show(this.userId, this.cursoId)).data
+    this.modulos = (await ModulosService.index(this.userId, this.cursoId)).data
     this.cursoId = this.curso.id
     this.nom_curso = this.curso.nom_curso
     this.des_curso = this.curso.des_curso
@@ -130,8 +132,8 @@ export default {
     },
     async deletemodulo (moduloId) {
       try {
-        confirm('Are you sure you want to delete this item?') && await ModulosService.delete(moduloId.moduloId)
-        this.modulos = (await ModulosService.index(this.cursoId)).data
+        confirm('Are you sure you want to delete this item?') && await ModulosService.delete(this.userId, moduloId.moduloId)
+        this.modulos = (await ModulosService.index(this.userId, this.cursoId)).data
         // this.$router.push({ name: 'banks' })
       } catch (error) {
         this.error = error.response.data.error

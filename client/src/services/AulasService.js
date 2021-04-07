@@ -1,22 +1,22 @@
 import Api from '@/services/Api'
 
 export default {
-  index (moduloId) {
-    return Api().get(`aulas/${moduloId}`)
+  index (userId, moduloId) {
+    return Api(userId).get(`aulas/${moduloId}`)
   },
-  view (moduloId) {
-    return Api().get(`aulasView/${moduloId}`)
+  view (userId, moduloId) {
+    return Api(userId).get(`aulasView/${moduloId}`)
   },
-  post (aula) {
-    return Api().post('aula', aula)
+  post (userId, aula) {
+    return Api(userId).post('aula', aula)
   },
-  show (aulaId) {
-    return Api().get(`aula/${aulaId}`)
+  show (userId, aulaId) {
+    return Api(userId).get(`aula/${aulaId}`)
   },
-  put (aula) {
-    return Api().put(`aula/${aula.id}`, aula)
+  put (userId, aula) {
+    return Api(userId).put(`aula/${aula.id}`, aula)
   },
-  delete (aulaId) {
-    return Api().delete(`aula/${aulaId}`)
+  delete (userId, aulaId) {
+    return Api(userId).delete(`aula/${aulaId}`)
   }
 }

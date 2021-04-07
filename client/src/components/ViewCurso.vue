@@ -49,6 +49,7 @@ export default {
       curso: {},
       modulos: {},
       cursoId: null,
+      userId: null,
       nom_curso: null,
       des_curso: null,
       des_carga_horaria: null,
@@ -58,6 +59,7 @@ export default {
     }
   },
   async mounted () {
+    this.userId = this.$store.state.userId
     if (this.$store.state.route.params.cursoId) {
       this.cursoId = this.$store.state.route.params.cursoId
     } else if (localStorage.cursoId) {
@@ -65,8 +67,8 @@ export default {
     } else {
       this.navigateTo({name: 'root'})
     }
-    this.curso = (await CursosService.show(this.cursoId)).data
-    this.modulos = (await ModulosService.view(this.cursoId)).data
+    this.curso = (await CursosService.show(this.userId, this.cursoId)).data
+    this.modulos = (await ModulosService.view(this.userId, this.cursoId)).data
     this.cursoId = this.curso.id
     this.nom_curso = this.curso.nom_curso
     this.des_curso = this.curso.des_curso

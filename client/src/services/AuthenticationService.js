@@ -8,9 +8,9 @@ export default {
     return Api().post('login', credentials)
   },
   show (userId) {
-    return Api().get(`user/${userId}`)
+    return Api(userId).get(`user/${userId}`)
   },
   put (user) {
-    return Api().put(`user/${user.id}`, user)
+    return Api(user.id).put(`user/${user.id}`, user)
   }
 }

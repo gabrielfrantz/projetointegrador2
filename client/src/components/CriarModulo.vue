@@ -19,6 +19,7 @@ import ModulosService from '@/services/ModulosService'
 export default {
   data () {
     return {
+      userId: null,
       cursoId: null,
       nom_modulo: null,
       seq_ordem: null,
@@ -28,6 +29,7 @@ export default {
     }
   },
   async mounted () {
+    this.userId = this.$store.state.userId
     this.cursoId = this.$store.state.route.params.cursoId
   },
   methods: {
@@ -51,7 +53,7 @@ export default {
         return
       }
       try {
-        await ModulosService.post(modulo)
+        await ModulosService.post(this.userId, modulo)
         this.$router.push({name: 'editar-curso', params: {cursoId: this.cursoId}})
       } catch (err) {
         console.log(err)

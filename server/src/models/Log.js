@@ -6,6 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     nom_url: {
       type: DataTypes.STRING
     },
+    des_params: {
+      type: DataTypes.STRING(1000)
+    },
     des_body: {
       type: DataTypes.STRING(1000)
     },

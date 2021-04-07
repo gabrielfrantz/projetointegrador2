@@ -71,6 +71,7 @@ export default {
     return {
       modulo: {},
       aulas: {},
+      userId: null,
       cursoId: null,
       moduloId: null,
       nom_modulo: null,
@@ -81,10 +82,11 @@ export default {
     }
   },
   async mounted () {
+    this.userId = this.$store.state.userId
     this.cursoId = this.$store.state.route.params.cursoId
     this.moduloId = this.$store.state.route.params.moduloId
-    this.modulo = (await ModulosService.show(this.moduloId)).data
-    this.aulas = (await AulasService.index(this.moduloId)).data
+    this.modulo = (await ModulosService.show(this.userId, this.moduloId)).data
+    this.aulas = (await AulasService.index(this.userId, this.moduloId)).data
     this.nom_modulo = this.modulo.nom_modulo
     this.seq_ordem = this.modulo.seq_ordem
     var visivel = true
@@ -115,7 +117,7 @@ export default {
         return
       }
       try {
-        await ModulosService.put(modulo)
+        await ModulosService.put(this.userId, modulo)
         this.$router.push({name: 'editar-curso', params: {cursoId: this.$store.state.route.params.cursoId}})
       } catch (err) {
         console.log(err)
@@ -126,9 +128,8 @@ export default {
     },
     async deleteaula (aulaId) {
       try {
-        confirm('Are you sure you want to delete this item?') && await AulasService.delete(aulaId.aulaId)
-        this.aulas = (await AulasService.index(this.moduloId)).data
-        // this.$router.push({ name: 'banks' })
+        confirm('Are you sure you want to delete this item?') && await AulasService.delete(this.userId, aulaId.aulaId)
+        this.aulas = (await AulasService.index(this.userId, this.moduloId)).data
       } catch (error) {
         this.error = error.response.data.error
       }

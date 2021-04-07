@@ -1,6 +1,7 @@
 const { User } = require('../models')
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
+const LogController = require('../controllers/LogController')
 
 function jwtSignUser(user) {
   const ONE_WEEK = 60 * 60 * 24 * 7
@@ -30,6 +31,7 @@ module.exports = {
         token: jwtSignUser(userJson)
       })
     } catch (err) {
+      LogController.post(null, '/registerAuthentication', req.params, req.body, err)
       res.status(400).send({
         error: 'A conta de e-mail já está em uso!'
       })
@@ -41,6 +43,7 @@ module.exports = {
       //const userJson = user.toJSON()
       res.send(user)
     } catch (err) {
+      LogController.post(req.headers.userid, '/newAuthentication', req.params, req.body, err)
       res.status(400).send({
         error: 'A conta de e-mail já está em uso!'
       })
@@ -61,6 +64,7 @@ module.exports = {
       })
       res.send(user)
     } catch (err) {
+      LogController.post(req.headers.userid, '/putAuthentication', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao salvar usuário'
       })
@@ -73,6 +77,7 @@ module.exports = {
       })
       res.send(users)
     } catch (err) {
+      LogController.post(req.headers.userid, '/indexAuthentication', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao buscar a lista de usuários'
       })
@@ -87,6 +92,7 @@ module.exports = {
       })
       res.send(user)
     } catch (err) {
+      LogController.post(req.headers.userid, '/showAuthentication', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao buscar o user'
       })
@@ -119,6 +125,7 @@ module.exports = {
         token: jwtSignUser(userJson)
       })
     } catch (err) {
+      LogController.post(null, '/showAuthentication', req.params, req.body, err)
       console.log(err)
       res.status(500).send({
         error: 'Ocorreu um erro ao tentar logar'

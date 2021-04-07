@@ -21,6 +21,7 @@ import AulasService from '@/services/AulasService'
 export default {
   data () {
     return {
+      userId: null,
       cursoId: null,
       moduloId: null,
       nom_aula: null,
@@ -33,6 +34,7 @@ export default {
     }
   },
   async mounted () {
+    this.userId = this.$store.state.userId
     this.cursoId = this.$store.state.route.params.cursoId
     this.moduloId = this.$store.state.route.params.moduloId
   },
@@ -59,7 +61,7 @@ export default {
         return
       }
       try {
-        await AulasService.post(aula)
+        await AulasService.post(this.userId, aula)
         this.$router.push({name: 'editar-modulo', params: {cursoId: this.cursoId, moduloId: this.moduloId}})
       } catch (err) {
         console.log(err)

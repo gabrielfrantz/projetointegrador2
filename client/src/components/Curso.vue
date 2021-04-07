@@ -57,12 +57,14 @@ export default {
   },
   data () {
     return {
+      userId: null,
       cursos: null
     }
   },
   async mounted () {
     // do a request to the backend for all the banks
-    this.cursos = (await CursosService.index()).data
+    this.userId = this.$store.state.userId
+    this.cursos = (await CursosService.index(this.userId)).data
   },
   methods: {
     navigateTo (route) {
@@ -71,7 +73,7 @@ export default {
     async deletecurso (cursoId) {
       try {
         confirm('Are you sure you want to delete this item?') && await CursosService.delete(cursoId.cursoId)
-        this.cursos = (await CursosService.index()).data
+        this.cursos = (await CursosService.index(this.userId)).data
         // this.$router.push({ name: 'banks' })
       } catch (error) {
         this.error = error.response.data.error

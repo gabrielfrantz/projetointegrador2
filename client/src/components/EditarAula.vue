@@ -22,6 +22,7 @@ export default {
   data () {
     return {
       aula: {},
+      userId: null,
       cursoId: null,
       moduloId: null,
       nom_aula: null,
@@ -34,10 +35,11 @@ export default {
     }
   },
   async mounted () {
+    this.userId = this.$store.state.userId
     this.cursoId = this.$store.state.route.params.cursoId
     this.moduloId = this.$store.state.route.params.moduloId
     this.aulaId = this.$store.state.route.params.aulaId
-    this.aula = (await AulasService.show(this.aulaId)).data
+    this.aula = (await AulasService.show(this.userId, this.aulaId)).data
     this.nom_aula = this.aula.nom_aula
     this.des_aula = this.aula.des_aula
     this.src_video = this.aula.src_video
@@ -72,7 +74,7 @@ export default {
         return
       }
       try {
-        await AulasService.put(aula)
+        await AulasService.put(this.userId, aula)
         this.$router.push({name: 'editar-modulo', params: {cursoId: this.cursoId, moduloId: this.moduloId}})
       } catch (err) {
         console.log(err)

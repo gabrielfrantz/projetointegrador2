@@ -21,6 +21,7 @@ import CursosService from '@/services/CursosService'
 export default {
   data () {
     return {
+      userId: null,
       nom_curso: null,
       des_curso: null,
       des_carga_horaria: null,
@@ -32,6 +33,7 @@ export default {
   },
   methods: {
     async create () {
+      this.userId = this.$store.state.userId
       this.error = null
       var visivel = 'N'
       if (this.ind_visivel) {
@@ -52,7 +54,7 @@ export default {
         return
       }
       try {
-        await CursosService.post(curso)
+        await CursosService.post(this.userId, curso)
         this.$router.push({ name: 'cursos' })
       } catch (err) {
         console.log(err)
