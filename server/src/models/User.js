@@ -34,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
     ind_admin: {
       type: DataTypes.STRING,
       defaultValue: 'N'
+    },
+    ind_usuario: {
+      type: DataTypes.STRING,
+      defaultValue: 'A'
     }
   }, {
     hooks: {
