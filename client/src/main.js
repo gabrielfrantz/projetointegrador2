@@ -21,7 +21,13 @@ Vue.use(Embed)
 
 Vue.filter('formatDate', function (value) {
   if (value) {
-    return moment(String(value)).format('DD/MM/YYYY hh:mm')
+    return moment(String(value)).format('DD/MM/YYYY HH:mm')
+  }
+})
+
+Vue.filter('string100', function (value) {
+  if (value) {
+    return value.substr(0, 32)
   }
 })
 

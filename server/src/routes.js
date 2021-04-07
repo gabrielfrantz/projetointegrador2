@@ -31,4 +31,5 @@ module.exports = (app) => {
   app.put('/aula/:aulaId', AulaController.put)
   app.delete('/aula/:aulaId', AulaController.delete)
   app.get('/logView', LogController.view)
+  app.get('/log/:logId', LogController.show)
 }

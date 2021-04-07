@@ -15,6 +15,8 @@ import EditarAula from '@/components/EditarAula'
 import ViewAula from '@/components/ViewAula'
 import HomeAluno from '@/components/HomeAluno'
 import HomeVisitante from '@/components/HomeVisitante'
+import Log from '@/components/Log'
+import ViewLog from '@/components/ViewLog'
 Vue.use(Router)
 
 export default new Router({
@@ -93,6 +95,16 @@ export default new Router({
       path: '/perfil',
       name: 'perfil',
       component: Perfil
+    },
+    {
+      path: '/log',
+      name: 'log',
+      component: Log
+    },
+    {
+      path: '/view/log',
+      name: 'view-log',
+      component: ViewLog
     }
   ]
 })

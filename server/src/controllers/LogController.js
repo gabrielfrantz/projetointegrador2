@@ -15,5 +15,20 @@ module.exports = {
         error: 'Ocorreu um erro ao buscar a lista de logs'
       })
     }
+  },
+  async show (req, res) {
+    try {
+      const log = await Log.findOne({
+        where: {
+          id: req.params.logId
+        }
+      })
+      res.send(log)
+    } catch (err) {
+      LogCreate.post(req.headers.userid, '/showLog', req.params, req.body, err)
+      res.status(500).send({
+        error: 'Ocorreu um erro ao buscar o Log'
+      })
+    }
   }
 }
