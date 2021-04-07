@@ -11,6 +11,8 @@ module.exports = (app) => {
   app.post('/login', AuthenticationController.login)
   app.put('/user/:userId', AuthenticationController.put)
   app.get('/user/:userId', AuthenticationController.show)
+  app.get('/usersView', AuthenticationController.view)
+  app.put('/userPermission/:userId', AuthenticationController.permission)
   app.get('/users', AuthenticationController.index)
   app.get('/cursos', CursoController.index)
   app.get('/cursosView', CursoController.view)

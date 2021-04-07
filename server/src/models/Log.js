@@ -6,6 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     nom_url: {
       type: DataTypes.STRING
     },
+    nom_erro: {
+      type: DataTypes.STRING
+    },
     des_params: {
       type: DataTypes.STRING(1000)
     },

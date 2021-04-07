@@ -2,11 +2,12 @@
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
       <panel title="Log">
-        <v-text-field label="Data" v-model="dta_log"></v-text-field>
-        <v-text-field label="URL" v-model="nom_url" ></v-text-field>
-        <v-textarea label="Paramêtros" v-model="des_params"></v-textarea>
-        <v-textarea label="Body" v-model="des_body"></v-textarea>
-        <v-textarea label="Erro" v-model="des_erro"></v-textarea>
+        <v-text-field label="Data" v-model="dta_log" readonly></v-text-field>
+        <v-text-field label="URL" v-model="nom_url" readonly></v-text-field>
+        <v-text-field label="Erro" v-model="nom_erro" readonly></v-text-field>
+        <v-textarea label="Paramêtros" v-model="des_params" readonly></v-textarea>
+        <v-textarea label="Body" v-model="des_body" readonly></v-textarea>
+        <v-textarea label="Descrição" v-model="des_erro" readonly></v-textarea>
         <v-btn class="red" @click="navigateTo({name: 'log'})" dark>Voltar</v-btn>
       </panel>
     </v-flex>
@@ -25,6 +26,7 @@ export default {
       logId: null,
       dta_log: null,
       nom_url: null,
+      nom_erro: null,
       des_params: null,
       des_body: null,
       des_erro: null
@@ -43,6 +45,7 @@ export default {
     this.logId = this.log.id
     this.dta_log = this.formatDate(this.log.createdAt)
     this.nom_url = this.log.nom_url
+    this.nom_erro = this.log.nom_erro
     this.des_params = this.log.des_params
     this.des_body = this.log.des_body
     this.des_erro = this.log.des_erro
@@ -57,7 +60,7 @@ export default {
     },
     formatDate (value) {
       if (value) {
-        return moment(String(value)).format('DD/MM/YYYY HH:mm')
+        return moment(String(value)).format('DD/MM/YYYY HH:mm:ss')
       }
     }
   },

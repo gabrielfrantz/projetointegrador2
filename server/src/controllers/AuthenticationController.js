@@ -16,14 +16,15 @@ module.exports = {
       const user = await User.create(req.body)
       if (user.id === 1) {
         await User.update(
-          { 
-            ind_admin: 'S'
-          }, 
+          {
+            ind_admin: 'S',
+            ind_usuario: 'S'
+          },
           {
             where: {
               id: user.id
-          }
-        })
+            }
+          })
       }
       const userJson = user.toJSON()
       res.send({
@@ -49,19 +50,19 @@ module.exports = {
       })
     }
   },
-  async put (req, res) {
+  async put(req, res) {
     try {
       const user = await User.update(
-        { 
+        {
           nom_pessoa: req.body.nom_pessoa,
           num_cpf: req.body.num_cpf,
           ind_admin: req.body.ind_admin
-        }, 
+        },
         {
           where: {
             id: req.params.userId
-        }
-      })
+          }
+        })
       res.send(user)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/putAuthentication', req.params, req.body, err)
@@ -70,7 +71,7 @@ module.exports = {
       })
     }
   },
-  async index (req, res) {
+  async index(req, res) {
     try {
       const users = await User.findAll({
         limit: 50
@@ -83,7 +84,52 @@ module.exports = {
       })
     }
   },
-  async show (req, res) {
+  async view(req, res) {
+    try {
+      const users = await User.findAll({
+        where: [{
+          ind_admin: 'N'
+        }],
+        order: [['ind_usuario', 'desc']],
+        limit: 50,
+      })
+      res.send(users)
+    } catch (err) {
+      LogCreate.post(req.headers.userid, '/viewAuthentication', req.params, req.body, err)
+      res.status(500).send({
+        error: 'Ocorreu um erro ao buscar a lista de usuários'
+      })
+    }
+  },
+  async permission(req, res) {
+    try {
+      const user = await User.findOne({
+        where: {
+          id: req.params.userId
+        }
+      })
+      var tip_usuario = 'P'
+      if (user.ind_usuario === 'P') {
+        tip_usuario = 'A'
+      }
+      const u = await User.update(
+        {
+          ind_usuario: tip_usuario
+        },
+        {
+          where: {
+            id: req.params.userId
+          }
+        })
+      res.send(u)
+    } catch (err) {
+      LogCreate.post(req.headers.userid, '/permissionAuthentication', req.params, req.body, err)
+      res.status(500).send({
+        error: 'Ocorreu um erro ao alterar permissao'
+      })
+    }
+  },
+  async show(req, res) {
     try {
       const user = await User.findOne({
         where: {
@@ -112,8 +158,8 @@ module.exports = {
           error: 'Usuário inválido!'
         })
       }
-      const isPasswordValid = user.comparePassword(password)    
-      console.log(isPasswordValid)  
+      const isPasswordValid = user.comparePassword(password)
+      console.log(isPasswordValid)
       if (!isPasswordValid) {
         return res.status(403).send({
           error: 'Senha inválida!'
@@ -125,7 +171,8 @@ module.exports = {
         token: jwtSignUser(userJson)
       })
     } catch (err) {
-      LogCreate.post(null, '/showAuthentication', req.params, req.body, err)
+      console.log('erro login')
+      LogCreate.post(null, '/loginAuthentication', req.params, req.body, err)
       console.log(err)
       res.status(500).send({
         error: 'Ocorreu um erro ao tentar logar'

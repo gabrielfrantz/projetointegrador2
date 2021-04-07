@@ -25,6 +25,20 @@ Vue.filter('formatDate', function (value) {
   }
 })
 
+Vue.filter('formatDate2', function (value) {
+  if (value) {
+    return moment(String(value)).format('DD/MM/YYYY HH:mm:ss')
+  }
+})
+
+Vue.filter('nomeUser', function (value) {
+  if (value) {
+    return value.nom_pessoa || value.email
+  } else {
+    return 'Desconhecido'
+  }
+})
+
 Vue.filter('string100', function (value) {
   if (value) {
     return value.substr(0, 32)

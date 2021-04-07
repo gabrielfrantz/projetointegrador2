@@ -19,16 +19,16 @@
           <div v-for="log in logs" :key="log.id">
               <v-row>
                 <v-col cols="12" sm="4" md="3">
-                    {{log.createdAt | formatDate}}
+                    {{log.createdAt | formatDate2}}
                 </v-col>
                 <v-col cols="6" sm="2">
-                    {{log.user_id}}
+                    {{log.User | nomeUser}}
                 </v-col>
                 <v-col cols="6" sm="2">
                     {{log.nom_url}}
                 </v-col>
                 <v-col cols="6" sm="1">
-                    {{log.des_erro | string100}}
+                    {{log.nom_erro}}
                 </v-col>
                 <v-col cols="6" sm="1" md="4" >
                   <v-btn class="green accent-2" fab ligth small right middle @click="navigateTo({name: 'view-log', params: {logId: log.id}})">
