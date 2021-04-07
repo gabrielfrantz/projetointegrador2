@@ -1,19 +1,19 @@
 const { Log } = require('../models')
+const LogCreate = require('../controllers/LogCreate')
 
-module.exports.post = async (userId, nomUrl, desParams, desBody, desErro) => {
-  try {
-    console.log("chegou no cria log")
-    console.log(desBody)
-    console.log(desErro)
-    log = {
-      id_user: userId,
-      nom_url: nomUrl,
-      des_params: JSON.stringify(desParams),
-      des_body: JSON.stringify(desBody),
-      des_erro: JSON.stringify(desErro)
+module.exports = {
+  async view(req, res) {
+    try {
+      const logs = await Log.findAll({
+        limit: 50,
+        order: [['createdAt', 'desc']],
+      })
+      res.send(logs)
+    } catch (err) {
+      LogCreate.post(req.headers.userid, '/viewLog', req.params, req.body, err)
+      res.status(500).send({
+        error: 'Ocorreu um erro ao buscar a lista de logs'
+      })
     }
-    await Log.create(log)
-  } catch (err) {
-    console.log(err)
   }
 }

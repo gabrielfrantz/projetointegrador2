@@ -3,6 +3,7 @@ const AuthenticationControllerPolicy = require('./policies/AuthenticationControl
 const CursoController = require('./controllers/CursoController')
 const ModuloController = require('./controllers/ModuloController')
 const AulaController = require('./controllers/AulaController')
+const LogController = require('./controllers/LogController')
 
 module.exports = (app) => {
   app.post('/register', AuthenticationControllerPolicy.register, AuthenticationController.register)
@@ -29,4 +30,5 @@ module.exports = (app) => {
   app.get('/aula/:aulaId', AulaController.show)
   app.put('/aula/:aulaId', AulaController.put)
   app.delete('/aula/:aulaId', AulaController.delete)
+  app.get('/logView', LogController.view)
 }

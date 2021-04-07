@@ -1,6 +1,6 @@
 const { Modulo } = require('../models')
 const { Aula } = require('../models')
-const LogController = require('../controllers/LogController')
+const LogCreate = require('../controllers/LogCreate')
 
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
       })
       res.send(modulos)
     } catch (err) {
-      LogController.post(req.headers.userid, '/indexModulo', req.params, req.body, err)
+      LogCreate.post(req.headers.userid, '/indexModulo', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao buscar a lista de modulos'
       })
@@ -34,7 +34,7 @@ module.exports = {
       })
       res.send(modulos)
     } catch (err) {
-      LogController.post(req.headers.userid, '/viewModulo', req.params, req.body, err)
+      LogCreate.post(req.headers.userid, '/viewModulo', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao buscar a lista de modulos'
       })
@@ -46,7 +46,7 @@ module.exports = {
       const modulo = await Modulo.create(req.body)
       res.send(modulo)
     } catch (err) {
-      LogController.post(req.headers.userid, '/postModulo', req.params, req.body, err)
+      LogCreate.post(req.headers.userid, '/postModulo', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao salvar modulo'
       })
@@ -61,7 +61,7 @@ module.exports = {
       })
       res.send(modulo)
     } catch (err) {
-      LogController.post(req.headers.userid, '/putModulo', req.params, req.body, err)
+      LogCreate.post(req.headers.userid, '/putModulo', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao salvar modulo'
       })
@@ -76,7 +76,7 @@ module.exports = {
       })
       res.send('')
     } catch (err) {
-      LogController.post(req.headers.userid, '/deleteModulo', req.params, req.body, err)
+      LogCreate.post(req.headers.userid, '/deleteModulo', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao deletar modulo'
       })
@@ -91,7 +91,7 @@ module.exports = {
       })
       res.send(modulo)
     } catch (err) {
-      LogController.post(req.headers.userid, '/showModulo', req.params, req.body, err)
+      LogCreate.post(req.headers.userid, '/showModulo', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao buscar o modulo'
       })

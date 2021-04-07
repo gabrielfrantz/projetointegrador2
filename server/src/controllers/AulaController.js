@@ -1,5 +1,5 @@
 const { Aula } = require('../models')
-const LogController = require('../controllers/LogController')
+const LogCreate = require('../controllers/LogCreate')
 
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
       })
       res.send(aulas)
     } catch (err) {
-      LogController.post(req.headers.userid, '/indexAula', req.params, req.body, err)
+      LogCreate.post(req.headers.userid, '/indexAula', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao buscar a lista de aulas'
       })
@@ -28,7 +28,7 @@ module.exports = {
       })
       res.send(aulas)
     } catch (err) {
-      LogController.post(req.headers.userid, '/viewAula', req.params, req.body, err)
+      LogCreate.post(req.headers.userid, '/viewAula', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao buscar a lista de aulas'
       })
@@ -40,7 +40,7 @@ module.exports = {
       const aula = await Aula.create(req.body)
       res.send(aula)
     } catch (err) {
-      LogController.post(req.headers.userid, '/postAula', req.params, req.body, err)
+      LogCreate.post(req.headers.userid, '/postAula', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao salvar aula'
       })
@@ -56,7 +56,7 @@ module.exports = {
       })
       res.send(aula)
     } catch (err) {
-      LogController.post(req.headers.userid, '/putAula', req.params, req.body, err)
+      LogCreate.post(req.headers.userid, '/putAula', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao salvar aula'
       })
@@ -71,7 +71,7 @@ module.exports = {
       })
       res.send('')
     } catch (err) {
-      LogController.post(req.headers.userid, '/deleteAula', req.params, req.body, err)
+      LogCreate.post(req.headers.userid, '/deleteAula', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao deletar aula'
       })
@@ -86,7 +86,7 @@ module.exports = {
       })
       res.send(aula)
     } catch (err) {
-      LogController.post(req.headers.userid, '/showAula', req.params, req.body, err)
+      LogCreate.post(req.headers.userid, '/showAula', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao buscar a aula'
       })
