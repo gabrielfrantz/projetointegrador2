@@ -1,35 +1,25 @@
 <template>
-  <youtube :video-id="aula.src_video" player-width="100%" :player-vars="{autoplay: 1}"></youtube>
+  <youtube :video-id="videoId" player-width="100%" :player-vars="{autoplay: 1}"></youtube>
 </template>
 
 <script>
-'use strict'
-import Vue from 'vue'
-import VueYouTubeEmbed from 'vue-youtube-embed'
 import Panel from '@/components/Panel'
 import AulasService from '@/services/AulasService'
-Vue.use(VueYouTubeEmbed)
-
-window.app = new Vue({
-  el: '#app',
-  data: {
-    videoId: 'aula.src_video'
-  }
-})
 export default {
   data () {
     return {
       aula: {},
       modulos: {},
       aulaId: null,
-      error: null
+      error: null,
+      videoId: 'aulas.src_video'
     }
   },
   async mounted () {
     if (this.$store.state.route.params.aulaId) {
-      this.aulaId = 1
+      this.aulaId = this.$store.state.route.params.aulaId
     } else if (localStorage.aulaId) {
-      this.aulaId = 1
+      this.aulaId = localStorage.aulaId
     } else {
       this.navigateTo({name: 'root'})
     }
