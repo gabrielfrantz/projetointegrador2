@@ -103,11 +103,14 @@ module.exports = {
   },
   async permission(req, res) {
     try {
+      console.log('permissao chegou')
+      console.log(req.body.id.userId)
       const user = await User.findOne({
         where: {
-          id: req.params.userId
+          id: req.body.id.userId
         }
       })
+      console.log(user)
       var tip_usuario = 'P'
       if (user.ind_usuario === 'P') {
         tip_usuario = 'A'
@@ -118,7 +121,7 @@ module.exports = {
         },
         {
           where: {
-            id: req.params.userId
+            id: req.body.id.userId
           }
         })
       res.send(u)

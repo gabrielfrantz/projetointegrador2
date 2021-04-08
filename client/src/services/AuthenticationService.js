@@ -17,6 +17,6 @@ export default {
     return Api(userId).get('usersView')
   },
   permission (userId, user) {
-    return Api(userId).put(`userPermission/${userId}`, user)
+    return Api(userId).put(`userPermission/${user.id}`, user)
   }
 }

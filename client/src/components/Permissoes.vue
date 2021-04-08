@@ -9,7 +9,7 @@
           <v-col>Permissão</v-col>
           <v-col>Ações</v-col>
         </v-row>
-         <div v-for="usuario in usuarios" :key="usuario.id">
+        <div v-for="usuario in usuarios" :key="usuario.id">
           <v-row>
             <v-col>
               {{usuario.nom_pessoa}}
@@ -24,13 +24,7 @@
               {{usuario.ind_usuario}}
             </v-col>
             <v-col>
-              <v-btn class='green accent-2'
-               fab
-               ligth
-               small
-               right
-               middle
-               @click='mudarPermissao({idUsuario: usuario.id})'>
+              <v-btn class="green accent-2" fab ligth small right middle @click="mudarPermissao({userId: usuario.id})">
                 <v-icon>how_to_reg</v-icon>
               </v-btn>
             </v-col>
@@ -51,7 +45,8 @@ export default {
   data () {
     return {
       userId: null,
-      usuarios: {}
+      usuarios: {},
+      usuario: {}
     }
   },
   async mounted () {
@@ -61,12 +56,11 @@ export default {
   methods: {
     async mudarPermissao (idUsuario) {
       try {
-        var user = {
+        const user = {
           id: idUsuario
         }
-        alert(idUsuario)
         confirm('Você tem certeza que deseja modificar essa permissão?') &&
-          await AuthenticationService.permission(idUsuario, user)
+          await AuthenticationService.permission(this.userId, user)
         this.usuarios = (await AuthenticationService.view(this.userId)).data
       } catch (error) {
         this.error = error.response.data.error
