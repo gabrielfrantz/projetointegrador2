@@ -1,38 +1,39 @@
 <template>
-  <v-layout ml-16 mr-16 mt-8>
-    <v-flex>
-      <panel title="Aula">
-        <v-responsive :aspect-ratio="16/9">
-          <video-embed ref="youtube" allowfullscreen :src="aula.src_video"></video-embed>
-        </v-responsive>
-      </panel>
-    </v-flex>
-  </v-layout>
+  <youtube :video-id="aula.src_video" player-width="100%" :player-vars="{autoplay: 1}"></youtube>
 </template>
 
 <script>
+'use strict'
+import Vue from 'vue'
+import VueYouTubeEmbed from 'vue-youtube-embed'
 import Panel from '@/components/Panel'
 import AulasService from '@/services/AulasService'
+Vue.use(VueYouTubeEmbed)
+
+window.app = new Vue({
+  el: '#app',
+  data: {
+    videoId: 'aula.src_video'
+  }
+})
 export default {
   data () {
     return {
       aula: {},
       modulos: {},
-      userId: null,
       aulaId: null,
       error: null
     }
   },
   async mounted () {
-    this.userId = this.$store.state.userId
     if (this.$store.state.route.params.aulaId) {
-      this.aulaId = this.$store.state.route.params.aulaId
+      this.aulaId = 1
     } else if (localStorage.aulaId) {
-      this.aulaId = localStorage.aulaId
+      this.aulaId = 1
     } else {
       this.navigateTo({name: 'root'})
     }
-    this.aula = (await AulasService.show(this.userId, this.aulaId)).data
+    this.aula = (await AulasService.show(this.aulaId)).data
   },
   components: {
     Panel

@@ -27,6 +27,11 @@
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.4",
     "sequelize": "^5.21.13",
-    "sqlite3": "^4.2.0"
+    "sqlite3": "^4.2.0",
+    "v-aspect-ratio": "^2.0.1",
+    "v-video-embed": "^1.0.8",
+    "vue-lazytube": "^1.0.1",
+    "vue-youtube-embed": "^2.2.2",
+    "vue-youtube-player": "^1.0.8"
   }
 }
