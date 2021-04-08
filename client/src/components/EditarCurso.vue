@@ -124,7 +124,7 @@ export default {
         return
       }
       try {
-        await CursosService.put(curso)
+        await CursosService.put(this.userId, curso)
         this.$router.push({ name: 'cursos' })
       } catch (err) {
         console.log(err)
