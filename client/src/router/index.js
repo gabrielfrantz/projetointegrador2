@@ -17,6 +17,7 @@ import HomeAluno from '@/components/HomeAluno'
 import HomeVisitante from '@/components/HomeVisitante'
 import Log from '@/components/Log'
 import ViewLog from '@/components/ViewLog'
+import Permissoes from '@/components/Permissoes'
 Vue.use(Router)
 
 export default new Router({
@@ -105,6 +106,11 @@ export default new Router({
       path: '/view/log',
       name: 'view-log',
       component: ViewLog
+    },
+    {
+      path: '/permissoes',
+      name: 'permissoes',
+      component: Permissoes
     }
   ]
 })
