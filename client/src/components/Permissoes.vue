@@ -18,14 +18,17 @@
               {{usuario.email}}
             </v-col>
             <v-col>
-              {{usuario.id}}
+              {{usuario.num_cpf}}
             </v-col>
             <v-col>
-              {{usuario.ind_usuario}}
+              {{usuario.ind_usuario | indUsuario}}
             </v-col>
             <v-col>
-              <v-btn class="green accent-2" fab ligth small right middle @click="mudarPermissao({userId: usuario.id})">
+              <v-btn class="green accent-2" v-if="usuario.ind_usuario === 'A'" fab ligth small right middle @click="mudarPermissao({userId: usuario.id})">
                 <v-icon>how_to_reg</v-icon>
+              </v-btn>
+              <v-btn class="red accent-2" v-if="usuario.ind_usuario === 'P'" fab ligth small right middle @click="mudarPermissao({userId: usuario.id})">
+                <v-icon>person_off</v-icon>
               </v-btn>
             </v-col>
           </v-row>

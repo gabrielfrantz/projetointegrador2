@@ -39,9 +39,13 @@ Vue.filter('nomeUser', function (value) {
   }
 })
 
-Vue.filter('string100', function (value) {
+Vue.filter('indUsuario', function (value) {
   if (value) {
-    return value.substr(0, 32)
+    if (value === 'P') {
+      return 'Professor'
+    } else {
+      return 'Aluno'
+    }
   }
 })
 
