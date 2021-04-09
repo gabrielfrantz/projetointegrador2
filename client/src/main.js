@@ -11,13 +11,14 @@ import store from '@/store/store'
 import moment from 'moment'
 import VueSimpleAlert from 'vue-simple-alert'
 import VueYouTubeEmbed from 'vue-youtube-embed'
-import Embed from 'v-video-embed'
 
 // import colors from 'vuetify/lib/util/colors'
-Vue.use(VueYouTubeEmbed)
+
+Vue.config.productionTip = false
+
 Vue.use(Vuetify)
 Vue.use(VueSimpleAlert)
-Vue.use(Embed)
+Vue.use(VueYouTubeEmbed)
 
 Vue.filter('formatDate', function (value) {
   if (value) {
