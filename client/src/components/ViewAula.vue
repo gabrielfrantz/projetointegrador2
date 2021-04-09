@@ -24,12 +24,14 @@ export default {
     return {
       aula: {},
       modulos: {},
+      userId: null,
       aulaId: null,
       error: null,
       videoId: null
     }
   },
   async mounted () {
+    this.userId = this.$store.state.userId
     if (this.$store.state.route.params.aulaId) {
       this.aulaId = this.$store.state.route.params.aulaId
     } else if (localStorage.aulaId) {
@@ -37,7 +39,7 @@ export default {
     } else {
       this.navigateTo({name: 'root'})
     }
-    this.aula = (await AulasService.show(this.aulaId)).data
+    this.aula = (await AulasService.show(this.userId, this.aulaId)).data
     this.videoId = this.aula.video_id
   },
   components: {
