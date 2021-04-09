@@ -1,14 +1,18 @@
 <template>
-  <div id="app">
-    <div class="card">
-      <youtube
-        ref="video"
-        :video-id='videoId'
-        player-width="100%"
-        :player-vars="{autoplay: 1}"
-      />
-    </div>
-  </div>
+  <v-layout ml-16 mr-16 mt-8>
+    <v-flex>
+      <panel :title="nom_aula">
+        <youtube
+          ref="video"
+          :video-id='videoId'
+          player-width="100%"
+          player-height="700px"
+          :player-vars="{autoplay: 1}"
+          aspectRatio="16:9"
+        />
+      </panel>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -27,7 +31,8 @@ export default {
       userId: null,
       aulaId: null,
       error: null,
-      videoId: null
+      videoId: null,
+      nom_aula: null
     }
   },
   async mounted () {
@@ -41,6 +46,7 @@ export default {
     }
     this.aula = (await AulasService.show(this.userId, this.aulaId)).data
     this.videoId = this.aula.video_id
+    this.nom_aula = this.aula.nom_aula
   },
   components: {
     Panel
