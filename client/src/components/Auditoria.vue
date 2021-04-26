@@ -111,13 +111,16 @@ export default {
       dtaEnd: null,
       menu1: false,
       menu2: false,
-      today: null
+      today: null,
+      tomorrow: null
     }
   },
   async mounted () {
     this.today = Date.now()
-    this.dtaStart = this.today ? moment(this.date).format('yyyy-MM-DD') : ''
-    this.dtaEnd = this.today ? moment(this.date).format('yyyy-MM-DD') : ''
+    this.dtaStart = this.today ? moment(this.today).format('yyyy-MM-DD') : ''
+    const todayMoment = moment()
+    this.tomorrow = todayMoment.clone().add(1, 'days')
+    this.dtaEnd = this.tomorrow ? moment(this.tomorrow).format('yyyy-MM-DD') : ''
     this.userId = this.$store.state.userId
     this.auditorias = (await AuditoriaService.viewQ(this.userId, 1, 10, this.dtaStart, this.dtaEnd)).data
   },

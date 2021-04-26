@@ -9,5 +9,8 @@ export default {
   },
   show (userId, aulaId) {
     return Api(userId).get(`aulaUsuario/${aulaId}/${userId}`)
+  },
+  showMedia (userId, aulaId) {
+    return Api(userId).get(`aulaUsuarioMedia/${aulaId}`)
   }
 }

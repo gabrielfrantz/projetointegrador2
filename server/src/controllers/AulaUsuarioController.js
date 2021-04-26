@@ -6,7 +6,10 @@ const AuditCreate = require('../core/AuditCreate');
 module.exports = {
   async view (req, res) {
     try {
-      const aulas = await AulaUsuario.findAll({})
+      const aulas = await AulaUsuario.findAll({
+        attributes: ['id_aula', [AulaUsuario.sequelize.fn('AVG', AulaUsuario.sequelize.col('qtd_estrela')), 'media_estrela']],
+        group: ['id_aula']
+      })
       res.send(aulas)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/viewAulaUsuario', req.params, req.body, err)
@@ -73,6 +76,8 @@ module.exports = {
   async show (req, res) {
     try {
       const aulaUsuario = await AulaUsuario.findOne({
+        attributes: ['id_aula', 'id_user', 'ind_concluido', [AulaUsuario.sequelize.fn('AVG', AulaUsuario.sequelize.col('qtd_estrela')), 'media_estrela']],
+        group: ['id_aula'],
         where: {
           id_aula: req.params.aulaId,
           id_user: req.params.userId
@@ -81,6 +86,23 @@ module.exports = {
       res.send(aulaUsuario)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/showAulaUsuario', req.params, req.body, err)
+      res.status(500).send({
+        error: 'Ocorreu um erro ao buscar a aula'
+      })
+    }
+  },
+  async showMedia (req, res) {
+    try {
+      const aulaUsuario = await AulaUsuario.findOne({
+        attributes: ['id_aula', [AulaUsuario.sequelize.fn('AVG', AulaUsuario.sequelize.col('qtd_estrela')), 'media_estrela']],
+        group: ['id_aula'],
+        where: {
+          id_aula: req.params.aulaId
+        }
+      })
+      res.send(aulaUsuario)
+    } catch (err) {
+      LogCreate.post(req.headers.userid, '/showMediaAulaUsuario', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao buscar a aula'
       })

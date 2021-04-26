@@ -49,4 +49,5 @@ module.exports = (app) => {
   app.get('/aulaUsuarios', AulaUsuarioController.view)  
   app.post('/aulaUsuario', AulaUsuarioController.upsert)  
   app.get('/aulaUsuario/:aulaId/:userId', AulaUsuarioController.show)  
+  app.get('/aulaUsuarioMedia/:aulaId', AulaUsuarioController.showMedia)  
 }
