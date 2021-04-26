@@ -53,6 +53,7 @@
                   ></v-date-picker>
                 </v-menu>
               </v-col>
+              <v-btn class="blue accent-3" @click="atualizar" dark>Atualizar</v-btn>
           </v-row>
           <v-row>
             <v-col cols="12" sm="4" md="3">
@@ -98,7 +99,6 @@
 import Panel from '@/components/Panel'
 import AuditoriaService from '@/services/AuditoriaService'
 import moment from 'moment'
-import observe from 'observe'
 export default {
   components: {
     Panel
@@ -111,8 +111,7 @@ export default {
       dtaEnd: null,
       menu1: false,
       menu2: false,
-      today: null,
-      observer: null
+      today: null
     }
   },
   async mounted () {
@@ -121,15 +120,13 @@ export default {
     this.dtaEnd = this.today ? moment(this.date).format('yyyy-MM-DD') : ''
     this.userId = this.$store.state.userId
     this.auditorias = (await AuditoriaService.viewQ(this.userId, 1, 10, this.dtaStart, this.dtaEnd)).data
-    this.observer = observe(this.menu1)
-    this.observer.on('change', function (change) {
-      alert('changed')
-      this.auditorias = (AuditoriaService.viewQ(this.userId, 1, 10, this.dtaStart, this.dtaEnd)).data
-    })
   },
   methods: {
     navigateTo (route) {
       this.$router.push(route)
+    },
+    async atualizar () {
+      this.auditorias = (await AuditoriaService.viewQ(this.userId, 1, 10, this.dtaStart, this.dtaEnd)).data
     }
   },
   computed: {

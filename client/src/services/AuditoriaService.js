@@ -4,8 +4,8 @@ export default {
   view (userId) {
     return Api(userId).get('auditoriaView')
   },
-  viewQ (userId, page, limit, dtaStart, dtaEnd) {
-    return Api(userId).get(`auditoriaView?page=${page}&limit=${limit}&dtastart=${dtaStart}&dtaend=${dtaEnd}`)
+  viewQ (userId, offset, limit, dtaStart, dtaEnd) {
+    return Api(userId).get(`auditoriaViewQ?offset=${offset}&limit=${limit}&dtaStart=${dtaStart}&dtaEnd=${dtaEnd}`)
   },
   show (userId, auditoriaId) {
     return Api(userId).get(`auditoria/${auditoriaId}`)
