@@ -4,6 +4,7 @@ const CursoController = require('./controllers/CursoController')
 const ModuloController = require('./controllers/ModuloController')
 const AulaController = require('./controllers/AulaController')
 const LogController = require('./controllers/LogController')
+const AuditoriaController = require('./controllers/AuditoriaController')
 
 module.exports = (app) => {
   app.post('/register', AuthenticationControllerPolicy.register, AuthenticationController.register)
@@ -34,4 +35,6 @@ module.exports = (app) => {
   app.delete('/aula/:aulaId', AulaController.delete)
   app.get('/logView', LogController.view)
   app.get('/log/:logId', LogController.show)
+  app.get('/auditoriaView', AuditoriaController.view)
+  app.get('/auditoria/:auditoriaId', AuditoriaController.show)
 }

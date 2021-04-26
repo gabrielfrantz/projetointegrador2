@@ -8,6 +8,7 @@
   <v-toolbar-items class="hidden-xs-only">
     <v-btn text  v-if="$store.state.isUserLoggedInAdm" @click="navigateTo({name: 'cursos'})">Gerenciar</v-btn>
     <v-btn text  v-if="$store.state.isUserLoggedInAdm" @click="navigateTo({name: 'log'})">Logs</v-btn>
+    <v-btn text  v-if="$store.state.isUserLoggedInAdm" @click="navigateTo({name: 'auditoria'})">Auditoria</v-btn>
     <v-btn text  v-if="$store.state.isUserLoggedInAdm" @click="navigateTo({name: 'permissoes'})">Permissões</v-btn>
     <v-btn text  v-if="$store.state.isUserLoggedIn" @click="navigateTo({name: 'perfil'})">Perfil</v-btn>
     <v-btn text  v-if="!$store.state.isUserLoggedIn" @click="navigateTo({name: 'register'})">Registrar-se</v-btn>
@@ -22,6 +23,7 @@
       <v-list class="responsiveMenu">
       <v-list-item v-if="$store.state.isUserLoggedIn"><v-btn text @click="navigateTo({name: 'cursos'})">Gerenciar</v-btn></v-list-item>
       <v-list-item v-if="$store.state.isUserLoggedIn"><v-btn text @click="navigateTo({name: 'log'})">Logs</v-btn></v-list-item>
+      <v-list-item v-if="$store.state.isUserLoggedIn"><v-btn text @click="navigateTo({name: 'auditoria'})">Auditoria</v-btn></v-list-item>
       <v-list-item v-if="$store.state.isUserLoggedIn"><v-btn text @click="navigateTo({name: 'permissoes'})">Permissões</v-btn></v-list-item>
       <v-list-item v-if="$store.state.isUserLoggedIn"><v-btn text @click="navigateTo({name: 'perfil'})">Perfil</v-btn></v-list-item>
       <v-list-item v-if="!$store.state.isUserLoggedIn"><v-btn text @click="navigateTo({name: 'register'})">Registrar-se</v-btn></v-list-item>

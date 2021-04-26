@@ -18,6 +18,9 @@ import HomeVisitante from '@/components/HomeVisitante'
 import Log from '@/components/Log'
 import ViewLog from '@/components/ViewLog'
 import Permissoes from '@/components/Permissoes'
+import Auditoria from '@/components/Auditoria'
+import ViewAuditoria from '@/components/ViewAuditoria'
+
 Vue.use(Router)
 
 export default new Router({
@@ -111,6 +114,16 @@ export default new Router({
       path: '/permissoes',
       name: 'permissoes',
       component: Permissoes
+    },
+    {
+      path: '/auditoria',
+      name: 'auditoria',
+      component: Auditoria
+    },
+    {
+      path: '/view/auditoria',
+      name: 'view-auditoria',
+      component: ViewAuditoria
     }
   ]
 })
