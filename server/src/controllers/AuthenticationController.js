@@ -1,7 +1,8 @@
 const { User } = require('../models')
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
-const LogCreate = require('../controllers/LogCreate')
+const LogCreate = require('../core/LogCreate')
+const AuditCreate = require('../core/AuditCreate');
 
 function jwtSignUser(user) {
   const ONE_WEEK = 60 * 60 * 24 * 7
@@ -27,6 +28,7 @@ module.exports = {
           })
       }
       const userJson = user.toJSON()
+      await AuditCreate.createAudit(null, user, "user", "CREATE", req.headers.userid, {});
       res.send({
         user: userJson,
         token: jwtSignUser(userJson)
@@ -52,6 +54,11 @@ module.exports = {
   },
   async put(req, res) {
     try {
+      const prevUser = await User.findOne({
+        where: {
+          id: req.params.userId
+        }
+      })
       const user = await User.update(
         {
           nom_pessoa: req.body.nom_pessoa,
@@ -63,6 +70,7 @@ module.exports = {
             id: req.params.userId
           }
         })
+      await AuditCreate.createAudit(prevUser, user, "user", "UPDATE", req.headers.userid, {});        
       res.send(user)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/putAuthentication', req.params, req.body, err)

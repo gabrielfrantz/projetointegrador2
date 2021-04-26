@@ -1,6 +1,7 @@
 const { Modulo } = require('../models')
 const { Aula } = require('../models')
-const LogCreate = require('../controllers/LogCreate')
+const LogCreate = require('../core/LogCreate')
+const AuditCreate = require('../core/AuditCreate');
 
 
 module.exports = {
@@ -44,6 +45,7 @@ module.exports = {
     try {
       console.log(req.body)
       const modulo = await Modulo.create(req.body)
+      await AuditCreate.createAudit(null, modulo, "modulo", "CREATE", req.headers.userid, {});
       res.send(modulo)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/postModulo', req.params, req.body, err)
@@ -54,11 +56,17 @@ module.exports = {
   },
   async put (req, res) {
     try {
+      const prevModulo = await Modulo.findOne({
+        where: {
+          id: req.params.moduloId
+        }
+      })
       const modulo = await Modulo.update(req.body, {
         where: {
           id: req.params.moduloId
         }
       })
+      await AuditCreate.createAudit(prevModulo, modulo, "modulo", "UPDATE", req.headers.userid, {});
       res.send(modulo)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/putModulo', req.params, req.body, err)
@@ -69,11 +77,17 @@ module.exports = {
   },
   async delete (req, res) {
     try {
+      const prevModulo = await Modulo.findOne({
+        where: {
+          id: req.params.moduloId
+        }
+      })
       await Modulo.destroy({
         where: {
           id: req.params.moduloId
         }
       })
+      await AuditCreate.createAudit(prevModulo, null, "modulo", "DELETE", req.headers.userid, {});
       res.send('')
     } catch (err) {
       LogCreate.post(req.headers.userid, '/deleteModulo', req.params, req.body, err)

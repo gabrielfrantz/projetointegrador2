@@ -1,4 +1,5 @@
 const { Log } = require('../models')
+const { Auditoria } = require('../models')
 
 module.exports.post = async (userId, nomUrl, desParams, desBody, desErro) => {
   try {

@@ -1,8 +1,8 @@
 <template>
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
-      <panel title="Logs">
-        <v-row>
+      <panel title="Auditorias">
+          <v-row>
             <v-col cols="6" sm="3" md="2">
                 <v-menu
                   v-model="menu1"
@@ -63,28 +63,28 @@
               Usuário
             </v-col>
             <v-col cols="6" sm="2">
-              Url
+              Tabela
             </v-col>
             <v-col cols="6" sm="1">
-              Erro
+              Ação
             </v-col>
           </v-row>
-          <div v-for="log in logs" :key="log.id">
+          <div v-for="auditoria in auditorias" :key="auditoria.id">
               <v-row>
                 <v-col cols="12" sm="4" md="3">
-                    {{log.createdAt | formatDate2}}
+                    {{auditoria.createdAt | formatDate2}}
                 </v-col>
                 <v-col cols="6" sm="2">
-                    {{log.User | nomeUser}}
+                    {{auditoria.User | nomeUser}}
                 </v-col>
                 <v-col cols="6" sm="2">
-                    {{log.nom_url}}
+                    {{auditoria.nom_table}}
                 </v-col>
                 <v-col cols="6" sm="1">
-                    {{log.nom_erro}}
+                    {{auditoria.tip_acao}}
                 </v-col>
                 <v-col cols="6" sm="1" md="4" >
-                  <v-btn class="green accent-2" fab ligth small right middle @click="navigateTo({name: 'view-log', params: {logId: log.id}})">
+                  <v-btn class="green accent-2" fab ligth small right middle @click="navigateTo({name: 'view-auditoria', params: {auditoriaId: auditoria.id}})">
                     <v-icon>visibility</v-icon>
                   </v-btn>
                 </v-col>
@@ -97,7 +97,7 @@
 
 <script>
 import Panel from '@/components/Panel'
-import LogService from '@/services/LogService'
+import AuditoriaService from '@/services/AuditoriaService'
 import moment from 'moment'
 export default {
   components: {
@@ -106,7 +106,7 @@ export default {
   data () {
     return {
       userId: null,
-      logs: null,
+      auditorias: null,
       dtaStart: null,
       dtaEnd: null,
       menu1: false,
@@ -122,14 +122,19 @@ export default {
     this.tomorrow = todayMoment.clone().add(1, 'days')
     this.dtaEnd = this.tomorrow ? moment(this.tomorrow).format('yyyy-MM-DD') : ''
     this.userId = this.$store.state.userId
-    this.logs = (await LogService.view(this.userId, this.dtaStart, this.dtaEnd)).data
+    this.auditorias = (await AuditoriaService.viewQ(this.userId, 1, 10, this.dtaStart, this.dtaEnd)).data
   },
   methods: {
     navigateTo (route) {
       this.$router.push(route)
     },
     async atualizar () {
-      this.logs = (await LogService.view(this.userId, this.dtaStart, this.dtaEnd)).data
+      this.auditorias = (await AuditoriaService.viewQ(this.userId, 1, 10, this.dtaStart, this.dtaEnd)).data
+    }
+  },
+  computed: {
+    computedDateFormattedMomentjs () {
+      return this.date ? moment(this.date).format('yyyy-mm-dd') : ''
     }
   }
 }

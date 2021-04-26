@@ -4,6 +4,8 @@ const CursoController = require('./controllers/CursoController')
 const ModuloController = require('./controllers/ModuloController')
 const AulaController = require('./controllers/AulaController')
 const LogController = require('./controllers/LogController')
+const AuditoriaController = require('./controllers/AuditoriaController')
+const AulaUsuarioController = require('./controllers/AulaUsuarioController')
 
 module.exports = (app) => {
   app.post('/register', AuthenticationControllerPolicy.register, AuthenticationController.register)
@@ -34,4 +36,18 @@ module.exports = (app) => {
   app.delete('/aula/:aulaId', AulaController.delete)
   app.get('/logView', LogController.view)
   app.get('/log/:logId', LogController.show)
+  app.get('/auditoriaView', AuditoriaController.view)
+  app.get('/auditoria/:auditoriaId', AuditoriaController.show)
+  app.get('/auditoriaViewQ', async function(req, res) {
+    AuditoriaController.viewQ(req, res)
+      .then((response) => {
+        res.status(response.status).json(response.message)
+      }).catch((error) => {
+        res.status(error.status).json(error.message);
+      })
+  })
+  app.get('/aulaUsuarios', AulaUsuarioController.view)  
+  app.post('/aulaUsuario', AulaUsuarioController.upsert)  
+  app.get('/aulaUsuario/:aulaId/:userId', AulaUsuarioController.show)  
+  app.get('/aulaUsuarioMedia/:aulaId', AulaUsuarioController.showMedia)  
 }

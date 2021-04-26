@@ -1,5 +1,6 @@
 const { Curso } = require('../models')
-const LogCreate = require('../controllers/LogCreate')
+const LogCreate = require('../core/LogCreate')
+const AuditCreate = require('../core/AuditCreate');
 
 module.exports = {
   async index (req, res) {
@@ -34,6 +35,7 @@ module.exports = {
     try {
       console.log(req.body)
       const curso = await Curso.create(req.body)
+      await AuditCreate.createAudit(null, curso, "curso", "CREATE", req.headers.userid, {});
       res.send(curso)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/postCurso', req.params, req.body, err)
@@ -44,11 +46,17 @@ module.exports = {
   },
   async put (req, res) {
     try {
+      const prevCurso = await Curso.findOne({
+        where: {
+          id: req.params.cursoId
+        }
+      })
       const curso = await Curso.update(req.body, {
         where: {
           id: req.params.cursoId
         }
       })
+      await AuditCreate.createAudit(prevCurso, curso, "curso", "UPDATE", req.headers.userid, {});
       res.send(curso)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/putCurso', req.params, req.body, err)
@@ -59,11 +67,17 @@ module.exports = {
   },
   async delete (req, res) {
     try {
+      const prevCurso = await Curso.findOne({
+        where: {
+          id: req.params.cursoId
+        }
+      })
       await Curso.destroy({
         where: {
           id: req.params.cursoId
         }
       })
+      await AuditCreate.createAudit(prevCurso, null, "curso", "DELETE", req.headers.userid, {});
       res.send('')
     } catch (err) {
       LogCreate.post(req.headers.userid, '/deleteCurso', req.params, req.body, err)
