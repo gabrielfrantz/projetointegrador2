@@ -37,4 +37,14 @@ module.exports = (app) => {
   app.get('/log/:logId', LogController.show)
   app.get('/auditoriaView', AuditoriaController.view)
   app.get('/auditoria/:auditoriaId', AuditoriaController.show)
+  app.get('/auditoriaViewQ', async function(req, res) {
+    console.log('auditQ')
+    AuditoriaController.viewQ(req, res)
+      .then((response) => {
+        res.status(response.status).json(response.message)
+      }).catch((error) => {
+        res.status(error.status).json(error.message);
+      })
+    console.log('auditQ2')
+  })
 }
