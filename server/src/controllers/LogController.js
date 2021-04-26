@@ -1,10 +1,13 @@
 const { Log } = require('../models')
 const { User } = require('../models')
 const LogCreate = require('../core/LogCreate')
+const { Op } = require('sequelize')
 
 module.exports = {
   async view(req, res) {
     try {
+      const startedDate = new Date(req.query.dtaStart + " 00:00:00");
+      const endDate = new Date(req.query.dtaEnd + " 00:00:00");
       Log.belongsTo(User, { foreignKey: 'id_user' })
       const logs = await Log.findAll({
         limit: 50,
@@ -13,7 +16,8 @@ module.exports = {
           model: User, 
           attributes: ['email', 'nom_pessoa'],
           required: false
-        }]
+        }],
+        where : {"createdAt" : {[Op.between] : [startedDate , endDate]}}
       })
       res.send(logs)
     } catch (err) {
