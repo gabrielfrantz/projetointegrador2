@@ -13,32 +13,22 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     prevValues: {    
-      type: DataTypes.TEXT,
-      allowNull: false
+      type: DataTypes.JSON,
+      allowNull: true
     },
     newValues: {
-      type: DataTypes.TEXT,
-      allowNull: false
+      type: DataTypes.JSON,
+      allowNull: true
     }
   })
 
-  return Auditoria
-}
-
-module.exports.post = async (action, model, options) => {
-  try {
-    console.log("chegou no cria auditoria")
-
-    auditoria = {
-      id_user: 1,
-      tip_acao: action,
-      nom_table: model._modelOptions.name.plural,
-      prevValues: JSON.stringify(model._previousDataValues, model.attributes),
-      newValues: JSON.stringify(model.dataValues, model.attributes)
-    }
-    console.log(auditoria)
-    Auditoria.create(auditoria)
-  } catch (err) {
-    console.log(err)
+  Auditoria.associate = models => {
+    Auditoria.belongsTo(models.User, {
+      foreignKey: {
+        allowNull: true
+      }
+    })
   }
+
+  return Auditoria
 }

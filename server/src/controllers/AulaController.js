@@ -1,5 +1,6 @@
 const { Aula } = require('../models')
-const LogCreate = require('../controllers/LogCreate')
+const LogCreate = require('../core/LogCreate')
+const AuditCreate = require('../core/AuditCreate');
 
 
 module.exports = {
@@ -38,6 +39,7 @@ module.exports = {
     try {
       console.log(req.body)
       const aula = await Aula.create(req.body)
+      await AuditCreate.createAudit(null, aula, "aula", "CREATE", req.headers.userid, {});
       res.send(aula)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/postAula', req.params, req.body, err)
@@ -48,12 +50,18 @@ module.exports = {
   },
   async put (req, res) {
     try {
+      const prevAula = await Aula.findOne({
+        where: {
+          id: req.params.aulaId
+        }
+      })
       const aula = await Aula.update(req.body, {
         individualHooks: true,
         where: {
           id: req.params.aulaId
         }
       })
+      await AuditCreate.createAudit(prevAula, aula, "aula", "UPDATE", req.headers.userid, {});
       res.send(aula)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/putAula', req.params, req.body, err)
@@ -64,11 +72,17 @@ module.exports = {
   },
   async delete (req, res) {
     try {
+      const prevAula = await Aula.findOne({
+        where: {
+          id: req.params.aulaId
+        }
+      })
       await Aula.destroy({
         where: {
           id: req.params.aulaId
         }
       })
+      await AuditCreate.createAudit(prevAula, null, "aula", "DELETE", req.headers.userid, {});
       res.send('')
     } catch (err) {
       LogCreate.post(req.headers.userid, '/deleteAula', req.params, req.body, err)

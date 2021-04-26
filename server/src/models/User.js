@@ -51,6 +51,12 @@ module.exports = (sequelize, DataTypes) => {
     })
   }
 
+  User.associate = models => {
+    User.hasMany(models.Auditoria, {
+      onDelete: "cascade"
+    })
+  }
+
   User.prototype.comparePassword = function (password) {
     var vtest = bcrypt.compareSync(password, this.password)
     return vtest;

@@ -1,5 +1,3 @@
-const AuditCreate = require('../controllers/AuditCreate')
-
 function getThumbnail(aula, options) {
   console.log(aula.src_video)
   video_id = aula.src_video
@@ -50,13 +48,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeCreate: getThumbnail,
-      beforeUpdate: getThumbnail,
-      afterCreate: (instance, options) => {
-        AuditCreate.post('create', instance, options)
-      },
-      afterUpdate: (instance, options) => {
-        AuditCreate.post('update', instance, options)
-      }
+      beforeUpdate: getThumbnail
     }
   })
 

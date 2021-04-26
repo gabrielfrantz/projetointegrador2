@@ -4,9 +4,6 @@ const { Auditoria } = require('../models')
 module.exports.post = async (userId, nomUrl, desParams, desBody, desErro) => {
   try {
     console.log("chegou no cria log")
-
-    const audits = await Auditoria.findAll({})
-    console.log(audits)
     
     log = {
       id_user: userId,
