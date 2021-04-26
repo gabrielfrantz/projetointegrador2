@@ -1,16 +1,22 @@
 <template>
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
-      <panel :title="nom_aula">
-        <youtube
-          ref="video"
-          :video-id='videoId'
-          player-width="100%"
-          player-height="700px"
-          :player-vars="{autoplay: 1}"
-          aspectRatio="16:9"
-        />
-      </panel>
+        <panel :title="nom_aula">
+          <youtube
+            ref="video"
+            :video-id='videoId'
+            player-width="100%"
+            player-height="700px"
+            :player-vars="{autoplay: 1}"
+            aspectRatio="16:9"
+          />
+        </panel>
+        <br>
+        <div>Clique nas entrelas para fazer sua avaliação sobre a videoaula:</div>
+        <star-rating class="justify-center" v-model="rating" ></star-rating>
+        <div>Avaliação selecionada: {{rating}}</div>
+        <br>
+        <br>
     </v-flex>
   </v-layout>
 </template>
@@ -21,6 +27,7 @@ import Vue from 'vue'
 import VueYouTubeEmbed from 'vue-youtube-embed'
 import Panel from '@/components/Panel'
 import AulasService from '@/services/AulasService'
+import {StarRating} from 'vue-rate-it'
 Vue.use(VueYouTubeEmbed)
 
 export default {
@@ -32,7 +39,8 @@ export default {
       aulaId: null,
       error: null,
       videoId: null,
-      nom_aula: null
+      nom_aula: null,
+      rating: 4.5
     }
   },
   async mounted () {
@@ -49,7 +57,8 @@ export default {
     this.nom_aula = this.aula.nom_aula
   },
   components: {
-    Panel
+    Panel,
+    StarRating
   },
   methods: {
     navigateTo (route) {
