@@ -28,6 +28,7 @@
     "nodemon": "^2.0.4",
     "sequelize": "^5.21.13",
     "sqlite3": "^4.2.0",
+    "underscore": "^1.13.1",
     "v-aspect-ratio": "^2.0.1",
     "v-video-embed": "^1.0.8",
     "vue-lazytube": "^1.0.1",
