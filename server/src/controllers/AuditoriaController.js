@@ -1,12 +1,11 @@
 const { Auditoria } = require('../models')
 const { User } = require('../models')
 const LogCreate = require('../core/LogCreate')
+const { Op } = require('sequelize')
 
 module.exports = {
   async view(req, res) {
     try {
-      console.log(offset)
-
       Auditoria.belongsTo(User, { foreignKey: 'id_user' })
       const audits = await Auditoria.findAll({
         order: [['createdAt', 'desc']],
@@ -47,12 +46,11 @@ module.exports = {
   },
   async viewQ(req, res) {
     try {
-      console.log(req.query)
-      let page = req.query.page
       let limit = req.query.limit
-      let id_user = req.query.id_user
-      let offset = (page * limit) - limit
+      let offset = req.query.offset
 
+      const startedDate = new Date(req.query.dtaStart + " 00:00:00");
+      const endDate = new Date(req.query.dtaEnd + " 00:00:00");
       Auditoria.belongsTo(User, { foreignKey: 'id_user' })
       const audits = await Auditoria.findAll({
         limit: limit,
@@ -63,9 +61,7 @@ module.exports = {
           attributes: ['email', 'nom_pessoa'],
           required: false
         }],
-        where: {
-          id_user: id_user
-        }
+        where : {"createdAt" : {[Op.between] : [startedDate , endDate ]}}
       })
       return Promise.resolve({
         status: 200,

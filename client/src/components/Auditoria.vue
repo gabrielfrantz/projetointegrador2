@@ -3,6 +3,58 @@
     <v-flex>
       <panel title="Auditorias">
           <v-row>
+            <v-col cols="6" sm="3" md="2">
+                <v-menu
+                  v-model="menu1"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="dtaStart"
+                      label="Fim"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="dtaStart"
+                    @input="menu1 = false"
+                  ></v-date-picker>
+                </v-menu>
+              </v-col>
+              <v-col cols="6" sm="3" md="2">
+                <v-menu
+                  v-model="menu2"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="dtaEnd"
+                      label="Fim"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="dtaEnd"
+                    @input="menu2 = false"
+                  ></v-date-picker>
+                </v-menu>
+              </v-col>
+          </v-row>
+          <v-row>
             <v-col cols="12" sm="4" md="3">
               Data
             </v-col>
@@ -45,6 +97,8 @@
 <script>
 import Panel from '@/components/Panel'
 import AuditoriaService from '@/services/AuditoriaService'
+import moment from 'moment'
+import observe from 'observe'
 export default {
   components: {
     Panel
@@ -52,16 +106,35 @@ export default {
   data () {
     return {
       userId: null,
-      auditorias: null
+      auditorias: null,
+      dtaStart: null,
+      dtaEnd: null,
+      menu1: false,
+      menu2: false,
+      today: null,
+      observer: null
     }
   },
   async mounted () {
+    this.today = Date.now()
+    this.dtaStart = this.today ? moment(this.date).format('yyyy-MM-DD') : ''
+    this.dtaEnd = this.today ? moment(this.date).format('yyyy-MM-DD') : ''
     this.userId = this.$store.state.userId
-    this.auditorias = (await AuditoriaService.view(this.userId)).data
+    this.auditorias = (await AuditoriaService.viewQ(this.userId, 1, 10, this.dtaStart, this.dtaEnd)).data
+    this.observer = observe(this.menu1)
+    this.observer.on('change', function (change) {
+      alert('changed')
+      this.auditorias = (AuditoriaService.viewQ(this.userId, 1, 10, this.dtaStart, this.dtaEnd)).data
+    })
   },
   methods: {
     navigateTo (route) {
       this.$router.push(route)
+    }
+  },
+  computed: {
+    computedDateFormattedMomentjs () {
+      return this.date ? moment(this.date).format('yyyy-mm-dd') : ''
     }
   }
 }
