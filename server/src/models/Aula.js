@@ -57,6 +57,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         allowNull: false
       }
+    }),
+    Aula.hasMany(models.AulaUsuario, {
+      onDelete: "cascade"
     })
   }
 

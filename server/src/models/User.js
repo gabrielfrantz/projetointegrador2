@@ -48,11 +48,11 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = models => {
     User.hasMany(models.Log, {
       onDelete: "cascade"
-    })
-  }
-
-  User.associate = models => {
+    }),
     User.hasMany(models.Auditoria, {
+      onDelete: "cascade"
+    }),
+    User.hasMany(models.AulaUsuario, {
       onDelete: "cascade"
     })
   }
