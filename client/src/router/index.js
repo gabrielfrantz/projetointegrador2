@@ -21,6 +21,9 @@ import Permissoes from '@/components/Permissoes'
 import Auditoria from '@/components/Auditoria'
 import ViewAuditoria from '@/components/ViewAuditoria'
 import VueEllipseProgress from 'vue-ellipse-progress'
+import CriarAssinatura from '@/components/CriarAssinatura'
+import Assinatura from '@/components/Assinatura'
+import EditarAssinatura from '@/components/EditarAssinatura'
 
 Vue.use(VueEllipseProgress)
 Vue.use(Router)
@@ -126,6 +129,21 @@ export default new Router({
       path: '/view/auditoria',
       name: 'view-auditoria',
       component: ViewAuditoria
+    },
+    {
+      path: '/criar/assinatura',
+      name: 'criar-assinatura',
+      component: CriarAssinatura
+    },
+    {
+      path: '/assinatura',
+      name: 'assinatura',
+      component: Assinatura
+    },
+    {
+      path: '/editar/assinatura',
+      name: 'editar-assinatura',
+      component: EditarAssinatura
     }
   ]
 })
