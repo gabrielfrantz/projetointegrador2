@@ -15,7 +15,7 @@
           <v-col>
             <div class="text-center">
               Clique aqui para fazer sua avaliação da aula:
-              <star-rating class="justify-center" v-model="rating" @click="saveRate({})"></star-rating>
+              <star-rating class="justify-center" v-model="rating" @rating-selected="saveRate()"></star-rating>
             </div>
           </v-col>
           <v-col>
@@ -98,9 +98,25 @@ export default {
     navigateTo (route) {
       this.$router.push(route)
     },
-    saveRate () {
-      alert('teste')
-      alert(this.rating)
+    async saveRate () {
+      const aulaUser = {
+        id_user: this.userId,
+        id_aula: this.aulaId,
+        qtd_estrela: this.rating
+      }
+      await AulaUsuarioService.post(this.userId, aulaUser)
+      this.userRate = (await AulaUsuarioService.show(this.userId, this.aulaId)).data
+      this.media = (await AulaUsuarioService.showMedia(this.userId, this.aulaId)).data
+      this.rating = this.userRate.qtd_estrela
+      this.mediaRate = this.media.media_estrela
+      this.perRate = ((this.mediaRate * 100) / 5)
+      if (this.perRate <= 33) {
+        this.color = 'red'
+      } else if (this.perRate <= 66) {
+        this.color = 'yellow'
+      } else {
+        this.color = 'green'
+      }
     }
   },
   watch: {
