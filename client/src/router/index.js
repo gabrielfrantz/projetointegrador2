@@ -20,7 +20,9 @@ import ViewLog from '@/components/ViewLog'
 import Permissoes from '@/components/Permissoes'
 import Auditoria from '@/components/Auditoria'
 import ViewAuditoria from '@/components/ViewAuditoria'
+import VueEllipseProgress from 'vue-ellipse-progress'
 
+Vue.use(VueEllipseProgress)
 Vue.use(Router)
 
 export default new Router({

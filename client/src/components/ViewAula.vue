@@ -16,6 +16,17 @@
         <star-rating class="justify-center" v-model="rating" ></star-rating>
         <div>Avaliação selecionada: {{rating}}</div>
         <br>
+        <div class="text-center">
+          <v-progress-circular
+          :rotate="90"
+          :size="100"
+          :width="15"
+          :value="value"
+          color="red"
+         >
+        {{ value }}
+        </v-progress-circular>
+        </div>
         <br>
     </v-flex>
   </v-layout>
@@ -28,6 +39,7 @@ import VueYouTubeEmbed from 'vue-youtube-embed'
 import Panel from '@/components/Panel'
 import AulasService from '@/services/AulasService'
 import {StarRating} from 'vue-rate-it'
+
 Vue.use(VueYouTubeEmbed)
 
 export default {
@@ -40,7 +52,8 @@ export default {
       error: null,
       videoId: null,
       nom_aula: null,
-      rating: 4.5
+      rating: null,
+      value: 98 + '%'
     }
   },
   async mounted () {
@@ -81,5 +94,8 @@ export default {
   border-radius: 0px;
   padding: 10px;
   margin: 0 auto;
+}
+.v-progress-circular {
+  margin: 1rem
 }
 </style>
