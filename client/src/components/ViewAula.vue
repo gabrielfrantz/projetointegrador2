@@ -32,6 +32,11 @@
             </v-progress-circular>
             </div>
           </v-col>
+          <v-col>
+            <div class="v-input__slot">
+            <div id="selector"><div class="checkbox"><v-checkbox v-model="ind_concluido" label="Marcar como concluída" @click="saveConcluido()"></v-checkbox></div></div>
+            </div>
+          </v-col>
         </v-row>
     </v-flex>
   </v-layout>
@@ -59,6 +64,7 @@ export default {
       error: null,
       videoId: null,
       nom_aula: null,
+      ind_concluido: null,
       rating: null,
       mediaRate: null,
       perRate: null,
@@ -89,6 +95,11 @@ export default {
     }
     this.videoId = this.aula.video_id
     this.nom_aula = this.aula.nom_aula
+    var concluido = true
+    if (this.userRate.ind_concluido === 'N') {
+      concluido = false
+    }
+    this.ind_concluido = concluido
   },
   components: {
     Panel,
@@ -117,6 +128,18 @@ export default {
       } else {
         this.color = 'green'
       }
+    },
+    async saveConcluido () {
+      var concluido = 'N'
+      if (this.ind_concluido) {
+        concluido = 'S'
+      }
+      const aulaUser = {
+        id_user: this.userId,
+        id_aula: this.aulaId,
+        ind_concluido: concluido
+      }
+      await AulaUsuarioService.post(this.userId, aulaUser)
     }
   },
   watch: {
@@ -138,5 +161,9 @@ export default {
 }
 .v-progress-circular {
   margin: 1rem
+}
+.v-input__slot {
+  align-items: center;
+  justify-content: center;
 }
 </style>

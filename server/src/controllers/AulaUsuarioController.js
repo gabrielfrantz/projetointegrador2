@@ -1,7 +1,7 @@
 const { AulaUsuario } = require('../models')
 const LogCreate = require('../core/LogCreate')
-const AuditCreate = require('../core/AuditCreate');
-
+const AuditCreate = require('../core/AuditCreate')
+const { Op } = require('sequelize')
 
 module.exports = {
   async view (req, res) {
@@ -92,10 +92,13 @@ module.exports = {
   async showMedia (req, res) {
     try {
       const aulaUsuario = await AulaUsuario.findOne({
-        attributes: ['id_aula', [AulaUsuario.sequelize.fn('AVG', AulaUsuario.sequelize.col('qtd_estrela')), 'media_estrela']],
+        attributes: ['id_aula', 
+          [AulaUsuario.sequelize.fn('AVG', AulaUsuario.sequelize.col('qtd_estrela')), 'media_estrela'],
+          [AulaUsuario.sequelize.fn('COUNT', AulaUsuario.sequelize.col('qtd_estrela')), 'qtd_voto']],
         group: ['id_aula'],
         where: {
-          id_aula: req.params.aulaId
+          id_aula: req.params.aulaId,
+          qtd_estrela: {[Op.ne]: null}
         }
       })
       res.send(aulaUsuario)
