@@ -22,28 +22,16 @@
           <div v-for="assinatura in assinaturas" :key="assinatura.id">
               <v-row>
                 <v-col cols="12" sm="4" md="3">
-                    {{assinatura.nom_assinatura}}
+                  {{assinatura.nom_assinatura}}
                 </v-col>
                 <v-col cols="6" sm="2">
-                    R$ {{assinatura.vlr_assinatura}}
+                  {{assinatura.vlr_assinatura | toCurrency}}
                 </v-col>
                 <v-col cols="6" sm="2">
-                  {{assinatura.ind_periodo}}
-                  <!-- <div v-if="'{{assinatura.ind_periodo}}' === 'M'">
-                    Mensal
-                  </div>
-                  <div class="v-else">
-                    Anual
-                  </div> -->
+                  {{assinatura.ind_periodo | indAssinatura}}
                 </v-col>
                 <v-col cols="6" sm="1">
-                  {{assinatura.ind_visivel}}
-                  <!-- <div v-if="'{{assinatura.ind_visivel}}' === 'S'">
-                    Sim
-                  </div>
-                  <div v-else>
-                    Não
-                  </div> -->
+                  {{assinatura.ind_visivel | indSimNao}}
                 </v-col>
                 <v-col cols="6" sm="1" md="4" >
                   <v-btn class="green accent-2" fab ligth small right middle @click="navigateTo({name: 'editar-assinatura', params: {assinaturaId: assinatura.id}})">

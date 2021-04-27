@@ -40,12 +40,32 @@ Vue.filter('nomeUser', function (value) {
   }
 })
 
+Vue.filter('indSimNao', function (value) {
+  if (value) {
+    if (value === 'S') {
+      return 'Sim'
+    } else {
+      return 'Não'
+    }
+  }
+})
+
 Vue.filter('indUsuario', function (value) {
   if (value) {
     if (value === 'P') {
       return 'Professor'
     } else {
       return 'Aluno'
+    }
+  }
+})
+
+Vue.filter('indAssinatura', function (value) {
+  if (value) {
+    if (value === 'M') {
+      return 'Mensal'
+    } else {
+      return 'Anual'
     }
   }
 })

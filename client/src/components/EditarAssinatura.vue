@@ -48,7 +48,11 @@ export default {
     this.assinaturaId = this.assinatura.id
     this.nom_assinatura = this.assinatura.nom_assinatura
     this.vlr_assinatura = this.assinatura.vlr_assinatura
-    this.ind_periodo = this.assinatura.ind_periodo
+    var periodo = 'Mensal'
+    if (this.assinatura.ind_periodo === 'A') {
+      periodo = 'Anual'
+    }
+    this.ind_periodo = periodo
     var visivel = true
     if (this.assinatura.ind_visivel === 'N') {
       visivel = false
