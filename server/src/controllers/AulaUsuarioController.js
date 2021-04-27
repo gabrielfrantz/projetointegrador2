@@ -76,8 +76,6 @@ module.exports = {
   async show (req, res) {
     try {
       const aulaUsuario = await AulaUsuario.findOne({
-        attributes: ['id_aula', 'id_user', 'ind_concluido', [AulaUsuario.sequelize.fn('AVG', AulaUsuario.sequelize.col('qtd_estrela')), 'media_estrela']],
-        group: ['id_aula'],
         where: {
           id_aula: req.params.aulaId,
           id_user: req.params.userId
