@@ -1,7 +1,7 @@
 <template>
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
-      <panel title="Logs">
+      <panel title="Controle de Logs">
         <v-row>
             <v-col cols="6" sm="3" md="2">
                 <v-menu

@@ -1,7 +1,7 @@
 <template>
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
-      <panel title="Auditorias">
+      <panel title="Controle de Auditorias">
           <v-row>
             <v-col cols="6" sm="3" md="2">
                 <v-menu
@@ -53,7 +53,7 @@
                   ></v-date-picker>
                 </v-menu>
               </v-col>
-              <v-btn class="blue accent-3" @click="atualizar" dark>Atualizar</v-btn>
+              <v-btn class="blue accent-3" @click="atualizar" dark>Filtrar</v-btn>
           </v-row>
           <v-row>
             <v-col cols="12" sm="4" md="3">

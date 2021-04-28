@@ -1,7 +1,7 @@
 <template>
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
-      <panel title='Usuários'>
+      <panel title='Controle de Permissões'>
         <v-row>
           <v-col>Nome</v-col>
           <v-col>Email</v-col>

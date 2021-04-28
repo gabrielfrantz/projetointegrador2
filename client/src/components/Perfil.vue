@@ -1,7 +1,7 @@
 <template>
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
-      <panel title="Perfil">
+      <panel title="Perfil do Usuário">
         <v-text-field label="Nome:*" v-model="nom_pessoa" required :rules="[required]"></v-text-field>
         <v-text-field label="CPF:*" v-model="num_cpf" required :rules="[required]"></v-text-field>
         <div class="danger-alert" v-if="error">{{error}}</div>
