@@ -2,6 +2,22 @@
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
       <panel title="Controle de Logs">
+        <div class="d-flex justify-end">
+          <vue-json-to-csv
+            :json-data="Object.values(logs)"
+            :csv-title="'Logs'"
+            :labels="{
+              createdAt: { title: 'Criação' },
+              User: { title: 'Usuário' },
+              nom_url: { title: 'URL' },
+              nom_erro: { title: 'Erro' }
+            }"
+          >
+            <v-btn color="success" class="">
+              CSV <i class="mdi mdi-export-variant" aria-hidden="true"></i>
+            </v-btn>
+          </vue-json-to-csv>
+        </div>
         <v-row>
             <v-col cols="6" sm="3" md="2">
                 <v-menu
@@ -99,9 +115,11 @@
 import Panel from '@/components/Panel'
 import LogService from '@/services/LogService'
 import moment from 'moment'
+import VueJsonToCsv from 'vue-json-to-csv'
 export default {
   components: {
-    Panel
+    Panel,
+    VueJsonToCsv
   },
   data () {
     return {

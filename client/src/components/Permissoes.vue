@@ -2,12 +2,29 @@
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
       <panel title='Controle de Permissões'>
+          <div class="d-flex justify-end">
+          <vue-json-to-csv
+            :json-data="Object.values(usuarios)"
+            :csv-title="'PermissoesUsuarios'"
+            :labels="{
+              id: { title: 'Código' },
+              nom_pessoa: { title: 'Nome' },
+              email: { title: 'E-mail' },
+              num_cpf: { title: 'CPF' },
+              ind_usuario: { title: 'Permissão' }
+            }"
+          >
+            <v-btn color="success" class="">
+              CSV <i class="mdi mdi-export-variant" aria-hidden="true"></i>
+            </v-btn>
+          </vue-json-to-csv>
+          </div>
         <v-row>
-          <v-col>Nome</v-col>
-          <v-col>Email</v-col>
-          <v-col>CPF</v-col>
-          <v-col>Permissão</v-col>
-          <v-col>Ações</v-col>
+          <v-col><span class="font-weight-bold">Nome</span></v-col>
+          <v-col> <span class="font-weight-bold">Email</span></v-col>
+          <v-col> <span class="font-weight-bold">CPF</span></v-col>
+          <v-col> <span class="font-weight-bold">Permissão</span></v-col>
+          <v-col> <span class="font-weight-bold">Ações</span></v-col>
         </v-row>
         <div v-for="usuario in usuarios" :key="usuario.id">
           <v-row>
@@ -41,9 +58,12 @@
 <script>
 import Panel from '@/components/Panel'
 import AuthenticationService from '@/services/AuthenticationService'
+import VueJsonToCsv from 'vue-json-to-csv'
+
 export default {
   components: {
-    Panel
+    Panel,
+    VueJsonToCsv
   },
   data () {
     return {

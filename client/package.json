@@ -24,6 +24,8 @@
     "vue-comment-grid": "^1.0.12",
     "vue-dynamic-star-rating": "^1.0.8",
     "vue-ellipse-progress": "^1.3.0",
+    "vue-json-csv": "^1.2.12",
+    "vue-json-to-csv": "^1.1.8",
     "vue-rate": "^2.4.0",
     "vue-rate-it": "^2.1.0",
     "vue-router": "^3.0.1",
