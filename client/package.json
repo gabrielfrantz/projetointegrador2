@@ -15,6 +15,8 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "jspdf": "^2.3.1",
+    "jspdf-autotable": "^3.5.14",
     "moment": "^2.29.1",
     "observe": "^1.4.1",
     "v-aspect-ratio": "^2.0.1",
