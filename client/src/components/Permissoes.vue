@@ -66,7 +66,7 @@
 import Panel from '@/components/Panel'
 import AuthenticationService from '@/services/AuthenticationService'
 import VueJsonToCsv from 'vue-json-to-csv'
-import jsPDF from 'jspdf'
+import JsPDF from 'jspdf'
 import 'jspdf-autotable'
 
 export default {
@@ -106,39 +106,12 @@ export default {
         { title: 'CPF', dataKey: 'num_cpf' },
         { title: 'Permissão', dataKey: 'ind_usuario' }
       ]
-      const doc = new jsPDF({
-        orientation: 'portrait',
-        unit: 'in',
-        format: 'letter'
-      })
-      // text is placed using x, y coordinates
-      doc.setFontSize(16).text(this.heading, 0.5, 1.0)
-      // create a line under heading
-      doc.setLineWidth(0.01).line(0.5, 1.1, 8.0, 1.1)
-      // Using autoTable plugin
+      const doc = new JsPDF()
       doc.autoTable({
         columns,
-        body: Object.values(this.usuarios),
-        margin: { left: 0.5, top: 1.25 }
+        body: Object.values(this.usuarios)
       })
-      // Using array of sentences
-      doc
-        .setFont('helvetica')
-        .setFontSize(12)
-        .text(this.moreText, 0.5, 3.5, { align: 'left', maxWidth: '7.5' })
-      // Creating footer and saving file
       doc.save(`${this.heading}.pdf`)
-      // doc
-      //   .setFont('times')
-      //   .setFontSize(11)
-      //   .setFontStyle('italic')
-      //   .setTextColor(0, 0, 255)
-      //   .text(
-      //     'This is a simple footer located .5 inches from page bottom',
-      //     0.5,
-      //     doc.internal.pageSize.height - 0.5
-      //   )
-      //   .save(`${this.heading}.pdf`)
     }
   }
 }
