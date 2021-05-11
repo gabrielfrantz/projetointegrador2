@@ -47,20 +47,15 @@
             <br>
             <br>
             <div v-for="comentario in comentarios" :key="comentario.id">
-            <panel :title="comentario.User | nomeUser">
+            <panel :title="formatUsuarioData(comentario.User, comentario.updatedAt)">
+              <v-btn class="red accent-1" slot="newButton" fab ligth small absolute right middle @click="deleteComentario({comentarioId: comentario.id})">
+              <v-icon>delete</v-icon>
+              </v-btn>
             <v-row>
             <v-col cols="6" sm="1" md="4" v-if="comentario.User.id == userId">
             </v-col>
             </v-row>
             <v-text-field class="border" v-model="comentario.des_comentario" :readonly="comentario.User.id != userId" color="primary">
-            <template v-slot:append>
-              <v-btn class="green accent-2" fab ligth small right middle @click="updateComentario({comentarioId: comentario.id, comentarioDes: comentario.des_comentario})">
-              <v-icon>edit</v-icon>
-              </v-btn>
-              <v-btn class="red accent-1" fab ligth small right middle @click="deleteComentario({comentarioId: comentario.id})">
-              <v-icon>delete</v-icon>
-              </v-btn>
-            </template>
             </v-text-field>
             </panel>
            </div>
@@ -78,6 +73,7 @@ import AulasService from '@/services/AulasService'
 import AulaUsuarioService from '@/services/AulaUsuarioService'
 import ComentarioAulaService from '@/services/ComentarioAulaService'
 import {StarRating} from 'vue-rate-it'
+import moment from 'moment'
 
 Vue.use(VueYouTubeEmbed)
 
@@ -145,6 +141,16 @@ export default {
     },
     clearComentario () {
       this.des_comentario = null
+    },
+    formatUsuarioData (user, data) {
+      var texto = ''
+      if (user) {
+        texto = user.nom_pessoa || user.email
+      }
+      if (data) {
+        texto = texto + ' comentado em ' + moment(String(data)).format('DD/MM/YYYY HH:mm:ss')
+      }
+      return texto
     },
     async saveComentario () {
       const comentarioAula = {
