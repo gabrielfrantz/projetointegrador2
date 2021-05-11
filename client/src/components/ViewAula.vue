@@ -44,26 +44,26 @@
             <div class="danger-alert" v-if="error">{{error}}</div>
             <v-btn class="green accent-3" @click="saveComentario" dark>Salvar</v-btn>
             <v-btn class="red" @click="clearComentario" dark>Cancelar</v-btn>
-          <div v-for="comentario in comentarios" :key="comentario.id">
-            <v-text-field class="border" v-model="comentario.des_comentario" :readonly="comentario.User.id != userId">
-            </v-text-field>
+            <br>
+            <br>
+            <div v-for="comentario in comentarios" :key="comentario.id">
+            <panel :title="comentario.User | nomeUser">
             <v-row>
-              <v-col cols="12" sm="4">
-                  {{comentario.User | nomeUser}}
-              </v-col>
-              <v-col cols="12" sm="4">
-                  {{comentario.createdAt | formatDate2}}
-              </v-col>
-              <v-col cols="6" sm="1" md="4" v-if="comentario.User.id == userId">
-                <v-btn class="green accent-2" fab ligth small right middle @click="updateComentario({comentarioId: comentario.id, comentarioDes: comentario.des_comentario})">
-                  <v-icon>edit</v-icon>
-                </v-btn>
-                <v-btn class="red accent-1" fab ligth small right middle @click="deleteComentario({comentarioId: comentario.id})">
-                  <v-icon>delete</v-icon>
-                </v-btn>
-              </v-col>
+            <v-col cols="6" sm="1" md="4" v-if="comentario.User.id == userId">
+            </v-col>
             </v-row>
-          </div>
+            <v-text-field class="border" v-model="comentario.des_comentario" :readonly="comentario.User.id != userId" color="primary">
+            <template v-slot:append>
+              <v-btn class="green accent-2" fab ligth small right middle @click="updateComentario({comentarioId: comentario.id, comentarioDes: comentario.des_comentario})">
+              <v-icon>edit</v-icon>
+              </v-btn>
+              <v-btn class="red accent-1" fab ligth small right middle @click="deleteComentario({comentarioId: comentario.id})">
+              <v-icon>delete</v-icon>
+              </v-btn>
+            </template>
+            </v-text-field>
+            </panel>
+           </div>
         </panel>
     </v-flex>
   </v-layout>
