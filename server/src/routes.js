@@ -59,4 +59,6 @@ module.exports = (app) => {
   app.delete('/assinatura/:assinaturaId', AssinaturaController.delete)
   app.get('/comentarioAula/:aulaId', ComentarioAulaController.view)  
   app.post('/comentarioAula', ComentarioAulaController.post)  
+  app.put('/comentarioAula/:comentarioId', ComentarioAulaController.put)  
+  app.delete('/comentarioAula/:comentarioId', ComentarioAulaController.delete)  
 }

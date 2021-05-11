@@ -38,6 +38,33 @@
             </div>
           </v-col>
         </v-row>
+        <panel title="Comentários">
+          <v-text-field placeholder="Adicionar comentário*" class="border" v-model="des_comentario" required :rules="[required]">
+          </v-text-field>
+            <div class="danger-alert" v-if="error">{{error}}</div>
+            <v-btn class="green accent-3" @click="saveComentario" dark>Salvar</v-btn>
+            <v-btn class="red" @click="clearComentario" dark>Cancelar</v-btn>
+          <div v-for="comentario in comentarios" :key="comentario.id">
+            <v-text-field class="border" v-model="comentario.des_comentario" :readonly="comentario.User.id != userId">
+            </v-text-field>
+            <v-row>
+              <v-col cols="12" sm="4">
+                  {{comentario.User | nomeUser}}
+              </v-col>
+              <v-col cols="12" sm="4">
+                  {{comentario.createdAt | formatDate2}}
+              </v-col>
+              <v-col cols="6" sm="1" md="4" v-if="comentario.User.id == userId">
+                <v-btn class="green accent-2" fab ligth small right middle @click="updateComentario({comentarioId: comentario.id, comentarioDes: comentario.des_comentario})">
+                  <v-icon>edit</v-icon>
+                </v-btn>
+                <v-btn class="red accent-1" fab ligth small right middle @click="deleteComentario({comentarioId: comentario.id})">
+                  <v-icon>delete</v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+        </panel>
     </v-flex>
   </v-layout>
 </template>
@@ -49,6 +76,7 @@ import VueYouTubeEmbed from 'vue-youtube-embed'
 import Panel from '@/components/Panel'
 import AulasService from '@/services/AulasService'
 import AulaUsuarioService from '@/services/AulaUsuarioService'
+import ComentarioAulaService from '@/services/ComentarioAulaService'
 import {StarRating} from 'vue-rate-it'
 
 Vue.use(VueYouTubeEmbed)
@@ -59,16 +87,21 @@ export default {
       aula: {},
       media: {},
       modulos: {},
+      comentarios: {},
+      comentario: null,
       userId: null,
       aulaId: null,
       error: null,
+      errorUpdate: null,
       videoId: null,
       nom_aula: null,
       ind_concluido: null,
       rating: null,
       mediaRate: null,
       perRate: null,
-      color: null
+      color: null,
+      des_comentario: null,
+      required: (value) => !!value || 'Required.'
     }
   },
   async mounted () {
@@ -83,6 +116,7 @@ export default {
     this.aula = (await AulasService.show(this.userId, this.aulaId)).data
     this.userRate = (await AulaUsuarioService.show(this.userId, this.aulaId)).data
     this.media = (await AulaUsuarioService.showMedia(this.userId, this.aulaId)).data
+    this.comentarios = (await ComentarioAulaService.view(this.userId, this.aulaId)).data
     this.rating = this.userRate.qtd_estrela
     this.mediaRate = this.media.media_estrela
     this.perRate = ((this.mediaRate * 100) / 5)
@@ -108,6 +142,40 @@ export default {
   methods: {
     navigateTo (route) {
       this.$router.push(route)
+    },
+    clearComentario () {
+      this.des_comentario = null
+    },
+    async saveComentario () {
+      const comentarioAula = {
+        id_user: this.userId,
+        id_aula: this.aulaId,
+        des_comentario: this.des_comentario
+      }
+      const areAllFieldsFilledIn = Object
+        .keys(comentarioAula)
+        .every(key => !!comentarioAula[key])
+      if (!areAllFieldsFilledIn) {
+        this.error = 'Informe todos os campos obrigatórios'
+        return
+      }
+      await ComentarioAulaService.post(this.userId, comentarioAula)
+      this.comentarios = (await ComentarioAulaService.view(this.userId, this.aulaId)).data
+      this.des_comentario = null
+    },
+    async updateComentario (comentarioId, comentarioDes) {
+      const comentarioAula = {
+        id: comentarioId.comentarioId,
+        id_user: this.userId,
+        id_aula: this.aulaId,
+        des_comentario: comentarioDes
+      }
+      await ComentarioAulaService.put(this.userId, comentarioId.comentarioId, comentarioAula)
+      this.comentarios = (await ComentarioAulaService.view(this.userId, this.aulaId)).data
+    },
+    async deleteComentario (comentarioId) {
+      confirm('Are you sure you want to delete this item?') && await ComentarioAulaService.delete(this.userId, comentarioId.comentarioId)
+      this.comentarios = (await ComentarioAulaService.view(this.userId, this.aulaId)).data
     },
     async saveRate () {
       const aulaUser = {
