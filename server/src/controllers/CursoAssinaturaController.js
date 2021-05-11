@@ -43,16 +43,21 @@ module.exports = {
   },
   async delete (req, res) {
     try {
+      console.log('delete')
       const prevCursoAssinatura = await CursoAssinatura.findOne({
         where: {
-          id: req.params.cursoAssinaturaId
+          id_curso: req.params.cursoId,
+          id_assinatura: req.params.assinaturaId
         }
       })
+      console.log('finde')
       await CursoAssinatura.destroy({
         where: {
-          id: req.params.cursoAssinaturaId
+          id_curso: req.params.cursoId,
+          id_assinatura: req.params.assinaturaId
         }
       })
+      console.log('deletou')
       await AuditCreate.createAudit(prevCursoAssinatura, null, "cursoAssinatura", "DELETE", req.headers.userid, {});
       res.send('')
     } catch (err) {

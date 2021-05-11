@@ -37,6 +37,9 @@
                   <v-btn class="green accent-2" fab ligth small right middle @click="navigateTo({name: 'editar-assinatura', params: {assinaturaId: assinatura.id}})">
                     <v-icon>edit</v-icon>
                   </v-btn>
+                   <v-btn v-if="false" class="blue accent-2" fab ligth small right middle @click="navigateTo({name: 'editar-assinatura', params: {assinaturaId: assinatura.id}})">
+                    <v-icon>checklist_rtl</v-icon>
+                  </v-btn>
                   <v-btn class="red accent-1" fab ligth small right middle @click="deleteAssinatura({assinaturaId: assinatura.id})">
                     <v-icon>delete</v-icon>
                   </v-btn>

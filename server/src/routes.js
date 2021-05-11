@@ -64,5 +64,5 @@ module.exports = (app) => {
   app.delete('/comentarioAula/:comentarioId', ComentarioAulaController.delete)  
   app.get('/cursoAssinatura/:assinaturaId', CursoAssinaturaController.view)  
   app.post('/cursoAssinatura', CursoAssinaturaController.post)  
-  app.delete('/cursoAssinatura/:cursoAssinaturaId', CursoAssinaturaController.delete)  
+  app.delete('/cursoAssinatura/:cursoId/:assinaturaId', CursoAssinaturaController.delete)  
 }
