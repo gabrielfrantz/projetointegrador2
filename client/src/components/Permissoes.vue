@@ -79,7 +79,7 @@ export default {
       userId: null,
       usuarios: {},
       usuario: {},
-      heading: 'Permissões'
+      heading: 'PermissoesUsuarios'
     }
   },
   async mounted () {

@@ -2,22 +2,6 @@
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
       <panel title="Controle de Logs">
-        <div class="d-flex justify-end">
-          <vue-json-to-csv
-            :json-data="Object.values(logs)"
-            :csv-title="'Logs'"
-            :labels="{
-              createdAt: { title: 'Criação' },
-              User: { title: 'Usuário' },
-              nom_url: { title: 'URL' },
-              nom_erro: { title: 'Erro' }
-            }"
-          >
-            <v-btn color="success" class="">
-              CSV <i class="mdi mdi-export-variant" aria-hidden="true"></i>
-            </v-btn>
-          </vue-json-to-csv>
-        </div>
         <v-row>
             <v-col cols="6" sm="3" md="2">
                 <v-menu
@@ -69,7 +53,28 @@
                   ></v-date-picker>
                 </v-menu>
               </v-col>
-              <v-btn class="blue accent-3" @click="atualizar" dark>Atualizar</v-btn>
+              <v-card class="d-flex justify-end mb-6" flat tile>
+                <div class="pa-2">
+                  <v-btn color="blue" class="" @click='atualizar' dark>Filtrar</v-btn>
+                  <vue-json-to-csv
+                    :json-data="Object.values(logs)"
+                    :csv-title="'Logs'"
+                    :labels="{
+                      createdAt: { title: 'Criação' },
+                      User: { title: 'Usuário' },
+                      nom_url: { title: 'URL' },
+                      nom_erro: { title: 'Erro' }
+                    }"
+                  >
+                    <v-btn color="success" class="">
+                      CSV <i class="mdi mdi-export-variant" aria-hidden="true"></i>
+                    </v-btn>
+                  </vue-json-to-csv>
+                    <v-btn color='red' class="white--text" @click='generatePDF'>
+                      PDF <i class="mdi mdi-export-variant"></i>
+                    </v-btn>
+                </div>
+              </v-card>
           </v-row>
           <v-row>
             <v-col cols="12" sm="4" md="3">
@@ -105,8 +110,8 @@
                   </v-btn>
                 </v-col>
               </v-row>
-          </div>
-      </panel>
+              </div>
+        </panel>
       </v-flex>
   </v-layout>
 </template>
@@ -116,6 +121,9 @@ import Panel from '@/components/Panel'
 import LogService from '@/services/LogService'
 import moment from 'moment'
 import VueJsonToCsv from 'vue-json-to-csv'
+import JsPDF from 'jspdf'
+import 'jspdf-autotable'
+
 export default {
   components: {
     Panel,
@@ -130,7 +138,8 @@ export default {
       menu1: false,
       menu2: false,
       today: null,
-      tomorrow: null
+      tomorrow: null,
+      heading: 'Logs'
     }
   },
   async mounted () {
@@ -148,6 +157,20 @@ export default {
     },
     async atualizar () {
       this.logs = (await LogService.view(this.userId, this.dtaStart, this.dtaEnd)).data
+    },
+    generatePDF () {
+      const columns = [
+        { title: 'Data', dataKey: 'createdAt' },
+        { title: 'Usuário', dataKey: 'id_user' },
+        { title: 'URL', dataKey: 'nom_url' },
+        { title: 'Erro', dataKey: 'nom_erro' }
+      ]
+      const doc = new JsPDF()
+      doc.autoTable({
+        columns,
+        body: Object.values(this.logs)
+      })
+      doc.save(`${this.heading}.pdf`)
     }
   }
 }
