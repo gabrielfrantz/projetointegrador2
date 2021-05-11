@@ -7,6 +7,7 @@ const LogController = require('./controllers/LogController')
 const AuditoriaController = require('./controllers/AuditoriaController')
 const AulaUsuarioController = require('./controllers/AulaUsuarioController')
 const AssinaturaController = require('./controllers/AssinaturaController')
+const ComentarioAulaController = require('./controllers/ComentarioAulaController')
 
 module.exports = (app) => {
   app.post('/register', AuthenticationControllerPolicy.register, AuthenticationController.register)
@@ -56,4 +57,6 @@ module.exports = (app) => {
   app.get('/assinatura/:assinaturaId', AssinaturaController.show)
   app.put('/assinatura/:assinaturaId', AssinaturaController.put)
   app.delete('/assinatura/:assinaturaId', AssinaturaController.delete)
+  app.get('/comentarioAula/:aulaId', ComentarioAulaController.view)  
+  app.post('/comentarioAula', ComentarioAulaController.post)  
 }

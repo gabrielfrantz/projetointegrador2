@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
     des_comentario: {
       type: DataTypes.STRING
     },
+    ind_oculto: {
+      type: DataTypes.STRING,
+      defaultValue: 'N'
+    },
     id_comentario: {
       type: DataTypes.INTEGER
     }
