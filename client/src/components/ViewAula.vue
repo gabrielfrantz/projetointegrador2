@@ -48,7 +48,7 @@
             <br>
             <div v-for="comentario in comentarios" :key="comentario.id">
             <panel :title="formatUsuarioData(comentario.User, comentario.updatedAt)">
-              <v-btn class="red accent-1" slot="newButton" fab ligth small absolute right middle @click="deleteComentario({comentarioId: comentario.id})">
+              <v-btn class="red accent-1" slot="newButton" v-if="comentario.User.id == userId" fab ligth small absolute right middle @click="deleteComentario({comentarioId: comentario.id})">
               <v-icon>delete</v-icon>
               </v-btn>
             <v-row>
