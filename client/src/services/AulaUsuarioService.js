@@ -1,16 +1,16 @@
 import Api from '@/services/Api'
 
 export default {
-  view (userId) {
-    return Api(userId).get(`aulaUsuarios`)
+  view (userId, token) {
+    return Api(userId, token).get(`aulaUsuarios`)
   },
-  post (userId, aulaUsuario) {
-    return Api(userId).post('aulaUsuario', aulaUsuario)
+  post (userId, aulaUsuario, token) {
+    return Api(userId, token).post('aulaUsuario', aulaUsuario)
   },
-  show (userId, aulaId) {
-    return Api(userId).get(`aulaUsuario/${aulaId}/${userId}`)
+  show (userId, aulaId, token) {
+    return Api(userId, token).get(`aulaUsuario/${aulaId}/${userId}`)
   },
-  showMedia (userId, aulaId) {
-    return Api(userId).get(`aulaUsuarioMedia/${aulaId}`)
+  showMedia (userId, aulaId, token) {
+    return Api(userId, token).get(`aulaUsuarioMedia/${aulaId}`)
   }
 }

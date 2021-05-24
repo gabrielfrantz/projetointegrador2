@@ -20,6 +20,7 @@ export default {
   data () {
     return {
       userId: null,
+      token: this.$store.state.token,
       cursoId: null,
       nom_modulo: null,
       seq_ordem: null,
@@ -53,7 +54,7 @@ export default {
         return
       }
       try {
-        await ModulosService.post(this.userId, modulo)
+        await ModulosService.post(this.userId, modulo, this.token)
         this.$router.push({name: 'editar-curso', params: {cursoId: this.cursoId}})
       } catch (err) {
         console.log(err)

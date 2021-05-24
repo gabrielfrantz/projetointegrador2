@@ -132,6 +132,7 @@ export default {
   data () {
     return {
       userId: null,
+      token: this.$store.state.token,
       logs: null,
       dtaStart: null,
       dtaEnd: null,
@@ -149,14 +150,14 @@ export default {
     this.tomorrow = todayMoment.clone().add(1, 'days')
     this.dtaEnd = this.tomorrow ? moment(this.tomorrow).format('yyyy-MM-DD') : ''
     this.userId = this.$store.state.userId
-    this.logs = (await LogService.view(this.userId, this.dtaStart, this.dtaEnd)).data
+    this.logs = (await LogService.view(this.userId, this.dtaStart, this.dtaEnd, this.token)).data
   },
   methods: {
     navigateTo (route) {
       this.$router.push(route)
     },
     async atualizar () {
-      this.logs = (await LogService.view(this.userId, this.dtaStart, this.dtaEnd)).data
+      this.logs = (await LogService.view(this.userId, this.dtaStart, this.dtaEnd, this.token)).data
     },
     generatePDF () {
       const columns = [

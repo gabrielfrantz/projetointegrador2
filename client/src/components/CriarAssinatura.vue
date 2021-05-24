@@ -22,6 +22,7 @@ export default {
       items: ['Mensal', 'Anual'],
       select: 'Mensal',
       userId: null,
+      token: this.$store.state.token,
       error: null,
       nom_assinatura: null,
       vlr_assinatura: null,
@@ -57,7 +58,7 @@ export default {
         return
       }
       try {
-        await AssinaturaService.post(this.userId, assinatura)
+        await AssinaturaService.post(this.userId, assinatura, this.token)
         this.$router.push({ name: 'assinatura' })
       } catch (err) {
         console.log(err)

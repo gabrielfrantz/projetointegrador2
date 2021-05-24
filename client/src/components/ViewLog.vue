@@ -23,6 +23,7 @@ export default {
     return {
       log: {},
       userId: null,
+      token: this.$store.state.token,
       logId: null,
       dta_log: null,
       nom_url: null,
@@ -34,6 +35,7 @@ export default {
   },
   async mounted () {
     this.userId = this.$store.state.userId
+    this.token = this.$store.state.token
     if (this.$store.state.route.params.logId) {
       this.logId = this.$store.state.route.params.logId
     } else if (localStorage.logId) {
@@ -41,7 +43,7 @@ export default {
     } else {
       this.navigateTo({name: 'root'})
     }
-    this.log = (await LogService.show(this.userId, this.logId)).data
+    this.log = (await LogService.show(this.userId, this.logId, this.token)).data
     this.logId = this.log.id
     this.dta_log = this.formatDate(this.log.createdAt)
     this.nom_url = this.log.nom_url

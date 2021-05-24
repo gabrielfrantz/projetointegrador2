@@ -72,6 +72,7 @@ export default {
       modulo: {},
       aulas: {},
       userId: null,
+      token: this.$store.state.token,
       cursoId: null,
       moduloId: null,
       nom_modulo: null,
@@ -85,8 +86,8 @@ export default {
     this.userId = this.$store.state.userId
     this.cursoId = this.$store.state.route.params.cursoId
     this.moduloId = this.$store.state.route.params.moduloId
-    this.modulo = (await ModulosService.show(this.userId, this.moduloId)).data
-    this.aulas = (await AulasService.index(this.userId, this.moduloId)).data
+    this.modulo = (await ModulosService.show(this.userId, this.moduloId, this.token)).data
+    this.aulas = (await AulasService.index(this.userId, this.moduloId, this.token)).data
     this.nom_modulo = this.modulo.nom_modulo
     this.seq_ordem = this.modulo.seq_ordem
     var visivel = true

@@ -27,6 +27,7 @@ export default {
   data () {
     return {
       userId: null,
+      token: this.$store.state.token,
       error: null,
       assinaturas: null,
       assinatura: null,
@@ -35,8 +36,8 @@ export default {
   },
   async mounted () {
     this.userId = this.$store.state.userId
-    this.assinaturas = (await AssinaturaService.view(this.userId)).data
-    this.assinatura = (await UsuarioAssinaturaService.show(this.userId)).data
+    this.assinaturas = (await AssinaturaService.view(this.userId, this.token)).data
+    this.assinatura = (await UsuarioAssinaturaService.show(this.userId, this.token)).data
   },
   methods: {
     async create () {
@@ -60,9 +61,9 @@ export default {
         return
       }
       try {
-        await UsuarioAssinaturaService.post(this.userId, usuarioAssinatura)
-        this.assinaturas = (await AssinaturaService.view(this.userId)).data
-        this.assinatura = (await UsuarioAssinaturaService.show(this.userId)).data
+        await UsuarioAssinaturaService.post(this.userId, usuarioAssinatura, this.token)
+        this.assinaturas = (await AssinaturaService.view(this.userId, this.token)).data
+        this.assinatura = (await UsuarioAssinaturaService.show(this.userId, this.token)).data
       } catch (err) {
         console.log(err)
       }

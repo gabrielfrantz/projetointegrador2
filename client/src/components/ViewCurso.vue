@@ -2,6 +2,9 @@
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
       <panel :title="nom_curso">
+          <v-btn slot="newButton" class="blue darken-2" v-tooltip="'Gerar certificado'" fab ligth small absolute right middle @click="geraCertificado()">
+            <v-icon>fact_check</v-icon>
+          </v-btn>
         <v-textarea label="Descrição*" v-model="des_curso" readonly></v-textarea>
         <v-text-field label="Carga Horária*" v-model="des_carga_horaria" readonly></v-text-field>
       </panel>
@@ -50,6 +53,7 @@ export default {
       modulos: {},
       cursoId: null,
       userId: null,
+      token: this.$store.state.token,
       nom_curso: null,
       des_curso: null,
       des_carga_horaria: null,
@@ -67,8 +71,8 @@ export default {
     } else {
       this.navigateTo({name: 'root'})
     }
-    this.curso = (await CursosService.show(this.userId, this.cursoId)).data
-    this.modulos = (await ModulosService.view(this.userId, this.cursoId)).data
+    this.curso = (await CursosService.show(this.userId, this.cursoId, this.token)).data
+    this.modulos = (await ModulosService.view(this.userId, this.cursoId, this.token)).data
     this.cursoId = this.curso.id
     this.nom_curso = this.curso.nom_curso
     this.des_curso = this.curso.des_curso
@@ -85,6 +89,9 @@ export default {
   methods: {
     navigateTo (route) {
       this.$router.push(route)
+    },
+    geraCertificado () {
+      alert('Geração de certificados em desenvolvimento. Aguarde!')
     },
     calcRowsPerPage () {
       let container = document.getElementById('container')

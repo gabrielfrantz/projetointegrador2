@@ -22,6 +22,7 @@ export default {
   data () {
     return {
       userId: null,
+      token: this.$store.state.token,
       nom_curso: null,
       des_curso: null,
       des_carga_horaria: null,
@@ -54,7 +55,7 @@ export default {
         return
       }
       try {
-        await CursosService.post(this.userId, curso)
+        await CursosService.post(this.userId, curso, this.token)
         this.$router.push({ name: 'cursos' })
       } catch (err) {
         console.log(err)

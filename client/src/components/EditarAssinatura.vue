@@ -57,6 +57,7 @@ export default {
       cursos: {},
       curso: null,
       userId: null,
+      token: this.$store.state.token,
       error: null,
       assinaturaId: null,
       nom_assinatura: null,
@@ -78,8 +79,8 @@ export default {
     if (this.assinatura.ind_periodo === 'M') {
       this.selected = 'Mensal'
     }
-    this.assinatura = (await AssinaturaService.show(this.userId, this.assinaturaId)).data
-    this.cursos = (await CursoAssinaturaService.view(this.userId, this.assinaturaId)).data
+    this.assinatura = (await AssinaturaService.show(this.userId, this.assinaturaId, this.token)).data
+    this.cursos = (await CursoAssinaturaService.view(this.userId, this.assinaturaId, this.token)).data
     this.assinaturaId = this.assinatura.id
     this.nom_assinatura = this.assinatura.nom_assinatura
     this.vlr_assinatura = this.assinatura.vlr_assinatura
@@ -103,8 +104,8 @@ export default {
     },
     async deleteCursoAssinatura (cursoId) {
       try {
-        await CursoAssinaturaService.delete(this.userId, cursoId.cursoId, this.assinaturaId)
-        this.cursos = (await CursoAssinaturaService.view(this.userId, this.assinaturaId)).data
+        await CursoAssinaturaService.delete(this.userId, cursoId.cursoId, this.assinaturaId, this.token)
+        this.cursos = (await CursoAssinaturaService.view(this.userId, this.assinaturaId, this.token)).data
       } catch (err) {
         console.log(err)
       }
@@ -115,8 +116,8 @@ export default {
           id_curso: cursoId.cursoId,
           id_assinatura: this.assinaturaId
         }
-        await CursoAssinaturaService.post(this.userId, cursoAssinatura)
-        this.cursos = (await CursoAssinaturaService.view(this.userId, this.assinaturaId)).data
+        await CursoAssinaturaService.post(this.userId, cursoAssinatura, this.token)
+        this.cursos = (await CursoAssinaturaService.view(this.userId, this.assinaturaId, this.token)).data
       } catch (err) {
         console.log(err)
       }
@@ -147,7 +148,7 @@ export default {
         return
       }
       try {
-        await AssinaturaService.put(this.userId, assinatura)
+        await AssinaturaService.put(this.userId, assinatura, this.token)
         this.$router.push({ name: 'assinatura' })
       } catch (err) {
         console.log(err)

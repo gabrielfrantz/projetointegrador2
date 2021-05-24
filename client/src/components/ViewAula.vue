@@ -86,6 +86,7 @@ export default {
       comentarios: {},
       comentario: null,
       userId: null,
+      token: this.$store.state.token,
       aulaId: null,
       error: null,
       errorUpdate: null,
@@ -102,6 +103,7 @@ export default {
   },
   async mounted () {
     this.userId = this.$store.state.userId
+    this.token = this.$store.state.token
     if (this.$store.state.route.params.aulaId) {
       this.aulaId = this.$store.state.route.params.aulaId
     } else if (localStorage.aulaId) {
@@ -109,10 +111,10 @@ export default {
     } else {
       this.navigateTo({name: 'root'})
     }
-    this.aula = (await AulasService.show(this.userId, this.aulaId)).data
-    this.userRate = (await AulaUsuarioService.show(this.userId, this.aulaId)).data
-    this.media = (await AulaUsuarioService.showMedia(this.userId, this.aulaId)).data
-    this.comentarios = (await ComentarioAulaService.view(this.userId, this.aulaId)).data
+    this.aula = (await AulasService.show(this.userId, this.aulaId, this.token)).data
+    this.userRate = (await AulaUsuarioService.show(this.userId, this.aulaId, this.token)).data
+    this.media = (await AulaUsuarioService.showMedia(this.userId, this.aulaId, this.token)).data
+    this.comentarios = (await ComentarioAulaService.view(this.userId, this.aulaId, this.token)).data
     this.rating = this.userRate.qtd_estrela
     this.mediaRate = this.media.media_estrela
     this.perRate = ((this.mediaRate * 100) / 5)
@@ -165,8 +167,8 @@ export default {
         this.error = 'Informe todos os campos obrigatórios'
         return
       }
-      await ComentarioAulaService.post(this.userId, comentarioAula)
-      this.comentarios = (await ComentarioAulaService.view(this.userId, this.aulaId)).data
+      await ComentarioAulaService.post(this.userId, comentarioAula, this.token)
+      this.comentarios = (await ComentarioAulaService.view(this.userId, this.aulaId, this.token)).data
       this.des_comentario = null
     },
     async updateComentario (comentarioId, comentarioDes) {
@@ -176,12 +178,12 @@ export default {
         id_aula: this.aulaId,
         des_comentario: comentarioDes
       }
-      await ComentarioAulaService.put(this.userId, comentarioId.comentarioId, comentarioAula)
-      this.comentarios = (await ComentarioAulaService.view(this.userId, this.aulaId)).data
+      await ComentarioAulaService.put(this.userId, comentarioId.comentarioId, comentarioAula, this.token)
+      this.comentarios = (await ComentarioAulaService.view(this.userId, this.aulaId, this.token)).data
     },
     async deleteComentario (comentarioId) {
-      confirm('Are you sure you want to delete this item?') && await ComentarioAulaService.delete(this.userId, comentarioId.comentarioId)
-      this.comentarios = (await ComentarioAulaService.view(this.userId, this.aulaId)).data
+      confirm('Are you sure you want to delete this item?') && await ComentarioAulaService.delete(this.userId, comentarioId.comentarioId, this.token)
+      this.comentarios = (await ComentarioAulaService.view(this.userId, this.aulaId, this.token)).data
     },
     async saveRate () {
       const aulaUser = {
@@ -189,9 +191,9 @@ export default {
         id_aula: this.aulaId,
         qtd_estrela: this.rating
       }
-      await AulaUsuarioService.post(this.userId, aulaUser)
-      this.userRate = (await AulaUsuarioService.show(this.userId, this.aulaId)).data
-      this.media = (await AulaUsuarioService.showMedia(this.userId, this.aulaId)).data
+      await AulaUsuarioService.post(this.userId, aulaUser, this.token)
+      this.userRate = (await AulaUsuarioService.show(this.userId, this.aulaId, this.token)).data
+      this.media = (await AulaUsuarioService.showMedia(this.userId, this.aulaId, this.token)).data
       this.rating = this.userRate.qtd_estrela
       this.mediaRate = this.media.media_estrela
       this.perRate = ((this.mediaRate * 100) / 5)
@@ -213,7 +215,7 @@ export default {
         id_aula: this.aulaId,
         ind_concluido: concluido
       }
-      await AulaUsuarioService.post(this.userId, aulaUser)
+      await AulaUsuarioService.post(this.userId, aulaUser, this.token)
     }
   },
   watch: {

@@ -1,22 +1,22 @@
 import Api from '@/services/Api'
 
 export default {
-  index (userId, cursoId) {
-    return Api(userId).get(`modulos/${cursoId}`)
+  index (userId, cursoId, token) {
+    return Api(userId, token).get(`modulos/${cursoId}`)
   },
-  view (userId, cursoId) {
-    return Api(userId).get(`modulosView/${cursoId}`)
+  view (userId, cursoId, token) {
+    return Api(userId, token).get(`modulosView/${cursoId}`)
   },
-  post (userId, modulo) {
-    return Api(userId).post('modulo', modulo)
+  post (userId, modulo, token) {
+    return Api(userId, token).post('modulo', modulo)
   },
-  show (userId, moduloId) {
-    return Api(userId).get(`modulo/${moduloId}`)
+  show (userId, moduloId, token) {
+    return Api(userId, token).get(`modulo/${moduloId}`)
   },
-  put (userId, modulo) {
-    return Api(userId).put(`modulo/${modulo.id}`, modulo)
+  put (userId, modulo, token) {
+    return Api(userId, token).put(`modulo/${modulo.id}`, modulo)
   },
-  delete (userId, moduloId) {
-    return Api(userId).delete(`modulo/${moduloId}`)
+  delete (userId, moduloId, token) {
+    return Api(userId, token).delete(`modulo/${moduloId}`)
   }
 }

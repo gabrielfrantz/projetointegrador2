@@ -1,13 +1,13 @@
 import Api from '@/services/Api'
 
 export default {
-  view (userId, assinaturaId) {
-    return Api(userId).get(`cursoAssinatura/${assinaturaId}`)
+  view (userId, assinaturaId, token) {
+    return Api(userId, token).get(`cursoAssinatura/${assinaturaId}`)
   },
-  post (userId, cursoAssinatura) {
-    return Api(userId).post('cursoAssinatura', cursoAssinatura)
+  post (userId, cursoAssinatura, token) {
+    return Api(userId, token).post('cursoAssinatura', cursoAssinatura)
   },
-  delete (userId, cursoId, assinaturaId) {
-    return Api(userId).delete(`cursoAssinatura/${cursoId}/${assinaturaId}`)
+  delete (userId, cursoId, assinaturaId, token) {
+    return Api(userId, token).delete(`cursoAssinatura/${cursoId}/${assinaturaId}`)
   }
 }

@@ -19,6 +19,7 @@ export default {
   data () {
     return {
       user: {},
+      token: this.$store.state.token,
       nom_pessoa: null,
       num_cpf: null,
       error: null,
@@ -27,7 +28,7 @@ export default {
   },
   async mounted () {
     const userId = this.$store.state.user.id
-    this.user = (await AuthenticationService.show(userId)).data
+    this.user = (await AuthenticationService.show(userId, this.token)).data
     this.nom_pessoa = this.user.nom_pessoa
     this.num_cpf = this.user.num_cpf
   },
@@ -53,8 +54,8 @@ export default {
         return
       }
       try {
-        await AuthenticationService.put(user)
-        const response = await AuthenticationService.show(this.$store.state.user.id)
+        await AuthenticationService.put(user, this.token)
+        const response = await AuthenticationService.show(this.$store.state.user.id, this.token)
         this.$store.dispatch('setUser', response.data)
         this.$router.push({ name: 'root' })
       } catch (err) {

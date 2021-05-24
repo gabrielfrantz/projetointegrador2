@@ -62,6 +62,7 @@ export default {
       curso: {},
       modulos: {},
       userId: null,
+      token: this.$store.state.token,
       cursoId: null,
       nom_curso: null,
       des_curso: null,
@@ -81,8 +82,8 @@ export default {
     } else {
       this.navigateTo({name: 'root'})
     }
-    this.curso = (await CursosService.show(this.userId, this.cursoId)).data
-    this.modulos = (await ModulosService.index(this.userId, this.cursoId)).data
+    this.curso = (await CursosService.show(this.userId, this.cursoId, this.token)).data
+    this.modulos = (await ModulosService.index(this.userId, this.cursoId, this.token)).data
     this.cursoId = this.curso.id
     this.nom_curso = this.curso.nom_curso
     this.des_curso = this.curso.des_curso
@@ -124,7 +125,7 @@ export default {
         return
       }
       try {
-        await CursosService.put(this.userId, curso)
+        await CursosService.put(this.userId, curso, this.token)
         this.$router.push({ name: 'cursos' })
       } catch (err) {
         console.log(err)
@@ -132,8 +133,8 @@ export default {
     },
     async deletemodulo (moduloId) {
       try {
-        confirm('Are you sure you want to delete this item?') && await ModulosService.delete(this.userId, moduloId.moduloId)
-        this.modulos = (await ModulosService.index(this.userId, this.cursoId)).data
+        confirm('Are you sure you want to delete this item?') && await ModulosService.delete(this.userId, moduloId.moduloId, this.token)
+        this.modulos = (await ModulosService.index(this.userId, this.cursoId, this.token)).data
         // this.$router.push({ name: 'banks' })
       } catch (error) {
         this.error = error.response.data.error

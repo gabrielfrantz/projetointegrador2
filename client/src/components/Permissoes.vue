@@ -77,6 +77,7 @@ export default {
   data () {
     return {
       userId: null,
+      token: this.$store.state.token,
       usuarios: {},
       usuario: {},
       heading: 'PermissoesUsuarios'
@@ -84,7 +85,7 @@ export default {
   },
   async mounted () {
     this.userId = this.$store.state.userId
-    this.usuarios = (await AuthenticationService.view(this.userId)).data
+    this.usuarios = (await AuthenticationService.view(this.userId, this.token)).data
   },
   methods: {
     async mudarPermissao (idUsuario) {
@@ -93,8 +94,8 @@ export default {
           id: idUsuario
         }
         confirm('Você tem certeza que deseja modificar essa permissão?') &&
-          await AuthenticationService.permission(this.userId, user)
-        this.usuarios = (await AuthenticationService.view(this.userId)).data
+          await AuthenticationService.permission(this.userId, user, this.token)
+        this.usuarios = (await AuthenticationService.view(this.userId, this.token)).data
       } catch (error) {
         this.error = error.response.data.error
       }

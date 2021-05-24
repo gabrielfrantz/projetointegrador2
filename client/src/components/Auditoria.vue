@@ -132,6 +132,7 @@ export default {
   data () {
     return {
       userId: null,
+      token: this.$store.state.token,
       auditorias: null,
       dtaStart: null,
       dtaEnd: null,
@@ -149,14 +150,14 @@ export default {
     this.tomorrow = todayMoment.clone().add(1, 'days')
     this.dtaEnd = this.tomorrow ? moment(this.tomorrow).format('yyyy-MM-DD') : ''
     this.userId = this.$store.state.userId
-    this.auditorias = (await AuditoriaService.viewQ(this.userId, 0, 50, this.dtaStart, this.dtaEnd)).data
+    this.auditorias = (await AuditoriaService.viewQ(this.userId, 0, 50, this.dtaStart, this.dtaEnd, this.token)).data
   },
   methods: {
     navigateTo (route) {
       this.$router.push(route)
     },
     async atualizar () {
-      this.auditorias = (await AuditoriaService.viewQ(this.userId, 0, 50, this.dtaStart, this.dtaEnd)).data
+      this.auditorias = (await AuditoriaService.viewQ(this.userId, 0, 50, this.dtaStart, this.dtaEnd, this.token)).data
     },
     generatePDF () {
       const columns = [

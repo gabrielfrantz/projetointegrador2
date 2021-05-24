@@ -11,6 +11,7 @@ module.exports = {
     
             jwt.verify(token, process.env.JWT_SECRET || 'secret', (err, user) => {
                 if (err) {
+                    console.log(token)
                     res.status(401).json({
                         success: false,
                         message: 'Token is not valid!'

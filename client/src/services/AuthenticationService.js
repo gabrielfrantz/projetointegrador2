@@ -13,10 +13,10 @@ export default {
   put (user) {
     return Api(user.id).put(`user/${user.id}`, user)
   },
-  view (userId) {
-    return Api(userId).get('usersView')
+  view (userId, token) {
+    return Api(userId, token).get('usersView')
   },
-  permission (userId, user) {
-    return Api(userId).put(`userPermission/${user.id.userId}`, user)
+  permission (userId, user, token) {
+    return Api(userId, token).put(`userPermission/${user.id.userId}`, user)
   }
 }

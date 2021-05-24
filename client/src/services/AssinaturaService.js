@@ -1,19 +1,19 @@
 import Api from '@/services/Api'
 
 export default {
-  view (userId) {
-    return Api(userId).get('assinaturas')
+  view (userId, token) {
+    return Api(userId, token).get('assinaturas')
   },
-  post (userId, assinatura) {
-    return Api(userId).post('assinatura', assinatura)
+  post (userId, assinatura, token) {
+    return Api(userId, token).post('assinatura', assinatura)
   },
-  show (userId, assinaturaId) {
-    return Api(userId).get(`assinatura/${assinaturaId}`)
+  show (userId, assinaturaId, token) {
+    return Api(userId, token).get(`assinatura/${assinaturaId}`)
   },
-  put (userId, assinatura) {
-    return Api(userId).put(`assinatura/${assinatura.id}`, assinatura)
+  put (userId, assinatura, token) {
+    return Api(userId, token).put(`assinatura/${assinatura.id}`, assinatura)
   },
-  delete (userId, assinaturaId) {
-    return Api(userId).delete(`assinatura/${assinaturaId}`)
+  delete (userId, assinaturaId, token) {
+    return Api(userId, token).delete(`assinatura/${assinaturaId}`)
   }
 }

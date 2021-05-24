@@ -58,6 +58,7 @@ export default {
   data () {
     return {
       userId: null,
+      token: this.$store.state.token,
       error: null,
       assinaturas: null
     }
@@ -65,7 +66,7 @@ export default {
   async mounted () {
     // do a request to the backend for all the banks
     this.userId = this.$store.state.userId
-    this.assinaturas = (await AssinaturaService.view(this.userId)).data
+    this.assinaturas = (await AssinaturaService.view(this.userId, this.token)).data
   },
   methods: {
     async create () {
@@ -77,8 +78,8 @@ export default {
     },
     async deleteAssinatura (assinaturaId) {
       try {
-        confirm('Are you sure you want to delete this item?') && await AssinaturaService.delete(this.userId, assinaturaId.assinaturaId)
-        this.assinaturas = (await AssinaturaService.view(this.userId)).data
+        confirm('Are you sure you want to delete this item?') && await AssinaturaService.delete(this.userId, assinaturaId.assinaturaId, this.token)
+        this.assinaturas = (await AssinaturaService.view(this.userId, this.token)).data
         // this.$router.push({ name: 'banks' })
       } catch (error) {
         this.error = error.response.data.error

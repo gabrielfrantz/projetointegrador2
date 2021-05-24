@@ -22,6 +22,7 @@ export default {
     return {
       auditoria: {},
       userId: null,
+      token: this.$store.state.token,
       auditoriaId: null,
       dta_auditoria: null,
       nom_table: null,
@@ -39,7 +40,7 @@ export default {
     } else {
       this.navigateTo({name: 'root'})
     }
-    this.auditoria = (await AuditoriaService.show(this.userId, this.auditoriaId)).data
+    this.auditoria = (await AuditoriaService.show(this.userId, this.auditoriaId, this.token)).data
     this.auditoriaId = this.auditoria.id
     this.dta_auditoria = this.formatDate(this.auditoria.createdAt)
     this.nom_table = this.auditoria.nom_table
