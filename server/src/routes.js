@@ -1,3 +1,4 @@
+const middleware = require('./middleware');
 const AuthenticationController = require('./controllers/AuthenticationController')
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
 const CursoController = require('./controllers/CursoController')
@@ -10,7 +11,7 @@ const AssinaturaController = require('./controllers/AssinaturaController')
 const ComentarioAulaController = require('./controllers/ComentarioAulaController')
 const CursoAssinaturaController = require('./controllers/CursoAssinaturaController')
 const UsuarioAssinaturaController = require('./controllers/UsuarioAssinaturaController')
-const middleware = require('./middleware');
+const UsuarioCursoController = require('./controllers/UsuarioCursoController')
 
 module.exports = (app) => {
   app.post('/register', AuthenticationControllerPolicy.register, AuthenticationController.register)
@@ -73,6 +74,6 @@ module.exports = (app) => {
   app.delete('/usuarioAssinatura/:userId/:assinaturaId', middleware.checkToken, UsuarioAssinaturaController.delete)  
   app.get('/assinaturasToken', middleware.checkToken, AssinaturaController.view)
   app.get('/cursosAssinaturaView/:userId', middleware.checkToken, CursoController.viewCursosAssinatura)
-  app.post('/geraCertificado/:userId/:cursoId', middleware.checkToken, CursoController.geraCertificado)
-  app.get('/validaCertificado/:desHash', CursoController.validaCertificado)
+  app.post('/geraCertificado/:userId/:cursoId', middleware.checkToken, UsuarioCursoController.geraCertificado)
+  app.get('/validaCertificado/:desHash', UsuarioCursoController.validaCertificado)
 }

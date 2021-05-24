@@ -211,7 +211,8 @@ module.exports = {
             id: req.body.id
           }
         })
-      await AuditCreate.createAudit(prevUser, user, "user", "UPDATE", req.headers.userid, {});        
+      await AuditCreate.createAudit(prevUser, user, "user", "UPDATE", req.headers.userid, {});      
+      await SendMail.EnviarEmail(prevUser.email, 'Sua senha foi alterada', `Caso você não solicitou esta alteração, entre em contato com o suporte!`);  
       res.send(user)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/putChangePassword', req.params, req.body, err)

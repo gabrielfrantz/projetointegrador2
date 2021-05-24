@@ -4,6 +4,7 @@ const { CursoAssinatura } = require('../models')
 const { Op } = require('sequelize')
 const LogCreate = require('../core/LogCreate')
 const AuditCreate = require('../core/AuditCreate');
+const SendMail = require('../core/SendMail');
 const md5 = require('md5');
 
 function hashCertificado(inscricaoId, options) {
@@ -137,87 +138,6 @@ module.exports = {
       LogCreate.post(req.headers.userid, '/showCurso', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao buscar o curso'
-      })
-    }
-  },
-  async geraCertificado(req, res) {
-    try {
-      console.log(req.params.inscricaoId)
-      const des_hash = hashCertificado(req.params.inscricaoId);
-      User.hasMany(Inscricao, { foreignKey: 'userId' })
-      Inscricao.belongsTo(User, { foreignKey: 'userId' })
-      Evento.hasMany(Inscricao, { foreignKey: 'eventoId' })
-      Inscricao.belongsTo(Evento, { foreignKey: 'eventoId' })
-      var inscricao = await Inscricao.findOne({
-        where: {
-          id: req.params.inscricaoId,
-          ind_checkin: 1
-        }, include: [Evento, User]
-      })
-
-      if (!inscricao) {
-         return res.status(403).send({
-           error: 'Registro de presença não encontrado. Não é permitido gerar o certificado!'
-         })
-       }
-
-      EnviarEmail(inscricao.User.dataValues.email, 'Certificado gerado', `Seu certificado para o curso ${inscricao.Evento.dataValues.nom_evento} foi gerado!`)
-
-      const certificado = {
-        idInscricao: req.params.inscricaoId,
-        nom_curso: '',
-        nom_pessoa: inscricao.User.dataValues.nom_pessoa,
-        num_cpf: inscricao.User.dataValues.num_cpf,
-        dta_evento: inscricao.Evento.dataValues.dta_evento,
-        des_hash: des_hash
-      }
-
-      inscricao = await Inscricao.update({
-        des_hash: des_hash
-      }, {
-        where: {
-          id: req.params.inscricaoId
-        }
-      })     
-
-      const response = await fetch('http://localhost:3001/gerarCertificado', {
-        method: 'POST',
-        body: JSON.stringify(certificado),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      const buffer = await response.buffer();
-      //console.log(buffer)
-
-      res.setHeader('Content-Type', 'application/pdf');
-      res.send(buffer);
-    } catch (err) {
-      res.status(500).send({
-        error: 'Ocorreu um erro ao gerar certificado' + err
-      })
-    }
-  },
-  async validaCertificado(req, res) {
-    try {
-      User.hasMany(Inscricao, { foreignKey: 'userId' })
-      Inscricao.belongsTo(User, { foreignKey: 'userId' })
-      Evento.hasMany(Inscricao, { foreignKey: 'eventoId' })
-      Inscricao.belongsTo(Evento, { foreignKey: 'eventoId' })
-      var inscricao = await Inscricao.findOne({
-        where: {
-          des_hash: req.params.desHash
-        }, include: [Evento, User]
-      })
-
-      if (!inscricao) {
-        return res.status(403).send({
-          error: 'Chave do certificado não encontrada!'
-        })
-      }
-
-      res.send(inscricao)
-    } catch (err) {
-      res.status(500).send({
-        error: 'Ocorreu um erro ao validar chave do certificado' + err
       })
     }
   }

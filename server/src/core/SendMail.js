@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 
-module.exports.EnviarEmail = async (destinatario, assunto, mensagem) => {
+module.exports.Enviar = async (destinatario, assunto, mensagem) => {
   try {
     const req = {
       destinatario: destinatario,
