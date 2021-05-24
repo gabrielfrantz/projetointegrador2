@@ -10,6 +10,7 @@ const AssinaturaController = require('./controllers/AssinaturaController')
 const ComentarioAulaController = require('./controllers/ComentarioAulaController')
 const CursoAssinaturaController = require('./controllers/CursoAssinaturaController')
 const UsuarioAssinaturaController = require('./controllers/UsuarioAssinaturaController')
+const middleware = require('./middleware');
 
 module.exports = (app) => {
   app.post('/register', AuthenticationControllerPolicy.register, AuthenticationController.register)
@@ -69,4 +70,5 @@ module.exports = (app) => {
   app.get('/usuarioAssinatura/:userId', UsuarioAssinaturaController.show)  
   app.post('/usuarioAssinatura', UsuarioAssinaturaController.post)  
   app.delete('/usuarioAssinatura/:userId/:assinaturaId', UsuarioAssinaturaController.delete)  
+  app.get('/assinaturasToken', middleware.checkToken, AssinaturaController.view)
 }
