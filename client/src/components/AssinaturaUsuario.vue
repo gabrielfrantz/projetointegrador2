@@ -4,12 +4,12 @@
       <panel title="Minha Assinatura">
         <v-list shaped>
           <v-list-item-group v-model="selectedItem" color="primary">
-            <v-list-item v-for="a in assinaturas" :key="a.id">
+            <v-list-item v-for="a in assinaturas" :key="a.id" @click="save({assinaturaId: a.id})">
               <v-list-item-icon>
                 <v-icon v-if="a.id === assinatura.id_assinatura">check</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title v-text="a.nom_assinatura" @click="save({assinaturaId: a.id})"></v-list-item-title>
+                <v-list-item-title v-text="a.nom_assinatura"></v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
