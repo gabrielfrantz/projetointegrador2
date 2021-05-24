@@ -4,6 +4,7 @@
       <h1 v-if="$store.state.isUserLoggedIn">{{ msg }}</h1>
       <br>
       <panel title="Cursos" v-if="$store.state.isUserLoggedIn">
+        <div class="error" v-html="error" />
         <v-container class="grey lighten-5 mb-6">
               <v-row class="fill-height overflow-auto">
               <v-col class="py-2" :cols="(12/itemsPerRow)" cs12 sm6 md4 lg3 v-for="curso in cursos" :key="curso.id" >
@@ -39,6 +40,7 @@ export default {
       cursos: null,
       userId: this.$store.state.user.id,
       token: this.$store.state.token,
+      error: null,
       msg: 'Bem-vindo ao Educare, ' + (this.$store.state.user.nom_pessoa || 'por favor, complete seu cadastro na aba perfil!')
     }
   },
@@ -46,7 +48,16 @@ export default {
     Panel
   },
   async mounted () {
-    this.cursos = (await CursosService.viewAssinatura(this.userId, this.token)).data
+    this.err = null
+    if (this.$store.state.isUserLoggedInAdm) {
+      this.cursos = (await CursosService.view(this.userId, this.token)).data
+    } else {
+      try {
+        this.cursos = (await CursosService.viewAssinatura(this.userId, this.token)).data
+      } catch (err) {        
+        this.error = err.response.data.error
+      }      
+    }
   },
   methods: {
     navigateTo (route) {

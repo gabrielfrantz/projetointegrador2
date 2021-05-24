@@ -2,7 +2,8 @@ const { User } = require('../models')
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
 const LogCreate = require('../core/LogCreate')
-const AuditCreate = require('../core/AuditCreate');
+const AuditCreate = require('../core/AuditCreate')
+const crypto = require('crypto')
 
 function jwtSignUser(user) {
   const ONE_WEEK = 60 * 60 * 24 * 7
@@ -211,7 +212,7 @@ module.exports = {
             id: req.body.id
           }
         })
-      await AuditCreate.createAudit(prevUser, user, "user", "UPDATE", req.headers.userid, {});      
+      await AuditCreate.createAudit(prevUser, user, "user", "CHANGE", req.headers.userid, {});      
       await SendMail.EnviarEmail(prevUser.email, 'Sua senha foi alterada', `Caso você não solicitou esta alteração, entre em contato com o suporte!`);  
       res.send(user)
     } catch (err) {
@@ -233,9 +234,10 @@ module.exports = {
           error: 'Usuário inválido!'
         })
       }
+      const hash = prevUser.Id + crypto.randomBytes(12).toString('hex');
       const user = await User.update(
         {
-          reset_password_token: 'Gerar hash ou salvar como nova senha e permitir alteração',
+          reset_password_token: hash,
           reset_password_date: Date.Now() + 3600000
         },
         {
@@ -244,8 +246,8 @@ module.exports = {
           }
         })
       await AuditCreate.createAudit(prevUser, user, "user", "FORGOT", req.headers.userid, {});       
-      // Enviar email 
-      res.send(user)
+      await SendMail.EnviarEmail(prevUser.email, 'Solicitação de alteração de senha', `Nova senha para acessar a conta e realizar a alteração é: !` + hash);  
+      res.send(1)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/showAuthentication', req.params, req.body, err)
       res.status(500).send({
