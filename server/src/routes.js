@@ -22,7 +22,7 @@ module.exports = (app) => {
   app.put('/userPermission/:userId', AuthenticationController.permission)
   app.get('/users', AuthenticationController.index)
   app.get('/cursos', CursoController.index)
-  app.get('/cursosView', CursoController.view)
+  app.get('/cursosView', middleware.checkToken, CursoController.view)
   app.post('/curso', CursoController.post)
   app.get('/curso/:cursoId', CursoController.show)
   app.put('/curso/:cursoId', CursoController.put)
