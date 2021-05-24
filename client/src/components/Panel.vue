@@ -1,7 +1,7 @@
 <template>
   <div class="white elevation-2">
     <v-toolbar flat dense class="gray" dark>
-      <v-btn class="blue darken-2" v-if="hasHistory()" fab ligth small @click="$router.go(-1)">
+      <v-btn class="blue darken-2" v-if="(back==true) && (hasHistory())" fab ligth small @click="$router.go(-1)">
         <v-icon>arrow_back</v-icon>
       </v-btn>
       <v-toolbar-title>{{title}}</v-toolbar-title>
@@ -20,7 +20,14 @@
 
 <script>
 export default {
-  props: ['title'],
+  props: {
+    title: {
+      default: ''
+    },
+    back: {
+      default: true
+    }
+  },
   methods: {
     hasHistory () { return window.history.length > 2 }
   }

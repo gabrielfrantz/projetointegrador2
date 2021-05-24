@@ -11,7 +11,7 @@
       <v-row>
         <v-col></v-col>
       </v-row>
-      <panel title="Alterar senha">
+      <panel title="Alterar senha" back="false">
         <v-text-field label="Nova senha:*" v-model="nova_senha" type="password" required :rules="[required]"></v-text-field>
         <v-text-field label="Repetir senha:*" v-model="repetir_senha" type="password" required :rules="[required]"></v-text-field>
         <div class="error" v-html="errorChange" />
