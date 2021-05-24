@@ -54,9 +54,9 @@ export default {
     } else {
       try {
         this.cursos = (await CursosService.viewAssinatura(this.userId, this.token)).data
-      } catch (err) {        
+      } catch (err) {
         this.error = err.response.data.error
-      }      
+      }
     }
   },
   methods: {
