@@ -24,6 +24,7 @@ import VueEllipseProgress from 'vue-ellipse-progress'
 import CriarAssinatura from '@/components/CriarAssinatura'
 import Assinatura from '@/components/Assinatura'
 import EditarAssinatura from '@/components/EditarAssinatura'
+import AssinaturaUsuario from '@/components/AssinaturaUsuario'
 
 Vue.use(VueEllipseProgress)
 Vue.use(Router)
@@ -144,6 +145,11 @@ export default new Router({
       path: '/editar/assinatura',
       name: 'editar-assinatura',
       component: EditarAssinatura
+    },
+    {
+      path: '/assinatura/usuario',
+      name: 'assinatura-usuario',
+      component: AssinaturaUsuario
     }
   ]
 })
