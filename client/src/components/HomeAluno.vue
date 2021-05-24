@@ -46,7 +46,7 @@ export default {
     Panel
   },
   async mounted () {
-    this.cursos = (await CursosService.view(this.userId, this.token)).data
+    this.cursos = (await CursosService.viewAssinatura(this.userId, this.token)).data
   },
   methods: {
     navigateTo (route) {

@@ -71,4 +71,5 @@ module.exports = (app) => {
   app.post('/usuarioAssinatura', middleware.checkToken, UsuarioAssinaturaController.post)  
   app.delete('/usuarioAssinatura/:userId/:assinaturaId', middleware.checkToken, UsuarioAssinaturaController.delete)  
   app.get('/assinaturasToken', middleware.checkToken, AssinaturaController.view)
+  app.get('/cursosAssinaturaView/:userId', middleware.checkToken, CursoController.viewCursosAssinatura)
 }

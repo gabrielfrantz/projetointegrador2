@@ -7,6 +7,9 @@ export default {
   view (userId, token) {
     return Api(userId, token).get('cursosView')
   },
+  viewAssinatura (userId, token) {
+    return Api(userId, token).get(`cursosAssinaturaView/${userId}`)
+  },
   post (userId, curso, token) {
     return Api(userId, token).post('curso', curso)
   },

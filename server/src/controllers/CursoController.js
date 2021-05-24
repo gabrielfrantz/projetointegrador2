@@ -1,4 +1,7 @@
 const { Curso } = require('../models')
+const { UsuarioAssinatura } = require('../models')
+const { CursoAssinatura } = require('../models')
+const { Op } = require('sequelize')
 const LogCreate = require('../core/LogCreate')
 const AuditCreate = require('../core/AuditCreate');
 
@@ -26,6 +29,34 @@ module.exports = {
       res.send(cursos)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/viewCurso', req.params, req.body, err)
+      res.status(500).send({
+        error: 'Ocorreu um erro ao buscar a lista de eventos'
+      })
+    }
+  },
+  async viewCursosAssinatura (req, res) {
+    try {      
+      const assinatura = await UsuarioAssinatura.findOne({
+        where: {
+          id_user: req.params.userId
+        }
+      })
+      console.log(assinatura)
+      console.log(assinatura.id_assinatura)
+      CursoAssinatura.belongsTo(Curso, { foreignKey: 'id_curso' })
+      Curso.hasMany(CursoAssinatura, { foreignKey: 'id_curso' })
+      const cursos = await Curso.findAll({
+        include: [{
+          model: CursoAssinatura, 
+          where: {
+            id_assinatura: assinatura.id_assinatura
+          },
+          required: true
+        }],
+      })
+      res.send(cursos)
+    } catch (err) {
+      LogCreate.post(req.headers.userid, '/viewCursosAssinatura', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao buscar a lista de eventos'
       })
