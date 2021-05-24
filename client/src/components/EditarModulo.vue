@@ -118,7 +118,7 @@ export default {
         return
       }
       try {
-        await ModulosService.put(this.userId, modulo)
+        await ModulosService.put(this.userId, modulo, this.token)
         this.$router.push({name: 'editar-curso', params: {cursoId: this.$store.state.route.params.cursoId}})
       } catch (err) {
         console.log(err)
@@ -129,8 +129,8 @@ export default {
     },
     async deleteaula (aulaId) {
       try {
-        confirm('Are you sure you want to delete this item?') && await AulasService.delete(this.userId, aulaId.aulaId)
-        this.aulas = (await AulasService.index(this.userId, this.moduloId)).data
+        confirm('Are you sure you want to delete this item?') && await AulasService.delete(this.userId, aulaId.aulaId, this.token)
+        this.aulas = (await AulasService.index(this.userId, this.moduloId, this.token)).data
       } catch (error) {
         this.error = error.response.data.error
       }
