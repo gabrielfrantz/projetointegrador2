@@ -16,6 +16,7 @@ module.exports = (app) => {
   app.post('/register', AuthenticationControllerPolicy.register, AuthenticationController.register)
   app.post('/newUser', AuthenticationController.new)
   app.post('/login', AuthenticationController.login)
+  app.put('/changePassword', AuthenticationControllerPolicy.changePassword, AuthenticationController.changePassword)
   app.put('/user/:userId', middleware.checkToken, AuthenticationController.put)
   app.get('/user/:userId', middleware.checkToken, AuthenticationController.show)
   app.get('/usersView', middleware.checkToken, AuthenticationController.view)
@@ -72,4 +73,6 @@ module.exports = (app) => {
   app.delete('/usuarioAssinatura/:userId/:assinaturaId', middleware.checkToken, UsuarioAssinaturaController.delete)  
   app.get('/assinaturasToken', middleware.checkToken, AssinaturaController.view)
   app.get('/cursosAssinaturaView/:userId', middleware.checkToken, CursoController.viewCursosAssinatura)
+  app.post('/geraCertificado/:userId/:cursoId', middleware.checkToken, CursoController.geraCertificado)
+  app.get('/validaCertificado/:desHash', CursoController.validaCertificado)
 }

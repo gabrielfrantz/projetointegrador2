@@ -9,6 +9,12 @@ function firstAdmin(user, options) {
   return
 }
 
+function criptografa(password) {
+  const saltRounds = 10;
+
+  return bcrypt.hashSync(password, saltRounds);
+}
+
 function hashPassword(user, options) {
   const saltRounds = 10;
 
@@ -38,7 +44,9 @@ module.exports = (sequelize, DataTypes) => {
     ind_usuario: {
       type: DataTypes.STRING,
       defaultValue: 'A'
-    }
+    },
+    reset_password_token: DataTypes.STRING,
+    reset_password_date: DataTypes.DATE
   }, {
     hooks: {
       beforeCreate: hashPassword
@@ -60,6 +68,9 @@ module.exports = (sequelize, DataTypes) => {
   User.prototype.comparePassword = function (password) {
     var vtest = bcrypt.compareSync(password, this.password)
     return vtest;
+  }
+  User.prototype.senhaCriptografada = function (password) {    
+    return criptografa(password);
   }
 
   return User

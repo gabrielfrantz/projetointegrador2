@@ -62,8 +62,7 @@ module.exports = {
       const user = await User.update(
         {
           nom_pessoa: req.body.nom_pessoa,
-          num_cpf: req.body.num_cpf,
-          ind_admin: req.body.ind_admin
+          num_cpf: req.body.num_cpf
         },
         {
           where: {
@@ -187,6 +186,69 @@ module.exports = {
       console.log(err)
       res.status(500).send({
         error: 'Ocorreu um erro ao tentar logar'
+      })
+    }
+  },
+  async changePassword(req, res) {
+    try {
+      const prevUser = await User.findOne({
+        where: {
+          id: req.body.id
+        }
+      })
+      if (req.body.password != req.body.password2) {
+        return res.status(403).send({
+          error: 'Senhas diferem. Verique!'
+        })
+      }
+      const user = await User.update(
+        {
+          password: prevUser.senhaCriptografada(req.body.password)
+        },
+        { 
+          individualHooks: true,
+          where: {
+            id: req.body.id
+          }
+        })
+      await AuditCreate.createAudit(prevUser, user, "user", "UPDATE", req.headers.userid, {});        
+      res.send(user)
+    } catch (err) {
+      LogCreate.post(req.headers.userid, '/putChangePassword', req.params, req.body, err)
+      res.status(500).send({
+        error: 'Ocorreu um erro ao alterar senha do usuário'
+      })
+    }
+  },
+  async forgot(req, res) {
+    try {
+      const prevUser = await User.findOne({
+        where: {
+          email: req.params.email
+        }
+      })
+      if (!prevUser) {
+        return res.status(403).send({
+          error: 'Usuário inválido!'
+        })
+      }
+      const user = await User.update(
+        {
+          reset_password_token: 'Gerar hash ou salvar como nova senha e permitir alteração',
+          reset_password_date: Date.Now() + 3600000
+        },
+        {
+          where: {
+            id: prevUser.id
+          }
+        })
+      await AuditCreate.createAudit(prevUser, user, "user", "FORGOT", req.headers.userid, {});       
+      // Enviar email 
+      res.send(user)
+    } catch (err) {
+      LogCreate.post(req.headers.userid, '/showAuthentication', req.params, req.body, err)
+      res.status(500).send({
+        error: 'Ocorreu um erro ao buscar o user'
       })
     }
   }

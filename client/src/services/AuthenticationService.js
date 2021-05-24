@@ -7,11 +7,14 @@ export default {
   login (credentials) {
     return Api().post('login', credentials)
   },
-  show (userId) {
-    return Api(userId).get(`user/${userId}`)
+  show (userId, token) {
+    return Api(userId, token).get(`user/${userId}`)
   },
-  put (user) {
-    return Api(user.id).put(`user/${user.id}`, user)
+  put (user, token) {
+    return Api(user.id, token).put(`user/${user.id}`, user)
+  },
+  changePassword (user, token) {
+    return Api(user.id, token).put('changePassword', user)
   },
   view (userId, token) {
     return Api(userId, token).get('usersView')
