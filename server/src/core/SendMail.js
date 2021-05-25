@@ -1,7 +1,8 @@
-const fetch = require('node-fetch');
+const fetch = require('node-fetch')
 
 module.exports.Enviar = async (destinatario, assunto, mensagem) => {
   try {
+    console.log('Teste')
     const req = {
       destinatario: destinatario,
       assunto: assunto,

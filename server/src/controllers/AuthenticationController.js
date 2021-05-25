@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const config = require('../config/config')
 const LogCreate = require('../core/LogCreate')
 const AuditCreate = require('../core/AuditCreate')
+const SendMail = require('../core/SendMail')
 const crypto = require('crypto')
 
 function jwtSignUser(user) {
@@ -30,6 +31,7 @@ module.exports = {
       }
       const userJson = user.toJSON()
       await AuditCreate.createAudit(null, user, "user", "CREATE", req.headers.userid, {});
+      await SendMail.Enviar(req.body.email, 'Parabéns, bem vindo ao Educare', `Seu e-mail foi cadastrado com sucesso no educare!`);  
       res.send({
         user: userJson,
         token: jwtSignUser(userJson)
@@ -213,7 +215,7 @@ module.exports = {
           }
         })
       await AuditCreate.createAudit(prevUser, user, "user", "CHANGE", req.headers.userid, {});      
-      await SendMail.EnviarEmail(prevUser.email, 'Sua senha foi alterada', `Caso você não solicitou esta alteração, entre em contato com o suporte!`);  
+      await SendMail.Enviar(prevUser.email, 'Sua senha foi alterada', `Caso você não solicitou esta alteração, entre em contato com o suporte!`);  
       res.send(user)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/putChangePassword', req.params, req.body, err)

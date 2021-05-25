@@ -5,6 +5,7 @@ const { Op } = require('sequelize')
 const LogCreate = require('../core/LogCreate')
 const AuditCreate = require('../core/AuditCreate');
 const SendMail = require('../core/SendMail');
+const fetch = require('node-fetch');
 const md5 = require('md5');
 
 function hashCertificado(inscricaoId, options) {
@@ -14,8 +15,9 @@ function hashCertificado(inscricaoId, options) {
 module.exports = {
   async geraCertificado(req, res) {
     try {
+      console.log("CHEGOU AQUIIIIII")
       const des_hash = hashCertificado('CERTIF_' + req.params.userId + '_' + req.params.cursoId);
-      var user = User.findOne({
+      var user = await User.findOne({
         where: {
           id: req.params.userId
         }
@@ -31,6 +33,11 @@ module.exports = {
           error: 'Usuário não encontrado. Não é permitido gerar o certificado!'
         })
       }
+      if (!user.nom_pessoa) {
+        return res.status(403).send({
+          error: 'Nome e CPF do usuário não encontrado, não é permitido gerar o certificado. Verifique seu cadastro de perfil!'
+        })
+      }
       if (!curso) {
          return res.status(403).send({
            error: 'Curso não encontrado. Não é permitido gerar o certificado!'
@@ -43,7 +50,9 @@ module.exports = {
           id_curso:req.params.cursoId
         }
       })
+      console.log("USERCURSO")
       if (!hasUserCurso){
+        console.log("NAO TINHA")
         userCurso = {
           id_user: req.params.userId, 
           id_curso:req.params.cursoId,
@@ -52,23 +61,25 @@ module.exports = {
         const usuarioCurso = await UsuarioCurso.create(req.body)
         await AuditCreate.createAudit(null, usuarioCurso, "usuarioCurso", "CREATE", req.headers.userid, {});
       }
-      await SendMail.EnviarEmail(user.email, 'Certificado gerado', `Seu certificado para o curso ${curso.nom_evento} foi gerado!`);
+      await SendMail.Enviar(user.email, 'Certificado gerado', `Seu certificado para o curso ${curso.nom_evento} foi gerado!`);
+      console.log("EMAIL")
 
       const certificado = {
+        dta_conclusao: "24/05/2021 20:00:00",
         nom_curso: curso.nom_curso,
+        qtd_horas: curso.des_carga_horaria,
         nom_pessoa: user.nom_pessoa,
         num_cpf: user.num_cpf,
-        dta_evento: Date.now(),
         des_hash: des_hash
       }
-
+      console.log("BEFORE FETCH")
       const response = await fetch('http://localhost:3001/gerarCertificado', {
         method: 'POST',
         body: JSON.stringify(certificado),
         headers: { 'Content-Type': 'application/json' },
       });
       const buffer = await response.buffer();
-      //console.log(buffer)
+      console.log(buffer)
 
       res.setHeader('Content-Type', 'application/pdf');
       res.send(buffer);
