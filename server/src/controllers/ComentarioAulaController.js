@@ -22,7 +22,7 @@ module.exports = {
     } catch (err) {
       LogCreate.post(req.headers.userid, '/viewComentarioAula', req.params, req.body, err)
       res.status(500).send({
-        error: 'Ocorreu um erro ao buscar a lista de comentarios'
+        error: 'Ocorreu um erro ao buscar a lista de comentários'
       })
     }
   },
@@ -79,7 +79,7 @@ module.exports = {
     } catch (err) {
       LogCreate.post(req.headers.userid, '/deleteAulaUsuario', req.params, req.body, err)
       res.status(500).send({
-        error: 'Ocorreu um erro ao deletar aula'
+        error: 'Ocorreu um erro ao deletar o comentário'
       })
     }
   },

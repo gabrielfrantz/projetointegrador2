@@ -61,7 +61,7 @@ module.exports = {
         const usuarioCurso = await UsuarioCurso.create(req.body)
         await AuditCreate.createAudit(null, usuarioCurso, "usuarioCurso", "CREATE", req.headers.userid, {});
       }
-      await SendMail.Enviar(user.email, 'Certificado gerado', `Seu certificado para o curso ${curso.nom_evento} foi gerado!`);
+      await SendMail.Enviar(user.email, 'Certificado gerado', `Seu certificado para o curso ${curso.nom_curso} foi gerado!`);
       console.log("EMAIL")
 
       const certificado = {

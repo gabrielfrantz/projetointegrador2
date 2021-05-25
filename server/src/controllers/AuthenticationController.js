@@ -138,7 +138,7 @@ module.exports = {
     } catch (err) {
       LogCreate.post(req.headers.userid, '/permissionAuthentication', req.params, req.body, err)
       res.status(500).send({
-        error: 'Ocorreu um erro ao alterar permissao'
+        error: 'Ocorreu um erro ao alterar a permissão'
       })
     }
   },
@@ -153,7 +153,7 @@ module.exports = {
     } catch (err) {
       LogCreate.post(req.headers.userid, '/showAuthentication', req.params, req.body, err)
       res.status(500).send({
-        error: 'Ocorreu um erro ao buscar o user'
+        error: 'Ocorreu um erro ao buscar o usuário'
       })
     }
   },
@@ -188,7 +188,7 @@ module.exports = {
       LogCreate.post(null, '/loginAuthentication', req.params, req.body, err)
       console.log(err)
       res.status(500).send({
-        error: 'Ocorreu um erro ao tentar logar'
+        error: 'Ocorreu um erro ao tentar realizar o login'
       })
     }
   },
@@ -220,7 +220,7 @@ module.exports = {
     } catch (err) {
       LogCreate.post(req.headers.userid, '/putChangePassword', req.params, req.body, err)
       res.status(500).send({
-        error: 'Ocorreu um erro ao alterar senha do usuário'
+        error: 'Ocorreu um erro ao alterar a senha do usuário'
       })
     }
   },
@@ -248,12 +248,12 @@ module.exports = {
           }
         })
       await AuditCreate.createAudit(prevUser, user, "user", "FORGOT", req.headers.userid, {});       
-      await SendMail.EnviarEmail(prevUser.email, 'Solicitação de alteração de senha', `Nova senha para acessar a conta e realizar a alteração é: !` + hash);  
+      await SendMail.Enviar(prevUser.email, 'Solicitação de alteração de senha', `Nova senha para acessar a conta e realizar a alteração é: !` + hash);  
       res.send(1)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/showAuthentication', req.params, req.body, err)
       res.status(500).send({
-        error: 'Ocorreu um erro ao buscar o user'
+        error: 'Ocorreu um erro ao buscar o usuário'
       })
     }
   }

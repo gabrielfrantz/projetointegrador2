@@ -21,7 +21,7 @@ module.exports = {
     } catch (err) {
       LogCreate.post(req.headers.userid, '/indexCurso', req.params, req.body, err)
       res.status(500).send({
-        error: 'Ocorreu um erro ao buscar a lista de eventos'
+        error: 'Ocorreu um erro ao buscar a lista de cursos'
       })
     }
   },
@@ -36,7 +36,7 @@ module.exports = {
     } catch (err) {
       LogCreate.post(req.headers.userid, '/viewCurso', req.params, req.body, err)
       res.status(500).send({
-        error: 'Ocorreu um erro ao buscar a lista de eventos'
+        error: 'Ocorreu um erro ao buscar a lista de cursos'
       })
     }
   },
@@ -67,7 +67,7 @@ module.exports = {
     } catch (err) {
       LogCreate.post(req.headers.userid, '/viewCursosAssinatura', req.params, req.body, err)
       res.status(500).send({
-        error: 'Ocorreu um erro ao buscar a lista de eventos'
+        error: 'Ocorreu um erro ao buscar a lista de cursos'
       })
     }
   },
