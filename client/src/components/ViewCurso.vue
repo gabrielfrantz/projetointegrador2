@@ -114,7 +114,7 @@ export default {
     },
     async downloadCertificado () {
       axios({
-        url: `http://localhost:8080/geraCertificado/${this.userId}/${this.cursoId}`,
+        url: `http://177.44.248.25:8080/geraCertificado/${this.userId}/${this.cursoId}`,
         method: 'POST',
         responseType: 'blob'
       }).then((response) => {
