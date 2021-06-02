@@ -1,13 +1,13 @@
 <template>
   <v-layout class="ma-0 pa-0">
     <v-flex>
-      <div class="home">
+      <div class="home background">
         <img class="imagem_home" src="../assets/imagem_home.jpg" alt="Imagem de pessoa utilizando um laptop"/>
         <div class="centered-title"><h1>Bem-vindo a <span class="educare">Educare</span></h1></div>
         <div class="centered-subtitle"><h2>Sua nova plataforma de cursos online!</h2></div>
+        <div class="centered-text"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta quibusdam sit asperiores doloremque, esse odit!</p></div>
         <div class="centered-buttons">
-          <v-btn class="buttons" color="primary"> Inscreva-se Agora </v-btn>
-          <v-btn class="buttons" color="primary"> Teste gratuito por 30 dias </v-btn>
+          <v-btn class="accent-2" color="primary" @click="navigateTo('/register')"> Registre-se Agora! </v-btn>
         </div>
         <div class="stakeholder">
           <img src="../assets/Stakeholder2.jpg" alt="" class="imagem_stakeholder">
@@ -109,7 +109,16 @@ a {
 
 .centered-subtitle {
   position: absolute;
-  top: 20%;
+  top: 16%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin   : 0 auto;
+  width    : 100%;
+}
+
+.centered-text {
+  position: absolute;
+  top: 24%;
   left: 50%;
   transform: translate(-50%, -50%);
   margin   : 0 auto;
@@ -118,7 +127,7 @@ a {
 
 .centered-buttons {
   position: absolute;
-  top: 28%;
+  top: 32%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -128,7 +137,7 @@ a {
 }
 
 .imagem_home {
-  height: 80%;
+  height: 60%;
   filter: blur(5px) brightness(40%);
   position: relative;
 }
@@ -137,7 +146,7 @@ a {
   background: #1D1E20;
   margin-left: auto;
   margin-right: auto;
-  border: 3px solid gray;
+  border: 0px solid gray;
   max-width: 800px;
 }
 
