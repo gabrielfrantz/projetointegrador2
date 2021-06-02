@@ -76,4 +76,5 @@ module.exports = (app) => {
   app.get('/cursosAssinaturaView/:userId', middleware.checkToken, CursoController.viewCursosAssinatura)
   app.post('/geraCertificado/:userId/:cursoId', UsuarioCursoController.geraCertificado)
   app.get('/validaCertificado/:desHash', UsuarioCursoController.validaCertificado)
+  app.post('/forgot/:email', AuthenticationController.forgot)
 }
