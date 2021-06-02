@@ -17,6 +17,11 @@
         <div class="error" v-html="error" />
         <br />
         <v-btn class="gray" @click="login" dark>Entrar</v-btn>
+        <br />
+        <br />
+        <div class="text-center">
+          <v-btn  class="blue" @click="forgot" dark>Esqueci minha senha</v-btn>
+        </div>
       </panel>
     </v-flex>
   </v-layout>
@@ -62,16 +67,18 @@ export default {
       } catch (error) {
         this.error = error.response.data.error
       }
+    },
+    async forgot () {
+      try {
+        this.navigateTo({name: 'forgot'})
+      } catch (error) {
+        this.error = error.response.data.error
+      }
     }
   },
   components: {
     Panel
   }
-  // mounted () {
-  //   setTimeout(() => {
-  //     this.email = 'hello world'
-  //   }, 2000)
-  // }
 }
 </script>
 
