@@ -22,7 +22,7 @@ export default {
   permission (userId, user, token) {
     return Api(userId, token).put(`userPermission/${user.id.userId}`, user)
   },
-  forgot (userId, user, email) {
-    return Api(userId, email).put(`forgot/${user.id.userId}`, email)
+  forgot (userId, email, token) {
+    return Api(userId, token).post(`forgot/${email}`)
   }
 }

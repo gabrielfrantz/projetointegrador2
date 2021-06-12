@@ -25,8 +25,12 @@ export default {
   data () {
     return {
       user: {},
-      email: '',
-      error: null
+      email: null,
+      error: null,
+      errorForgot: null,
+      errorCheck: null,
+      userId: null,
+      token: this.$store.state.token
     }
   },
   methods: {
@@ -34,34 +38,24 @@ export default {
       this.$router.push(route)
     },
     async forgot () {
-      this.errorChange = null
-      const user = {
-        id: this.$store.state.user.id,
-        email: this.email
-      }
+      this.errorForgot = null
       try {
-        await AuthenticationService.forgot(this.id, user, this.email)
-        const response = await AuthenticationService.show(this.$store.state.user.id, user, this.email)
-        this.$store.dispatch('setUser', response.data)
-        this.$router.push({ name: 'login' })
+        (await AuthenticationService.forgot(0, this.email, this.token)).data
+        alert('E-mail enviado. Consulte seu e-mail!')
       } catch (err) {
-        this.errorChange = err.response.data.error
+        alert(err.response.data.error)
+        this.errorForgot = err.response.data.error
         console.log(err)
       }
     },
     async forgotCheck () {
-      this.errorChange = null
-      const user = {
-        id: this.$store.state.user.id,
-        email: this.email
-      }
+      this.errorCheck = null
       try {
-        await AuthenticationService.forgot(this.id, user, this.email)
-        const response = await AuthenticationService.show(this.$store.state.user.id, user, this.email)
-        this.$store.dispatch('setUser', response.data)
+        await AuthenticationService.forgot(0, this.email, this.token)
+        //await AuthenticationService.show(this.$store.state.user.id, this.token)
         this.$router.push({ name: 'login' })
       } catch (err) {
-        this.errorChange = err.response.data.error
+        this.errorCheck = err.response.data.error
         console.log(err)
       }
     }

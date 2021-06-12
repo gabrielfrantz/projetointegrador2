@@ -226,6 +226,7 @@ module.exports = {
   },
   async forgot(req, res) {
     try {
+      console.log('chegou no esquecido')
       const prevUser = await User.findOne({
         where: {
           email: req.params.email
@@ -236,20 +237,23 @@ module.exports = {
           error: 'Usuário inválido!'
         })
       }
-      const hash = prevUser.Id + crypto.randomBytes(12).toString('hex');
+      const hash = prevUser.id + crypto.randomBytes(12).toString('hex')
+      console.log(hash)
       const user = await User.update(
         {
           reset_password_token: hash,
-          reset_password_date: Date.Now() + 3600000
         },
         {
           where: {
             id: prevUser.id
           }
         })
+      console.log(user)        
+      console.log('teste')
       await AuditCreate.createAudit(prevUser, user, "user", "FORGOT", req.headers.userid, {});       
       await SendMail.Enviar(prevUser.email, 'Solicitação de alteração de senha', `Nova senha para acessar a conta e realizar a alteração é: !` + hash);  
-      res.send(1)
+      console.log('enviado')
+      res.send(user)
     } catch (err) {
       LogCreate.post(req.headers.userid, '/showAuthentication', req.params, req.body, err)
       res.status(500).send({
