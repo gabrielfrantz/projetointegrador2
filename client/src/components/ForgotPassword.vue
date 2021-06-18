@@ -40,7 +40,8 @@ export default {
     async forgot () {
       this.errorForgot = null
       try {
-        await AuthenticationService.forgot(0, this.email, this.token)
+        // eslint-disable-next-line
+        (await AuthenticationService.forgot(0, this.email, this.token)).data
         alert('E-mail enviado. Consulte seu e-mail!')
       } catch (err) {
         alert(err.response.data.error)
@@ -52,6 +53,7 @@ export default {
       this.errorCheck = null
       try {
         await AuthenticationService.forgot(0, this.email, this.token)
+        // await AuthenticationService.show(this.$store.state.user.id, this.token)
         this.$router.push({ name: 'login' })
       } catch (err) {
         this.errorCheck = err.response.data.error
@@ -66,7 +68,4 @@ export default {
 </script>
 
 <style scoped>
-.error {
-  color: red
-}
 </style>

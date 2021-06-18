@@ -26,6 +26,7 @@ import Assinatura from '@/components/Assinatura'
 import EditarAssinatura from '@/components/EditarAssinatura'
 import AssinaturaUsuario from '@/components/AssinaturaUsuario'
 import ForgotPassword from '@/components/ForgotPassword'
+import Pagamento from '@/components/Pagamento'
 
 Vue.use(VueEllipseProgress)
 Vue.use(Router)
@@ -156,6 +157,11 @@ export default new Router({
       path: '/forgot',
       name: 'forgot',
       component: ForgotPassword
+    },
+    {
+      path: '/pagamento',
+      name: 'pagamento',
+      component: Pagamento
     }
   ]
 })
