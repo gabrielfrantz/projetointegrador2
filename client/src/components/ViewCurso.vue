@@ -5,6 +5,7 @@
           <v-btn slot="newButton" class="blue darken-2" v-tooltip="'Gerar certificado'" fab ligth small absolute right middle @click="downloadCertificado()">
             <v-icon>fact_check</v-icon>
           </v-btn>
+           <v-btn class="red" v-tooltip="'Gerar boleto'" @click="downloadBoleto()" dark>Boleto</v-btn>
         <div class="error" v-html="errorCertificado"/>
         <v-textarea label="Descrição*" v-model="des_curso" readonly></v-textarea>
         <v-text-field label="Carga Horária*" v-model="des_carga_horaria" readonly></v-text-field>
@@ -96,6 +97,9 @@ export default {
     geraCertificado () {
       alert('Geração de certificados em desenvolvimento. Aguarde!')
     },
+    geraBoleto () {
+      alert('Geração de boletos em desenvolvimento. Aguarde!')
+    },
     calcRowsPerPage () {
       let container = document.getElementById('container')
       let minItemHeight = 170
@@ -114,7 +118,7 @@ export default {
     },
     async downloadCertificado () {
       axios({
-        url: `http://177.44.248.25:8080/geraCertificado/${this.userId}/${this.cursoId}`,
+        url: `http://localhost:8080/geraCertificado/${this.userId}/${this.cursoId}`,
         method: 'POST',
         responseType: 'blob'
       }).then((response) => {
@@ -128,6 +132,24 @@ export default {
       }).catch((error) => {
         this.response = error.response
         this.errorCertificado = 'Ocorreu algum erro na geração do certificado, verifique se seu cadastro está completo na aba PERFIL. Em caso de dúvidas entre em contato com o suporte!'
+      })
+    },
+    async downloadBoleto () {
+      axios({
+        url: `http://localhost:8080/geraBoleto/1/1/1`,
+        method: 'POST',
+        responseType: 'blob'
+      }).then((response) => {
+        this.errorCertificado = null
+        var fileURL = window.URL.createObjectURL(new Blob([response.data]))
+        var fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'boleto.pdf')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+      }).catch((error) => {
+        this.response = error.response
+        this.errorCertificado = 'Ocorreu algum erro na geração do boleto. Em caso de dúvidas entre em contato com o suporte!'
       })
     }
   },

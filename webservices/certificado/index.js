@@ -29,7 +29,7 @@ const geraPdf = async (req) => {
               <span style="font-size:30px"><b>${req.body.nom_curso}</b></span> <br/><br/>
               <span style="font-size:25px"><i>no qual ${req.body.nom_pessoa}, de CPF nº. ${req.body.num_cpf},</i></span><br/><br/>
               <span style="font-size:25px"><i>concluiu no dia </i></span>
-              <span style="font-size:30px"><b>${req.body.dta_conclusao}</b></span><br/><br/>
+              <span style="font-size:30px"><b>${req.body.dta_conclusao},</b></span><br/><br/>
               <span style="font-size:25px"><i>com carga horária de </i></span>
               <span style="font-size:30px"><b>${req.body.qtd_horas}</b></span><br/><br/>
               <br/><br/>

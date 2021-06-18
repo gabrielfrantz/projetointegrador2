@@ -1,7 +1,7 @@
 const { Curso } = require('../models')
 const { User } = require('../models')
 const { UsuarioCurso } = require('../models')
-const { Op } = require('sequelize')
+const { Op, DATE } = require('sequelize')
 const LogCreate = require('../core/LogCreate')
 const AuditCreate = require('../core/AuditCreate');
 const SendMail = require('../core/SendMail');
@@ -15,7 +15,7 @@ function hashCertificado(inscricaoId, options) {
 module.exports = {
   async geraCertificado(req, res) {
     try {
-      console.log("CHEGOU AQUIIIIII")
+      console.log("CHEGOU CERTIFICADO")
       const des_hash = hashCertificado('CERTIF_' + req.params.userId + '_' + req.params.cursoId);
       var user = await User.findOne({
         where: {
@@ -62,17 +62,24 @@ module.exports = {
         await AuditCreate.createAudit(null, usuarioCurso, "usuarioCurso", "CREATE", req.headers.userid, {});
       }
       await SendMail.Enviar(user.email, 'Certificado gerado', `Seu certificado para o curso ${curso.nom_curso} foi gerado!`);
-      console.log("EMAIL")
-
+      console.log("EMAIL CERTIFICADO")
+      function adicionaZero(numero){
+        if (numero <= 9) 
+            return "0" + numero;
+        else
+            return numero; 
+      }
+      const dataAtual = new Date()
+      const dataAtualFormatada = (adicionaZero(dataAtual.getDate().toString()) + "/" + (adicionaZero(dataAtual.getMonth()+1).toString()) + "/" + dataAtual.getFullYear() + " ás " + (adicionaZero(dataAtual.getHours())) + ":" + (adicionaZero(dataAtual.getMinutes())))
       const certificado = {
-        dta_conclusao: "24/05/2021 20:00:00",
+        dta_conclusao: dataAtualFormatada,
         nom_curso: curso.nom_curso,
         qtd_horas: curso.des_carga_horaria,
         nom_pessoa: user.nom_pessoa,
         num_cpf: user.num_cpf,
         des_hash: des_hash
       }
-      console.log("BEFORE FETCH")
+      console.log("BEFORE FETCH CERTIFICADO")
       const response = await fetch('http://localhost:3001/gerarCertificado', {
         method: 'POST',
         body: JSON.stringify(certificado),
