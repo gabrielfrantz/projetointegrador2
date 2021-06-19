@@ -1,5 +1,19 @@
-const { Bancos, Boletos} = require('./lib/index');
+//padrão do pdf certificado
+console.log('Waking up fellas')
+const express = require("express");
+const Promise = require('bluebird');
+const bodyParse = require('body-parser')
+const cors = require('cors')
+const morgan = require('morgan')
+const pdf = Promise.promisifyAll(require('html-pdf'));
+const app = express();
+const port = 3003;
+app.use(morgan('combined'))
+app.use(bodyParse.json())
+app.use(cors())
 
+//já veio com o padrão boleto
+const { Bancos, Boletos} = require('./lib/index');
 const fs = require('fs');
 const Boleto = require('./lib/utils/functions/boletoUtils');
 const BoletoStringify = require('./lib/stringify/boletoStringify');
@@ -32,7 +46,7 @@ module.exports = class Boletos {
       .comInstrucoes(BoletoStringify.createInstrucoes(this.instrucoes));
   }
 
-  /*pdfFile(dir = './tmp', filename='boleto') {
+  pdfFile(dir = './tmp', filename='boleto') {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir);
     const stream = fs.createWriteStream(`${dir}/${filename}.pdf`);
 
@@ -47,23 +61,8 @@ module.exports = class Boletos {
       creditos: '',
       stream,
     }).then(() => resolve({ boleto: this.boleto, stream })));
-  }*/
+  }
 };
-
-console.log('Waking up fellas')
-const express = require("express");
-const Promise = require('bluebird');
-const bodyParse = require('body-parser')
-const cors = require('cors')
-const morgan = require('morgan')
-const pdf = Promise.promisifyAll(require('html-pdf'));
-
-const app = express();
-const port = 3003;
-
-app.use(morgan('combined'))
-app.use(bodyParse.json())
-app.use(cors())
 
 const geraPdf = async (req) => {
   const conteudo = {
@@ -111,22 +110,21 @@ const geraPdf = async (req) => {
       }
     },
   }
-  /*const novoBoleto = new Boletos(conteudo);
+  const novoBoleto = new Boletos(conteudo);
   novoBoleto.gerarBoleto();
   novoBoleto.pdfFile().then(async ({ stream }) => {	
     await streamToPromise(stream);
   }).catch((error) => {
     return error;
-  });*/
+  });
+};
 
-/*const novoBoleto = new Boletos(conteudo);
-novoBoleto.gerarBoleto();
-let createResult = pdf.create(novoBoleto.pdfFile(), { format: 'A4' });*/
+/*
+//padrão do pdf certificado
 let createResult = pdf.create(conteudo, { format: 'A4' });
 let pdfToBuffer = Promise.promisify(createResult.__proto__.toBuffer, { context: createResult });
 let bufferResult = await pdfToBuffer();
 return bufferResult;
-};
 
 app.post("/gerarBoleto", async (req, res) => {
   try {
@@ -141,5 +139,6 @@ app.post("/gerarBoleto", async (req, res) => {
     })
   }
 });
+*/
 
 app.listen(port, () => console.log(`app listening on port ${port}`));
