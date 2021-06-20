@@ -14,6 +14,8 @@ app.use(cors())
 const user = "fincontrol.project@gmail.com";
 const pass = "fincontrol@2020";
 
+const fs = require('fs');
+
 app.post('/enviarEmail', async (req, res) => {
   try {
     console.log(req.body)
@@ -26,7 +28,11 @@ app.post('/enviarEmail', async (req, res) => {
       from: user,
       to: req.body.destinatario,
       subject: req.body.assunto,
-      text: req.body.texto
+      text: req.body.texto,
+      attachments: [{ 
+        filename: 'boleto.pdf', 
+        path: '../boletos/tmp/boleto.pdf'
+      }]
     }
 
     transporter.sendMail(mailOptions, function (error, info) {

@@ -7,6 +7,7 @@ const AuditCreate = require('../core/AuditCreate');
 const SendMail = require('../core/SendMail');
 const fetch = require('node-fetch');
 const md5 = require('md5');
+const fs = require('fs');
 
 function hashCertificado(inscricaoId, options) {
   return md5(`${inscricaoId}`);

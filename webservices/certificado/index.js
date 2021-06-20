@@ -46,32 +46,6 @@ const geraPdf = async (req) => {
   return bufferResult;
 }
 
-const geraBoleto = async (req) => {
-  var conteudo = `
-        <div style="width:715px; height:1040px; padding:20px; text-align:center; border: 10px solid #787878">
-        <div style="width:665px; height:990px; padding:20px; text-align:center; border: 5px solid #787878">
-              <br><br>
-              <br><br>
-              <span style="font-size:50px; font-weight:bold">BOLETO DE PAGAMENTO</span>
-              <br><br>
-              <br><br>
-              <br><br>
-              <br><br>
-              <span style="font-size:25px"><i>PAGUE-ME</i></span>
-              <br><br>
-              <br/><br/>
-              <br/><br/>
-        </div>
-        </div>
-        `
-
-  let createResult = pdf.create(conteudo, { format: 'A4' });
-  let pdfToBuffer = Promise.promisify(createResult.__proto__.toBuffer, { context: createResult });
-  let bufferResult = await pdfToBuffer();
-
-  return bufferResult;
-}
-
 app.post("/gerarCertificado", async (req, res) => {
   try {
     console.log("chegou")
@@ -82,20 +56,6 @@ app.post("/gerarCertificado", async (req, res) => {
   } catch (err) {
     res.status(500).send({
       error: 'Ocorreu um erro ao gerar pdf'
-    })
-  }
-})
-
-app.post("/gerarBoleto", async (req, res) => {
-  try {
-    console.log("chegou")
-    let bufferResult = await geraBoleto(req)
-
-    res.set('Content-Type', 'application/pdf')
-    res.send(bufferResult)
-  } catch (err) {
-    res.status(500).send({
-      error: 'Ocorreu um erro ao gerar boleto'
     })
   }
 })

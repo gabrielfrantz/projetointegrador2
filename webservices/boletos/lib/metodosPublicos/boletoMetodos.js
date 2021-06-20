@@ -1,4 +1,3 @@
-/*
 const fs = require('fs');
 const Boleto = require('../utils/functions/boletoUtils');
 const BoletoStringify = require('../stringify/boletoStringify');
@@ -48,4 +47,3 @@ module.exports = class Boletos {
     }).then(() => resolve({ boleto: this.boleto, stream })));
   }
 };
-*/
