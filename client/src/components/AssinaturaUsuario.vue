@@ -38,19 +38,17 @@ export default {
     }
   },
   async mounted () {
+    this.selAssinatura = {
+      id: 0
+    }
     this.userId = this.$store.state.userId
     this.assinaturas = (await AssinaturaService.view(this.userId, this.token)).data
     this.assinatura = (await UsuarioAssinaturaService.show(this.userId, this.token)).data
-    console.log(this.assinatura)
     if (this.assinatura) {
       this.selAssinatura = {
         id: this.assinatura.id_assinatura
       }
       this.selectedItem = this.assinatura.id_assinatura - 1
-    } else {
-      this.selAssinatura = {
-        id: 0
-      }
     }
   },
   methods: {

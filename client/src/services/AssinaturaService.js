@@ -21,5 +21,8 @@ export default {
   },
   pagarCartao (userId, assinaturaId, token) {
     return Api(userId, token).post(`pagarCartao/${userId}/${assinaturaId}`)
+  },
+  pagarBoleto (userId, assinaturaId, token) {
+    return Api(userId, token).post(`pagarBoleto/${userId}/${assinaturaId}`)
   }
 }

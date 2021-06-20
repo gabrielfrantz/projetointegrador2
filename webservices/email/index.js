@@ -28,10 +28,40 @@ app.post('/enviarEmail', async (req, res) => {
       from: user,
       to: req.body.destinatario,
       subject: req.body.assunto,
+      text: req.body.texto
+    }
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log('Erro ao enviar e-mail: ' + error);
+      } else {
+        console.log('E-mail enviado com sucesso!');
+      }
+    })
+    res.status(200).send('Enviado')
+  } catch (error) {
+    res.status(500).send({
+      error: 'Ocorreu um erro ao enviar e-mail' + err
+    })
+  }
+})
+
+app.post('/enviarEmailAnexo', async (req, res) => {
+  try {
+    console.log(req.body)
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: { user, pass }
+    })
+
+    const mailOptions = {
+      from: user,
+      to: req.body.destinatario,
+      subject: req.body.assunto,
       text: req.body.texto,
       attachments: [{ 
-        filename: 'boleto.pdf', 
-        path: '../boletos/tmp/boleto.pdf'
+        filename: req.body.filename,
+        path: req.body.path
       }]
     }
 

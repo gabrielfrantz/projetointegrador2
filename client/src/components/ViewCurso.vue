@@ -10,7 +10,7 @@
         <v-text-field label="Carga Horária*" v-model="des_carga_horaria" readonly></v-text-field>
       </panel>
       <br>
-      <panel title="Modulos">
+      <panel title="Modulos" back="false">
         <v-expansion-panels focusable>
           <v-expansion-panel v-for="modulo in modulos" :key="modulo.id">
             <v-expansion-panel-header>{{modulo.nom_modulo}}</v-expansion-panel-header>

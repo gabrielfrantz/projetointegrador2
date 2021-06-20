@@ -10,8 +10,8 @@
         <v-text-field label="Nome Completo" v-model="nom_cartao" required :rules="[required]"></v-text-field>
         <v-text-field type="number" label="Data de Expiração (mm/yy)" v-model="dta_vcto_cartao" required :rules="[required]"></v-text-field>
         <v-text-field type="number" label="CVC" v-model="num_cvc" required :rules="[required]"></v-text-field>
-        <v-btn elevation="2" large color="success" @click="pagarBoleto()"> Pagar Via Boleto </v-btn>
-        <v-btn elevation="2" large color="primary" @click="pagarCartao()"> Pagar </v-btn>
+        <v-btn elevation="2" large color="success" @click="pagarBoleto()"> Pagar via Boleto </v-btn>
+        <v-btn elevation="2" large color="primary" @click="pagarCartao()"> Pagar via Cartão </v-btn>
         <div class="error" v-html="error" />
       </panel>
     </v-flex>
@@ -51,7 +51,13 @@ export default {
       this.$router.push(route)
     },
     async pagarBoleto () {
-      alert('Boleto gerado')
+      try {
+        await AssinaturaService.pagarBoleto(this.userId, this.assinaturaId, this.token)
+        alert('Boleto gerado e enviado por e-mail!')
+        this.navigateTo({name: 'root'})
+      } catch (error) {
+        this.error = error.response.data.error
+      }
     },
     async pagarCartao () {
       this.error = null
@@ -70,6 +76,7 @@ export default {
       }
       try {
         await AssinaturaService.pagarCartao(this.userId, this.assinaturaId, this.token)
+        alert('Pagamento confirmado com sucesso!')
         this.navigateTo({name: 'root'})
       } catch (error) {
         this.error = error.response.data.error

@@ -81,4 +81,5 @@ module.exports = (app) => {
   app.post('/forgot/:email', AuthenticationController.forgot)
   app.get('/validaHashSenha/:hash', AuthenticationController.validaHash)
   app.post('/pagarCartao/:userId/:assinaturaId', PagamentoController.pagarCartao)
+  app.post('/pagarBoleto/:userId/:assinaturaId', PagamentoController.pagarBoleto)
 }
