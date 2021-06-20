@@ -9,7 +9,7 @@
         <v-btn class="green accent-3" @click="save" dark>Salvar</v-btn>
         <v-btn class="red" @click="navigateTo({name: 'assinatura'})" dark>Cancelar</v-btn>
       </panel>
-      <panel title="Cursos">
+      <panel title="Cursos" back="false">
           <v-row>
             <v-col cols="12" sm="4" md="3">
               Nome

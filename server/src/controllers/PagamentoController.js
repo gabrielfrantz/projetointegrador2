@@ -116,8 +116,8 @@ module.exports = {
             return numero; 
       }
       const dataAtual = new Date()
-      const dataAtualFormatada = (adicionaZero(dataAtual.getDate().toString()) + "/" + (adicionaZero(dataAtual.getMonth()+1).toString()) + "/" + dataAtual.getFullYear())
-      const dataAtualFormatadaVencimento = ((adicionaZero(dataAtual.getDate()).toString()) + "/" + (adicionaZero(dataAtual.getMonth()+2).toString()) + "/" + dataAtual.getFullYear())
+      const dataAtualFormatada = ((adicionaZero(dataAtual.getMonth()+1).toString()) + "-" + adicionaZero(dataAtual.getDate().toString()) + "-" + dataAtual.getFullYear())
+      const dataAtualFormatadaVencimento = ((adicionaZero(dataAtual.getMonth()+2).toString()) + "-" + adicionaZero(dataAtual.getDate().toString()) + "-" + dataAtual.getFullYear())
       const boleto = {
         vencimento: dataAtualFormatadaVencimento,
         processamento: dataAtualFormatada,
@@ -125,7 +125,8 @@ module.exports = {
         nom_pessoa: user.nom_pessoa,
         vlr_pgto: pagamento.vlr_pgto
       }
-      console.log("BEFORE FETCH BOLETO")
+      console.log('vencimento: '+dataAtualFormatadaVencimento)
+      console.log('processamento: '+dataAtualFormatada)
       const response = await fetch('http://localhost:3003/gerarBoleto', {
         method: 'POST',
         body: JSON.stringify(boleto),
@@ -136,10 +137,10 @@ module.exports = {
 
       await new Promise(r => setTimeout(r, 2000));
 
-      fs.unlink('../webservices/boletos/tmp/boleto.pdf', function (err){
-        if (err) throw err;
-        console.log('Arquivo deletado!');
-      })
+     // fs.unlink('../webservices/boletos/tmp/boleto.pdf', function (err){
+        //if (err) throw err;
+       // console.log('Arquivo deletado!');
+      //})
       
       res.send(pgto)
     } catch (err) {

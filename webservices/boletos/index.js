@@ -52,9 +52,9 @@ app.post('/gerarBoleto', async (req, res) => {
         especieDocumento: 'DM',
         valor: req.body.vlr_pgto,
         datas: {
-          vencimento: '07-20-2021',
-          processamento: '06-20-2021',
-          documentos: '06-20-2021'
+          vencimento: req.body.vencimento,
+          processamento: req.body.processamento,
+          documentos: req.body.documentos
         }
       }
     };

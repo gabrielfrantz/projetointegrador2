@@ -12,7 +12,6 @@ const ComentarioAulaController = require('./controllers/ComentarioAulaController
 const CursoAssinaturaController = require('./controllers/CursoAssinaturaController')
 const UsuarioAssinaturaController = require('./controllers/UsuarioAssinaturaController')
 const UsuarioCursoController = require('./controllers/UsuarioCursoController')
-const UsuarioPagamentoController = require('./controllers/UsuarioPagamentoController')
 const PagamentoController = require('./controllers/PagamentoController')
 
 module.exports = (app) => {

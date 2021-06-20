@@ -9,7 +9,7 @@
         <v-btn class="green accent-3" @click="create" dark>Salvar</v-btn>
         <v-btn class="red" @click="navigateTo({name: 'editar-curso', params: {cursoId: cursoId}})" dark>Cancelar</v-btn>
       </panel>
-      <panel title="Aulas">
+      <panel title="Aulas" back="false">
           <v-btn slot="newButton" class="blue darken-2" fab ligth small absolute right middle @click="navigateTo({name: 'criar-aula', params: {moduloId: moduloId, cursoId: cursoId}})">
             <v-icon>add</v-icon>
           </v-btn>
@@ -129,7 +129,7 @@ export default {
     },
     async deleteaula (aulaId) {
       try {
-        confirm('Are you sure you want to delete this item?') && await AulasService.delete(this.userId, aulaId.aulaId, this.token)
+        confirm('Você tem certeza que deseja excluir?') && await AulasService.delete(this.userId, aulaId.aulaId, this.token)
         this.aulas = (await AulasService.index(this.userId, this.moduloId, this.token)).data
       } catch (error) {
         this.error = error.response.data.error

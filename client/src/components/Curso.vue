@@ -73,7 +73,7 @@ export default {
     },
     async deletecurso (cursoId) {
       try {
-        confirm('Are you sure you want to delete this item?') && await CursosService.delete(this.userId, cursoId.cursoId, this.token)
+        confirm('Você tem certeza que deseja excluir?') && await CursosService.delete(this.userId, cursoId.cursoId, this.token)
         this.cursos = (await CursosService.index(this.userId, this.token)).data
         // this.$router.push({ name: 'banks' })
       } catch (error) {

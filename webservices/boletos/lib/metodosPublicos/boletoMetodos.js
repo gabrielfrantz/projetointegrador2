@@ -3,7 +3,7 @@ const Boleto = require('../utils/functions/boletoUtils');
 const BoletoStringify = require('../stringify/boletoStringify');
 
 module.exports = class Boletos {
-  constructor({ banco, pagador, boleto, beneficiario, instrucoes, file }) {
+  constructor({ banco, pagador, boleto, beneficiario, instrucoes, file}) {
     this.banco = banco;
     this.pagador = pagador;
     this.boleto = boleto;

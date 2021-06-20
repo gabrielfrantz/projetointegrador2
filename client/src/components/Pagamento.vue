@@ -53,7 +53,7 @@ export default {
     async pagarBoleto () {
       try {
         await AssinaturaService.pagarBoleto(this.userId, this.assinaturaId, this.token)
-        alert('Boleto gerado e enviado por e-mail!')
+        alert('Boleto gerado com sucesso e enviado por e-mail!')
         this.navigateTo({name: 'root'})
       } catch (error) {
         this.error = error.response.data.error
@@ -71,12 +71,12 @@ export default {
         .keys(cartao)
         .every(key => !!cartao[key])
       if (!areAllFieldsFilledIn) {
-        this.error = 'Informe todos os campos obrigatórios'
+        this.error = 'Informe todos os campos obrigatórios!'
         return
       }
       try {
         await AssinaturaService.pagarCartao(this.userId, this.assinaturaId, this.token)
-        alert('Pagamento confirmado com sucesso!')
+        alert('Pagamento com cartão confirmado com sucesso!')
         this.navigateTo({name: 'root'})
       } catch (error) {
         this.error = error.response.data.error

@@ -38,7 +38,7 @@
             </div>
           </v-col>
         </v-row>
-        <panel title="Comentários">
+        <panel title="Comentários" back="false">
           <v-text-field placeholder="Adicionar comentário*" class="border" v-model="des_comentario" required :rules="[required]">
           </v-text-field>
             <div class="danger-alert" v-if="error">{{error}}</div>
@@ -182,7 +182,7 @@ export default {
       this.comentarios = (await ComentarioAulaService.view(this.userId, this.aulaId, this.token)).data
     },
     async deleteComentario (comentarioId) {
-      confirm('Are you sure you want to delete this item?') && await ComentarioAulaService.delete(this.userId, comentarioId.comentarioId, this.token)
+      confirm('Você tem certeza que deseja excluir?') && await ComentarioAulaService.delete(this.userId, comentarioId.comentarioId, this.token)
       this.comentarios = (await ComentarioAulaService.view(this.userId, this.aulaId, this.token)).data
     },
     async saveRate () {

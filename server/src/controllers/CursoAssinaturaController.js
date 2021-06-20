@@ -18,7 +18,7 @@ module.exports = {
           where: {
             id_assinatura: req.params.assinaturaId
           },
-          required: true
+          required: false
         }]        
       })
       res.send(cursos)

@@ -69,7 +69,7 @@ export default {
         this.navigateTo({name: 'perfil'})
       } catch (error) {
         this.error = error.response.data.error
-        alert('Código inválido ou expirado. Verifique seu email ou solicite nova recuperação!')
+        alert('Código inválido ou expirado. Verifique seu email ou solicite uma nova recuperação de senha!')
       }
     }
   },

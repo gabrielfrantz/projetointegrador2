@@ -11,7 +11,7 @@
         <v-btn class="green accent-3" @click="save" dark>Salvar</v-btn>
         <v-btn class="red" @click="navigateTo({name: 'cursos'})" dark>Cancelar</v-btn>
       </panel>
-      <panel title="Modulos">
+      <panel title="Modulos" back="false">
           <v-btn slot="newButton" class="blue darken-2" fab ligth small absolute right middle @click="navigateTo({name: 'criar-modulo', params: {cursoId: cursoId}})">
             <v-icon>add</v-icon>
           </v-btn>
@@ -133,9 +133,8 @@ export default {
     },
     async deletemodulo (moduloId) {
       try {
-        confirm('Are you sure you want to delete this item?') && await ModulosService.delete(this.userId, moduloId.moduloId, this.token)
+        confirm('Você tem certeza que deseja excluir?') && await ModulosService.delete(this.userId, moduloId.moduloId, this.token)
         this.modulos = (await ModulosService.index(this.userId, this.cursoId, this.token)).data
-        // this.$router.push({ name: 'banks' })
       } catch (error) {
         this.error = error.response.data.error
       }

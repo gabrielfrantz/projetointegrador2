@@ -3,7 +3,7 @@
     <v-flex>
       <h1 v-if="$store.state.isUserLoggedIn">{{ msg }}</h1>
       <br>
-      <panel title="Cursos" v-if="$store.state.isUserLoggedIn">
+      <panel title="Cursos" v-if="$store.state.isUserLoggedIn" back="false">
         <div class="error" v-html="error" />
         <v-container class="grey lighten-5 mb-6">
               <v-row class="fill-height overflow-auto">
