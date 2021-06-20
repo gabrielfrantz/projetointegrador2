@@ -4,9 +4,9 @@
       <panel title="Minha Assinatura">
         <v-list shaped>
           <v-list-item-group v-model="selectedItem" color="primary">
-            <v-list-item v-for="a in assinaturas" :key="a.id" @click="save({assinaturaId: a.id})">
+            <v-list-item v-for="a in assinaturas" :key="a.id" @click="setSelectedAssinatura({assinatura: a})">
               <v-list-item-icon>
-                <v-icon v-if="a.id === assinatura.id_assinatura">check</v-icon>
+                <v-icon v-if="a.id === selAssinatura.id">check</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title v-text="a.nom_assinatura"></v-list-item-title>
@@ -14,6 +14,8 @@
             </v-list-item>
           </v-list-item-group>
        </v-list>
+       <div class="error" v-html="error" />
+       <v-btn class="green accent-3" @click="pagamento" dark>Ir para pagamento</v-btn>
       </panel>
     </v-flex>
   </v-layout>
@@ -31,6 +33,7 @@ export default {
       error: null,
       assinaturas: null,
       assinatura: null,
+      selAssinatura: null,
       selectedItem: 0
     }
   },
@@ -38,6 +41,17 @@ export default {
     this.userId = this.$store.state.userId
     this.assinaturas = (await AssinaturaService.view(this.userId, this.token)).data
     this.assinatura = (await UsuarioAssinaturaService.show(this.userId, this.token)).data
+    console.log(this.assinatura)
+    if (this.assinatura) {
+      this.selAssinatura = {
+        id: this.assinatura.id_assinatura
+      }
+      this.selectedItem = this.assinatura.id_assinatura - 1
+    } else {
+      this.selAssinatura = {
+        id: 0
+      }
+    }
   },
   methods: {
     async create () {
@@ -47,26 +61,16 @@ export default {
     navigateTo (route) {
       this.$router.push(route)
     },
-    async save (assinaturaId) {
-      this.error = null
-      const usuarioAssinatura = {
-        id_user: this.userId,
-        id_assinatura: assinaturaId.assinaturaId
-      }
-      const areAllFieldsFilledIn = Object
-        .keys(usuarioAssinatura)
-        .every(key => !!usuarioAssinatura[key])
-      if (!areAllFieldsFilledIn) {
-        this.error = 'Informe todos os campos obrigatórios'
+    async setSelectedAssinatura (assinatura) {
+      console.log(assinatura.assinatura.id)
+      this.selAssinatura = assinatura.assinatura
+    },
+    async pagamento () {
+      if (this.selAssinatura.id === 0) {
+        this.error = 'Selecione a assinatura'
         return
       }
-      try {
-        await UsuarioAssinaturaService.post(this.userId, usuarioAssinatura, this.token)
-        this.assinaturas = (await AssinaturaService.view(this.userId, this.token)).data
-        this.assinatura = (await UsuarioAssinaturaService.show(this.userId, this.token)).data
-      } catch (err) {
-        console.log(err)
-      }
+      this.$router.push({name: 'pagamento', params: {assinaturaId: this.selAssinatura.id}})
     }
   },
   components: {

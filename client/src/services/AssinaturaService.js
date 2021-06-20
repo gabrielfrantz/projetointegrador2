@@ -7,6 +7,9 @@ export default {
   post (userId, assinatura, token) {
     return Api(userId, token).post('assinatura', assinatura)
   },
+  get (userId, assinaturaId, token) {
+    return Api(userId, token).get(`assinatura/${assinaturaId}`)
+  },
   show (userId, assinaturaId, token) {
     return Api(userId, token).get(`assinatura/${assinaturaId}`)
   },
@@ -15,5 +18,8 @@ export default {
   },
   delete (userId, assinaturaId, token) {
     return Api(userId, token).delete(`assinatura/${assinaturaId}`)
+  },
+  pagarCartao (userId, assinaturaId, token) {
+    return Api(userId, token).post(`pagarCartao/${userId}/${assinaturaId}`)
   }
 }

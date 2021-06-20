@@ -1,13 +1,18 @@
 <template>
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
-      <panel title="Pagamento">
-        <v-text-field type="number" label="Número do Cartão" clearable></v-text-field>
-        <v-text-field label="Nome Completo" clearable></v-text-field>
-        <v-text-field type="number" label="Data de Expiração (mm/yy)" clearable></v-text-field>
-        <v-text-field type="number" label="CVC" clearable></v-text-field>
-        <v-btn elevation="2" large color="success"> Pagar Via Boleto </v-btn>
-        <v-btn elevation="2" large color="primary"> Pagar </v-btn>
+      <panel title="Assinatura">
+        <v-text-field type="text" label="Nome" readonly v-model="assinatura.nom_assinatura"></v-text-field>
+        <v-text-field type="text" label="Valor" readonly v-model="assinatura.vlr_assinatura"></v-text-field>
+      </panel>
+      <panel title="Pagamento" back="false">
+        <v-text-field type="number" label="Número do Cartão" v-model="num_cartao" required :rules="[required]"></v-text-field>
+        <v-text-field label="Nome Completo" v-model="nom_cartao" required :rules="[required]"></v-text-field>
+        <v-text-field type="number" label="Data de Expiração (mm/yy)" v-model="dta_vcto_cartao" required :rules="[required]"></v-text-field>
+        <v-text-field type="number" label="CVC" v-model="num_cvc" required :rules="[required]"></v-text-field>
+        <v-btn elevation="2" large color="success" @click="pagarBoleto()"> Pagar Via Boleto </v-btn>
+        <v-btn elevation="2" large color="primary" @click="pagarCartao()"> Pagar </v-btn>
+        <div class="error" v-html="error" />
       </panel>
     </v-flex>
   </v-layout>
@@ -15,12 +20,61 @@
 
 <script>
 import Panel from '@/components/Panel'
+import AssinaturaService from '@/services/AssinaturaService'
 
 export default {
+  data () {
+    return {
+      userId: null,
+      token: this.$store.state.token,
+      assinaturaId: this.$store.state.route.params.assinaturaId,
+      error: null,
+      assinatura: null,
+      num_cartao: null,
+      nom_cartao: null,
+      dta_vcto_cartao: null,
+      num_cvc: null,
+      required: (value) => !!value || 'Required.'
+    }
+  },
+  async mounted () {
+    this.userId = this.$store.state.userId
+    this.assinatura = (await AssinaturaService.get(this.userId, this.assinaturaId, this.token)).data
+  },
   setup () {
   },
   components: {
     Panel
+  },
+  methods: {
+    navigateTo (route) {
+      this.$router.push(route)
+    },
+    async pagarBoleto () {
+      alert('Boleto gerado')
+    },
+    async pagarCartao () {
+      this.error = null
+      const cartao = {
+        num_cartao: this.num_cartao,
+        nom_cartao: this.nom_cartao,
+        dta_vcto_cartao: this.dta_vcto_cartao,
+        num_cvc: this.num_cvc
+      }
+      const areAllFieldsFilledIn = Object
+        .keys(cartao)
+        .every(key => !!cartao[key])
+      if (!areAllFieldsFilledIn) {
+        this.error = 'Informe todos os campos obrigatórios'
+        return
+      }
+      try {
+        await AssinaturaService.pagarCartao(this.userId, this.assinaturaId, this.token)
+        this.navigateTo({name: 'root'})
+      } catch (error) {
+        this.error = error.response.data.error
+      }
+    }
   }
 }
 </script>

@@ -13,6 +13,7 @@ const CursoAssinaturaController = require('./controllers/CursoAssinaturaControll
 const UsuarioAssinaturaController = require('./controllers/UsuarioAssinaturaController')
 const UsuarioCursoController = require('./controllers/UsuarioCursoController')
 const UsuarioPagamentoController = require('./controllers/UsuarioPagamentoController')
+const PagamentoController = require('./controllers/PagamentoController')
 
 module.exports = (app) => {
   app.post('/register', AuthenticationControllerPolicy.register, AuthenticationController.register)
@@ -79,5 +80,5 @@ module.exports = (app) => {
   app.get('/validaCertificado/:desHash', UsuarioCursoController.validaCertificado)
   app.post('/forgot/:email', AuthenticationController.forgot)
   app.get('/validaHashSenha/:hash', AuthenticationController.validaHash)
-  app.post('/geraBoleto/:usuarioAssinaturaId/:pagamentoId/:formaPagamentoId', UsuarioPagamentoController.geraBoleto)
+  app.post('/pagarCartao/:userId/:assinaturaId', PagamentoController.pagarCartao)
 }

@@ -50,6 +50,8 @@ module.exports = class Boletos {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir);
     const stream = fs.createWriteStream(`${dir}/${filename}.pdf`);
 
+    return stream
+
     return new Promise((resolve) => new Boleto.Gerador(this.boletoInfo).gerarPDF({
       creditos: '',
       stream,
@@ -110,26 +112,30 @@ const geraPdf = async (req) => {
       }
     },
   }
-  const novoBoleto = new Boletos(conteudo);
-  novoBoleto.gerarBoleto();
+  console.log(conteudo)
+  const novoBoleto = new Boletos(conteudo)
+  console.log("cruadi")
+  novoBoleto.gerarBoleto()
+  console.log("gerado")
+  return novoBoleto.pdfFile
   novoBoleto.pdfFile().then(async ({ stream }) => {	
-    await streamToPromise(stream);
+    await streamToPromise(stream)
   }).catch((error) => {
-    return error;
-  });
-};
-
-/*
-//padrão do pdf certificado
-let createResult = pdf.create(conteudo, { format: 'A4' });
-let pdfToBuffer = Promise.promisify(createResult.__proto__.toBuffer, { context: createResult });
-let bufferResult = await pdfToBuffer();
-return bufferResult;
+    return error
+  })
+ /*
+  //padrão do pdf certificado
+  let createResult = pdf.create(conteudo, { format: 'A4' })
+  let pdfToBuffer = Promise.promisify(createResult.__proto__.toBuffer, { context: createResult })
+  let bufferResult = await pdfToBuffer()
+  return bufferResult*/
+}
 
 app.post("/gerarBoleto", async (req, res) => {
   try {
     console.log("chegou")
-    let bufferResult = await geraPdf(req);
+    let bufferResult = await geraPdf(req)
+    console.log("gerou")
 
     res.set('Content-Type', 'application/pdf');
     res.send(bufferResult);
@@ -138,7 +144,7 @@ app.post("/gerarBoleto", async (req, res) => {
       error: 'Ocorreu um erro ao gerar o pdf do boleto'
     })
   }
-});
-*/
+})
+
 
 app.listen(port, () => console.log(`app listening on port ${port}`));

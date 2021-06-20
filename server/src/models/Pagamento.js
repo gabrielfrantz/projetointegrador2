@@ -6,9 +6,6 @@ module.exports = (sequelize, DataTypes) => {
     id_forma_pgto: {
       type: DataTypes.INTEGER
     },
-    dta_pgto: {
-      type: DataTypes.DATE
-    },
     vlr_pgto: {
       type: DataTypes.DECIMAL
     }
