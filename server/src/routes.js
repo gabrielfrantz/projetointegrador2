@@ -78,5 +78,6 @@ module.exports = (app) => {
   app.post('/geraCertificado/:userId/:cursoId', UsuarioCursoController.geraCertificado)
   app.get('/validaCertificado/:desHash', UsuarioCursoController.validaCertificado)
   app.post('/forgot/:email', AuthenticationController.forgot)
+  app.get('/validaHashSenha/:hash', AuthenticationController.validaHash)
   app.post('/geraBoleto/:usuarioAssinaturaId/:pagamentoId/:formaPagamentoId', UsuarioPagamentoController.geraBoleto)
 }

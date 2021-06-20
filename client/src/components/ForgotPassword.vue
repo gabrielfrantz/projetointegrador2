@@ -10,7 +10,7 @@
         <v-btn class="gray" @click="forgot" dark>Enviar e-mail</v-btn>
         <br />
         <br />
-        <v-text-field required label="Código">
+        <v-text-field required label="Código" v-model="hash">
         </v-text-field>
         <v-btn class="blue" @click="forgotCheck" dark>Validar código</v-btn>
       </panel>
@@ -27,6 +27,7 @@ export default {
       user: {},
       email: null,
       error: null,
+      hash: null,
       errorForgot: null,
       errorCheck: null,
       userId: null,
@@ -51,11 +52,24 @@ export default {
     async forgotCheck () {
       this.errorCheck = null
       try {
-        await AuthenticationService.forgot(0, this.email, this.token)
-        this.$router.push({ name: 'login' })
-      } catch (err) {
-        this.errorCheck = err.response.data.error
-        console.log(err)
+        const response = await AuthenticationService.validaHash(
+          0, this.hash, this.token
+        )
+        console.log(response.data)
+        this.$store.dispatch('setToken', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
+        if (response.data.token) {
+          this.$store.dispatch('setIsUserLoggedIn', true)
+          if (response.data.user.ind_admin === 'S') {
+            this.$store.dispatch('setIsUserLoggedInAdm', true)
+          }
+        } else {
+          this.$store.dispatch('setIsUserLoggedIn', false)
+        }
+        this.navigateTo({name: 'perfil'})
+      } catch (error) {
+        this.error = error.response.data.error
+        alert('Código inválido ou expirado. Verifique seu email ou solicite nova recuperação!')
       }
     }
   },

@@ -206,7 +206,8 @@ module.exports = {
       }
       const user = await User.update(
         {
-          password: prevUser.senhaCriptografada(req.body.password)
+          password: prevUser.senhaCriptografada(req.body.password),
+          reset_password_token: null
         },
         { 
           individualHooks: true,
@@ -226,7 +227,6 @@ module.exports = {
   },
   async forgot(req, res) {
     try {
-      console.log('chegou no esquecido')
       const prevUser = await User.findOne({
         where: {
           email: req.params.email
@@ -238,7 +238,6 @@ module.exports = {
         })
       }
       const hash = prevUser.id + crypto.randomBytes(12).toString('hex')
-      console.log(hash)
       const user = await User.update(
         {
           reset_password_token: hash,
@@ -248,16 +247,39 @@ module.exports = {
             id: prevUser.id
           }
         })
-      console.log(user)        
-      console.log('teste')
       await AuditCreate.createAudit(prevUser, user, "user", "FORGOT", req.headers.userid, {});       
-      await SendMail.Enviar(prevUser.email, 'Solicitação de alteração de senha', `Nova senha para acessar a conta e realizar a alteração é: !` + hash);  
-      console.log('enviado')
+      await SendMail.Enviar(prevUser.email, 'Solicitação de alteração de senha', `Nova senha para acessar a conta e realizar a alteração é: ` + hash);  
       res.send(user)
     } catch (err) {
-      LogCreate.post(req.headers.userid, '/showAuthentication', req.params, req.body, err)
+      LogCreate.post(req.headers.userid, '/forgotAuthentication', req.params, req.body, err)
       res.status(500).send({
         error: 'Ocorreu um erro ao buscar o usuário'
+      })
+    }
+  },
+  async validaHash(req, res) {
+    try {
+      console.log('chegou valida hash')
+      console.log(req.params.hash)
+      const user = await User.findOne({
+        where: {
+          reset_password_token: req.params.hash
+        }
+      })
+      if (!user) {
+        return res.status(403).send({
+          error: 'Hash inválido!'
+        })
+      }
+      const userJson = user.toJSON()
+      res.send({
+        user: userJson,
+        token: jwtSignUser(userJson)
+      })
+    } catch (err) {
+      LogCreate.post(req.headers.userid, '/validaHashAuthentication', req.params, req.body, err)
+      res.status(500).send({
+        error: 'Ocorreu um erro ao buscar o usuário pelo hash'
       })
     }
   }

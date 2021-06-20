@@ -24,5 +24,8 @@ export default {
   },
   forgot (userId, email, token) {
     return Api(userId, token).post(`forgot/${email}`)
+  },
+  validaHash (userId, hash, token) {
+    return Api(userId, token).get(`validaHashSenha/${hash}`)
   }
 }
