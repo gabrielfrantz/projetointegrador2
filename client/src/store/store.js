@@ -12,7 +12,8 @@ export default new Vuex.Store({
     token: null,
     user: null,
     isUserLoggedIn: false,
-    isUserLoggedInAdm: false
+    isUserLoggedInAdm: false,
+    isUserLoggedInProf: false
   },
   mutations: {
     setToken (state, token) {
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     setIsUserLoggedInAdm (state, isUserLoggedInAdm) {
       state.isUserLoggedInAdm = isUserLoggedInAdm
+    },
+    setIsUserLoggedInProf (state, isUserLoggedInProf) {
+      state.isUserLoggedInProf = isUserLoggedInProf
     }
   },
   actions: {
@@ -45,6 +49,9 @@ export default new Vuex.Store({
     },
     setIsUserLoggedInAdm ({commit}, isUserLoggedInAdm) {
       commit('setIsUserLoggedInAdm', isUserLoggedInAdm)
+    },
+    setIsUserLoggedInProf ({commit}, isUserLoggedInProf) {
+      commit('setIsUserLoggedInProf', isUserLoggedInProf)
     }
   }
 })

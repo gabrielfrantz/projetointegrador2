@@ -51,6 +51,8 @@ export default {
     this.err = null
     if (this.$store.state.isUserLoggedInAdm) {
       this.cursos = (await CursosService.view(this.userId, this.token)).data
+    } else if (this.$store.state.isUserLoggedInProf) {
+      this.cursos = (await CursosService.view(this.userId, this.token)).data
     } else {
       try {
         this.cursos = (await CursosService.viewAssinatura(this.userId, this.token)).data

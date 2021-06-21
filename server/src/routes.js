@@ -81,4 +81,8 @@ module.exports = (app) => {
   app.get('/validaHashSenha/:hash', AuthenticationController.validaHash)
   app.post('/pagarCartao/:userId/:assinaturaId', PagamentoController.pagarCartao)
   app.post('/pagarBoleto/:userId/:assinaturaId', PagamentoController.pagarBoleto)
+  app.get('/viewUsuariosCurso/:cursoId', middleware.checkToken, UsuarioCursoController.view)
+  app.post('/usuarioCurso', middleware.checkToken, UsuarioCursoController.post)  
+  app.delete('/usuarioCurso/:userId/:cursoId', middleware.checkToken, UsuarioCursoController.delete)  
+  app.get('/usuarioCurso/:userId/:cursoId', middleware.checkToken, UsuarioCursoController.get)
 }

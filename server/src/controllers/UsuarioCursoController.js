@@ -1,6 +1,9 @@
 const { Curso } = require('../models')
 const { User } = require('../models')
+const { Aula } = require('../models')
+const { Modulo } = require('../models')
 const { UsuarioCurso } = require('../models')
+const { AulaUsuario } = require('../models')
 const { Op, DATE } = require('sequelize')
 const LogCreate = require('../core/LogCreate')
 const AuditCreate = require('../core/AuditCreate');
@@ -14,6 +17,103 @@ function hashCertificado(inscricaoId, options) {
 }
 
 module.exports = {
+  async view(req, res) {
+    try {
+      AulaUsuario.belongsTo(User, { foreignKey: 'id_user' })
+      User.hasMany(AulaUsuario, { foreignKey: 'id_user' })
+      UsuarioCurso.belongsTo(User, { foreignKey: 'id_user' })
+      User.hasMany(UsuarioCurso, { foreignKey: 'id_user' })
+      const users = await User.findAll({
+        order: [['nom_pessoa', 'asc']],
+        where: {
+          ind_usuario: 'A'
+        },
+        //attributes: { include: [[Op.literal('CASE WHEN NOM_CURSO IS NOT NULL THEN TRUE ELSE FALSE END'), 'field3']]},
+        include: [{
+          model: AulaUsuario, 
+          where: {
+            ind_concluido: 'S'
+          },
+          required: false
+        },
+        {
+          model: UsuarioCurso,
+          where: {
+            id_curso: req.params.cursoId
+          },
+          required: false
+        }]        
+      })
+      res.send(users)
+    } catch (err) {
+      LogCreate.post(req.headers.userid, '/viewUsuarioCurso', req.params, req.body, err)
+      res.status(500).send({
+        error: 'Ocorreu um erro ao buscar usuários do curso ' + err
+      })
+    }
+  },
+  async get(req, res) {
+    try {
+      const usuarioCurso = await UsuarioCurso.findOne({
+        where: {
+          id_user: req.params.userId,
+          id_curso: req.params.cursoId
+        }
+      })
+      res.send(usuarioCurso)
+    } catch (err) {
+      LogCreate.post(req.headers.userid, '/getUsuarioCurso', req.params, req.body, err)
+      res.status(500).send({
+        error: 'Ocorreu um erro ao buscar usuário do curso ' + err
+      })
+    }
+  },
+  async post (req, res) {
+    try {
+      console.log(req.body)
+      const uCurso = await UsuarioCurso.create(req.body)
+      await AuditCreate.createAudit(null, uCurso, "usuarioCurso", "CREATE", req.headers.userid, {});
+      res.send(uCurso)
+    } catch (err) {
+      LogCreate.post(req.headers.userid, '/postUsuarioCurso', req.params, req.body, err)
+      res.status(500).send({
+        error: 'Ocorreu um erro ao salvar curso assinatura'
+      })
+    }
+  },
+  async delete (req, res) {
+    try {
+      console.log('delete')
+      const prevUsuarioCurso = await UsuarioCurso.findOne({
+        where: {
+          id_curso: req.params.cursoId,
+          id_user: req.params.userId
+        }
+      })
+      if (prevUsuarioCurso){
+        if (prevUsuarioCurso.des_hash != null){
+          return res.status(403).send({
+            error: 'Certificado já gerado. Não é permitido retirar a certificação!'
+          })
+        }
+      }
+      console.log('finde')
+      await UsuarioCurso.destroy({
+        where: {
+          id_curso: req.params.cursoId,
+          id_user: req.params.userId
+        }
+      })
+      console.log('deletou')
+      await AuditCreate.createAudit(prevUsuarioCurso, null, "usuarioCurso", "DELETE", req.headers.userid, {});
+      res.send('')
+    } catch (err) {
+      LogCreate.post(req.headers.userid, '/deleteUsuarioCurso', req.params, req.body, err)
+      res.status(500).send({
+        error: 'Ocorreu um erro ao deletar curso usuário'
+      })
+    }
+  },
   async geraCertificado(req, res) {
     try {
       console.log("CHEGOU CERTIFICADO")
@@ -53,6 +153,10 @@ module.exports = {
       })
       console.log("USERCURSO")
       if (!hasUserCurso){
+        return res.status(403).send({
+          error: 'Aprovação no curso não encontrado. Não é permitido gerar o certificado!'
+        })
+
         console.log("NAO TINHA")
         userCurso = {
           id_user: req.params.userId, 
@@ -60,9 +164,17 @@ module.exports = {
           des_hash: des_hash
         }
         const usuarioCurso = await UsuarioCurso.create(req.body)
-        await AuditCreate.createAudit(null, usuarioCurso, "usuarioCurso", "CREATE", req.headers.userid, {});
+        await AuditCreate.createAudit(null, usuarioCurso, "usuarioCurso", "CREATE", req.headers.userid, {})
+      } else {
+        userCurso = {
+          id_user: req.params.userId, 
+          id_curso:req.params.cursoId,
+          des_hash: des_hash
+        }
+        const usuarioCurso = await UsuarioCurso.update(req.body)
+        await AuditCreate.createAudit(hasUserCurso, usuarioCurso, "usuarioCurso", "UPDATE", req.headers.userid, {})
       }
-      await SendMail.Enviar(user.email, 'Certificado gerado', `Seu certificado para o curso ${curso.nom_curso} foi gerado!`);
+      await SendMail.Enviar(user.email, 'Certificado gerado', `Seu certificado para o curso ${curso.nom_curso} foi gerado!`)
       console.log("EMAIL CERTIFICADO")
       function adicionaZero(numero){
         if (numero <= 9) 

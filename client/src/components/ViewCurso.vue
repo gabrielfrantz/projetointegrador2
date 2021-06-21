@@ -2,9 +2,12 @@
   <v-layout ml-16 mr-16 mt-8>
     <v-flex>
       <panel :title="nom_curso">
-          <v-btn slot="newButton" class="blue darken-2" v-tooltip="'Gerar certificado'" fab ligth small absolute right middle @click="downloadCertificado()">
-            <v-icon>fact_check</v-icon>
-          </v-btn>
+        <v-btn v-if="!$store.state.isUserLoggedInProf" slot="newButton" class="blue darken-2" fab ligth small absolute right middle :disabled="!enabledDownloadCertificate" @click="downloadCertificado()">
+          <v-icon>file_download</v-icon>
+        </v-btn>
+        <v-btn v-if="$store.state.isUserLoggedInProf" slot="editButton" class="blue darken-2" fab ligth small absolute right middle @click="navigateTo({name: 'usuario-curso', params: {cursoId: cursoId}})">
+          <v-icon>checklist_rtl</v-icon>
+        </v-btn>
         <div class="error" v-html="errorCertificado"/>
         <v-textarea label="Descrição*" v-model="des_curso" readonly></v-textarea>
         <v-text-field label="Carga Horária*" v-model="des_carga_horaria" readonly></v-text-field>
@@ -46,6 +49,7 @@
 <script>
 import Panel from '@/components/Panel'
 import CursosService from '@/services/CursosService'
+import UsuarioCursoService from '@/services/UsuarioCursoService'
 import ModulosService from '@/services/ModulosService'
 import axios from 'axios'
 export default {
@@ -53,6 +57,7 @@ export default {
     return {
       curso: {},
       modulos: {},
+      usuarioCurso: {},
       cursoId: null,
       userId: null,
       token: this.$store.state.token,
@@ -62,6 +67,7 @@ export default {
       ind_visivel: null,
       errorCertificado: null,
       error: null,
+      enabledDownloadCertificate: false,
       required: (value) => !!value || 'Required.'
     }
   },
@@ -76,6 +82,13 @@ export default {
     }
     this.curso = (await CursosService.show(this.userId, this.cursoId, this.token)).data
     this.modulos = (await ModulosService.view(this.userId, this.cursoId, this.token)).data
+    this.usuarioCurso = (await UsuarioCursoService.get(this.userId, this.cursoId, this.token)).data
+    console.log(this.usuarioCurso)
+    if (this.usuarioCurso) {
+      this.enabledDownloadCertificate = true
+    } else {
+      this.enabledDownloadCertificate = false
+    }
     this.cursoId = this.curso.id
     this.nom_curso = this.curso.nom_curso
     this.des_curso = this.curso.des_curso

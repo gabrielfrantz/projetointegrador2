@@ -50,6 +50,7 @@ export default {
       this.$store.dispatch('setUser', null)
       this.$store.dispatch('setIsUserLoggedIn', false)
       this.$store.dispatch('setIsUserLoggedInAdm', false)
+      this.$store.dispatch('setIsUserLoggedInProf', false)
       this.navigateTo({name: 'root'})
     }
   }

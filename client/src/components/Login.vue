@@ -60,8 +60,13 @@ export default {
           if (response.data.user.ind_admin === 'S') {
             this.$store.dispatch('setIsUserLoggedInAdm', true)
           }
+          if (response.data.user.ind_usuario === 'P') {
+            this.$store.dispatch('setIsUserLoggedInProf', true)
+          }
         } else {
           this.$store.dispatch('setIsUserLoggedIn', false)
+          this.$store.dispatch('setIsUserLoggedInAdm', false)
+          this.$store.dispatch('setIsUserLoggedInProf', false)
         }
         this.navigateTo({name: 'root'})
       } catch (error) {
