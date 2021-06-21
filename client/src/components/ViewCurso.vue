@@ -83,7 +83,6 @@ export default {
     this.curso = (await CursosService.show(this.userId, this.cursoId, this.token)).data
     this.modulos = (await ModulosService.view(this.userId, this.cursoId, this.token)).data
     this.usuarioCurso = (await UsuarioCursoService.get(this.userId, this.cursoId, this.token)).data
-    console.log(this.usuarioCurso)
     if (this.usuarioCurso) {
       this.enabledDownloadCertificate = true
     } else {
@@ -125,22 +124,26 @@ export default {
       })
     },
     async downloadCertificado () {
-      axios({
-        url: `http://localhost:8080/geraCertificado/${this.userId}/${this.cursoId}`,
-        method: 'POST',
-        responseType: 'blob'
-      }).then((response) => {
-        this.errorCertificado = null
-        var fileURL = window.URL.createObjectURL(new Blob([response.data]))
-        var fileLink = document.createElement('a')
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', 'certification.pdf')
-        document.body.appendChild(fileLink)
-        fileLink.click()
-      }).catch((error) => {
-        this.response = error.response
-        this.errorCertificado = 'Ocorreu algum erro na geração do certificado, verifique se seu cadastro está completo na aba PERFIL. Em caso de dúvidas entre em contato com o suporte!'
-      })
+      if (!this.enabledDownloadCertificate) {
+        alert('Nenhum professor aprovou sua conclusão do curso. Entre em contato com o suporte!')
+      } else {
+        axios({
+          url: `http://localhost:8080/geraCertificado/${this.userId}/${this.cursoId}`,
+          method: 'POST',
+          responseType: 'blob'
+        }).then((response) => {
+          this.errorCertificado = null
+          var fileURL = window.URL.createObjectURL(new Blob([response.data]))
+          var fileLink = document.createElement('a')
+          fileLink.href = fileURL
+          fileLink.setAttribute('download', 'certification.pdf')
+          document.body.appendChild(fileLink)
+          fileLink.click()
+        }).catch((error) => {
+          this.response = error.response
+          this.errorCertificado = 'Ocorreu algum erro na geração do certificado, verifique se seu cadastro está completo na aba PERFIL. Em caso de dúvidas entre em contato com o suporte!'
+        })
+      }
     }
   },
   computed: {
