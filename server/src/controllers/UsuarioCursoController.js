@@ -168,7 +168,7 @@ module.exports = {
       } else {
         userCurso = {
           id_user: req.params.userId, 
-          id_curso:req.params.cursoId,
+          id_curso: req.params.cursoId,
           des_hash: des_hash
         }
         const usuarioCurso = await UsuarioCurso.update(req.body)
@@ -183,7 +183,8 @@ module.exports = {
             return numero; 
       }
       const dataAtual = new Date()
-      const dataAtualFormatada = (adicionaZero(dataAtual.getDate().toString()) + "/" + (adicionaZero(dataAtual.getMonth()+1).toString()) + "/" + dataAtual.getFullYear() + " ás " + (adicionaZero(dataAtual.getHours())) + ":" + (adicionaZero(dataAtual.getMinutes())))
+      const dataAtualFormatada = ((adicionaZero(dataAtual.getMonth()+1).toString()) + "-" + adicionaZero(dataAtual.getDate().toString()) + "-" + dataAtual.getFullYear())
+      
       const certificado = {
         dta_conclusao: dataAtualFormatada,
         nom_curso: curso.nom_curso,
