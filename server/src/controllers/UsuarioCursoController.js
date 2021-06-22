@@ -166,12 +166,17 @@ module.exports = {
         const usuarioCurso = await UsuarioCurso.create(req.body)
         await AuditCreate.createAudit(null, usuarioCurso, "usuarioCurso", "CREATE", req.headers.userid, {})
       } else {
-        userCurso = {
-          id_user: req.params.userId, 
-          id_curso: req.params.cursoId,
-          des_hash: des_hash
-        }
-        const usuarioCurso = await UsuarioCurso.update(req.body)
+        const usuarioCurso = await UsuarioCurso.update(
+          {
+            des_hash: des_hash
+          },
+          { 
+            individualHooks: true,
+            where: {
+              id_user: req.params.userId, 
+              id_curso: req.params.cursoId
+            }
+          })
         await AuditCreate.createAudit(hasUserCurso, usuarioCurso, "usuarioCurso", "UPDATE", req.headers.userid, {})
       }
       await SendMail.Enviar(user.email, 'Certificado gerado', `Seu certificado para o curso ${curso.nom_curso} foi gerado!`)
