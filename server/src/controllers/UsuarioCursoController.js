@@ -188,7 +188,7 @@ module.exports = {
             return numero; 
       }
       const dataAtual = new Date()
-      const dataAtualFormatada = ((adicionaZero(dataAtual.getMonth()+1).toString()) + "-" + adicionaZero(dataAtual.getDate().toString()) + "-" + dataAtual.getFullYear())
+      const dataAtualFormatada = adicionaZero(dataAtual.getDate().toString()) + "/" + ((adicionaZero(dataAtual.getMonth()+1).toString()) + "/" + dataAtual.getFullYear())
       
       const certificado = {
         dta_conclusao: dataAtualFormatada,
